@@ -1,15 +1,15 @@
 {
   "name": "dale",
-  "version": "0.2.0+codex.20260724142007",
-  "description": "One-on-one brainstorming, repository indexing, adaptive task graphs, and standalone HTML visualization for Codex.",
+  "version": "0.2.0+codex.20260724234813",
+  "description": "One-on-one brainstorming, repository indexing, adaptive task graphs, high-assurance review loops, and standalone HTML visualization for Codex.",
   "author": {
     "name": "Dale"
   },
   "skills": "./skills/",
   "interface": {
     "displayName": "Dale",
-    "shortDescription": "Brainstorm, index, graph, and visualize.",
-    "longDescription": "Dale supports focused brainstorming, evidence-backed repository primitives, adaptive graphs of visible Codex tasks, and self-contained HTML visualizations selected from task-relevant patterns.",
+    "shortDescription": "Brainstorm, index, graph, verify, and visualize.",
+    "longDescription": "Dale supports focused brainstorming, evidence-backed repository primitives, adaptive graphs of visible Codex tasks, resident-worker review loops for consequential work, and self-contained HTML visualizations selected from task-relevant patterns.",
     "developerName": "Dale",
     "category": "Productivity",
     "capabilities": [
@@ -20,7 +20,12 @@
       "Brainstorm this idea with me one-on-one.",
       "Index this repository with Dale.",
       "Synthesize a Dale graph for this task.",
+      "Run this consequential task through Dale Max.",
       "Turn this material into a standalone HTML visualization."
-    ]
+    ],
+    "brandColor": "#51C878",
+    "composerIcon": "./assets/dale-icon.png",
+    "logo": "./assets/dale-logo.png",
+    "logoDark": "./assets/dale-logo.png"
   }
 }

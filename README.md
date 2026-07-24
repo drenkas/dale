@@ -1,14 +1,15 @@
 # Dale
 
 A compact development toolbox for Codex: think one-on-one, build a trusted
-repository index, synthesize a task graph that adapts while it runs, or turn
-complex material into an effective standalone HTML visualization.
-
-![Dale skill architecture](assets/dale-skills-architecture.png)
+repository index, synthesize a task graph that adapts while it runs, put a
+consequential task through a resident review loop, or turn complex material
+into an effective standalone HTML visualization.
 
 ## Skills
 
 ### `$dale-brainstorm`
+
+![Dale Brainstorm architecture](assets/dale-brainstorm.png)
 
 A focused conversation between you and the current Codex agent. It keeps the
 work in exploration mode instead of rushing into a plan or implementation.
@@ -21,6 +22,8 @@ work in exploration mode instead of rushing into a plan or implementation.
 - routes an approved evidence task to the cheapest sufficient GPT-5.6 model.
 
 ### `$dale-index`
+
+![Dale Index architecture](assets/dale-index.png)
 
 Turns the current repository into six evidence-backed project primitives:
 
@@ -41,6 +44,8 @@ Each visible task is routed independently across GPT-5.6 Luna, Terra, and Sol.
 Repository inventory does not default to frontier-level reasoning.
 
 ### `$dale-graph`
+
+![Dale Graph architecture](assets/dale-graph.png)
 
 Builds a unique execution graph directly from the request. It does not choose a
 fixed diamond, pipeline, debate, or other remembered template.
@@ -63,7 +68,40 @@ fixed diamond, pipeline, debate, or other remembered template.
 The outer graph remains visible and user-owned. Node-local subagents cannot
 create Codex tasks, expand authority, or spawn another agent layer.
 
+### `$dale-max`
+
+Runs a fixed high-assurance control loop for consequential work. Unlike Dale
+Graph, which creates its topology on the fly, Dale Max preserves the topology
+below while generating reviewer lenses, proof obligations, and model routes
+from the actual task.
+
+![Dale Max resident-worker review loop](skills/dale-max/assets/dale-max-graph.jpg)
+
+1. The coordinator plans the outcome and direct proof.
+2. A persistent forked Codex Worker thread produces the artifact, receives every
+   revision, and may spawn its own task-local subagents.
+3. A persistent forked Codex Reviewer 1 / Lead Reviewer thread creates fresh
+   Reviewer 2..N subagents with `spawn_agent` only for material, task-specific
+   failure modes.
+4. A fresh Plan Reviewer checks the initial plan, then another fresh instance
+   checks plan drift against each actual result.
+5. The coordinator synthesizes evidence and applies a `PASS`, `REVISE`,
+   `REJECT`, or `BLOCKED` gate.
+6. Failed criteria loop back to the same Worker; a passed result is compressed
+   into the shortest complete handoff.
+
+Green nodes in the diagram are resident forked Codex threads; white nodes are
+ephemeral phases or `spawn_agent` subagents. Every green thread receives
+explicit authority to spawn one level of task-local subagents and must report
+that the capability is available before its artifact can pass. “Turn into
+haiku” means concise editorial compression, not
+a literal poem unless requested. Dale Max is explicit-only because it runs an
+exhaustive review loop with no preset cost, token, reviewer-count, or cycle
+budget.
+
 ### `$dale-visualize`
+
+![Dale Visualize architecture](assets/dale-visualize.png)
 
 Turns code, architecture, research, plans, comparisons, reports, incidents,
 design systems, concepts, and editable decisions into a self-contained HTML
@@ -112,10 +150,16 @@ skills/
   dale-brainstorm/
   dale-index/
   dale-graph/
+  dale-max/
   dale-visualize/
 assets/
-  dale-skills-architecture.png
+  dale-icon.png
+  dale-logo.png
+  dale-brainstorm.png
+  dale-index.png
+  dale-graph.png
+  dale-visualize.png
 ```
 
 Select a skill from Codex or invoke it explicitly with `$dale-brainstorm`,
-`$dale-index`, `$dale-graph`, or `$dale-visualize`.
+`$dale-index`, `$dale-graph`, `$dale-max`, or `$dale-visualize`.

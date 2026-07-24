@@ -1,0 +1,6 @@
+interface:
+  display_name: "Dale Max"
+  short_description: "Run a resident-worker review loop"
+  default_prompt: "Use $dale-max to execute this task through a resident worker, reviewer swarm, pass gate, and revision loop."
+policy:
+  allow_implicit_invocation: false
