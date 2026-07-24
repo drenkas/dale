@@ -1,7 +1,8 @@
 # Dale
 
 A compact development toolbox for Codex: think one-on-one, build a trusted
-repository index, or synthesize a task graph that adapts while it runs.
+repository index, synthesize a task graph that adapts while it runs, or turn
+complex material into an effective standalone HTML visualization.
 
 ![Dale skill architecture](assets/dale-skills-architecture.png)
 
@@ -62,6 +63,25 @@ fixed diamond, pipeline, debate, or other remembered template.
 The outer graph remains visible and user-owned. Node-local subagents cannot
 create Codex tasks, expand authority, or spawn another agent layer.
 
+### `$dale-visualize`
+
+Turns code, architecture, research, plans, comparisons, reports, incidents,
+design systems, concepts, and editable decisions into a self-contained HTML
+artifact.
+
+- selects one primary pattern and at most two supporting patterns from
+  Anthropic's MIT-licensed `html-effectiveness` examples;
+- adapts the information shape instead of copying fictional sample content;
+- defaults to standalone HTML with inline CSS, SVG, and minimal JavaScript;
+- uses interaction only when it improves understanding or enables a decision;
+- preserves source evidence and labels unknowns instead of inventing data;
+- verifies desktop, mobile, keyboard, interactions, and runtime errors in a real
+  browser before delivery.
+
+The bundled gallery includes patterns for comparisons, code review, module
+maps, design systems, prototypes, SVG figures, flowcharts, explainers, plans,
+reports, incidents, slide decks, and small editing interfaces.
+
 ## GPT-5.6 routing
 
 | Model | Default role |
@@ -92,9 +112,10 @@ skills/
   dale-brainstorm/
   dale-index/
   dale-graph/
+  dale-visualize/
 assets/
   dale-skills-architecture.png
 ```
 
 Select a skill from Codex or invoke it explicitly with `$dale-brainstorm`,
-`$dale-index`, or `$dale-graph`.
+`$dale-index`, `$dale-graph`, or `$dale-visualize`.

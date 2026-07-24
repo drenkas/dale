@@ -1,15 +1,15 @@
 {
   "name": "dale",
-  "version": "0.2.0+codex.20260723191129",
-  "description": "One-on-one brainstorming, thread-native repository indexing, and task-derived graph synthesis for Codex.",
+  "version": "0.2.0+codex.20260724142007",
+  "description": "One-on-one brainstorming, repository indexing, adaptive task graphs, and standalone HTML visualization for Codex.",
   "author": {
     "name": "Dale"
   },
   "skills": "./skills/",
   "interface": {
     "displayName": "Dale",
-    "shortDescription": "Brainstorm, index, and synthesize task graphs.",
-    "longDescription": "Dale supports focused one-on-one brainstorming, evidence-backed repository primitives, and task-derived graphs of visible Codex tasks when orchestration is actually needed.",
+    "shortDescription": "Brainstorm, index, graph, and visualize.",
+    "longDescription": "Dale supports focused brainstorming, evidence-backed repository primitives, adaptive graphs of visible Codex tasks, and self-contained HTML visualizations selected from task-relevant patterns.",
     "developerName": "Dale",
     "category": "Productivity",
     "capabilities": [
@@ -19,7 +19,8 @@
     "defaultPrompt": [
       "Brainstorm this idea with me one-on-one.",
       "Index this repository with Dale.",
-      "Synthesize a Dale graph for this task."
+      "Synthesize a Dale graph for this task.",
+      "Turn this material into a standalone HTML visualization."
     ]
   }
 }
