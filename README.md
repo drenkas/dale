@@ -75,7 +75,7 @@ Graph, which creates its topology on the fly, Dale Max preserves the topology
 below while generating reviewer lenses, proof obligations, and model routes
 from the actual task.
 
-![Dale Max resident-worker review loop](skills/dale-max/assets/dale-max-graph.jpg)
+![Dale Max resident-worker review loop](skills/dale-max/assets/dale-max-graph.png)
 
 1. The coordinator plans the outcome and direct proof.
 2. A persistent forked Codex Worker thread produces the artifact, receives every

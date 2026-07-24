@@ -5,7 +5,7 @@ description: Run a maximum-assurance resident-worker orchestration loop with per
 
 # Dale Max
 
-Execute the fixed control loop shown in `assets/dale-max-graph.jpg`. Dale Max is
+Execute the fixed control loop shown in `assets/dale-max-graph.png`. Dale Max is
 the deliberate, high-assurance companion to Dale Graph: Dale Graph creates a
 unique topology from the task; Dale Max keeps this review-and-revision topology
 while generating its reviewer lenses, evidence obligations, and routes from the
