@@ -1,7 +1,8 @@
 {
   "name": "dale",
-  "version": "0.2.0+codex.20260725012940",
+  "version": "0.2.0+codex.20260725025419",
   "description": "One-on-one brainstorming, repository indexing, adaptive task graphs, high-assurance review loops, and standalone HTML visualization for Codex.",
+  "license": "MPL-2.0",
   "author": {
     "name": "Dale"
   },

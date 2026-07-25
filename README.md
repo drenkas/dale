@@ -166,3 +166,9 @@ assets/
 
 Select a skill from Codex or invoke it explicitly with `$dale-brainstorm`,
 `$dale-index`, `$dale-graph`, `$dale-max`, or `$dale-visualize`.
+
+## License
+
+Dale is licensed solely under the [Mozilla Public License 2.0](LICENSE).
+Bundled third-party examples retain the license notices shipped with their
+source distributions.
