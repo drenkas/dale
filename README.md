@@ -1,5 +1,7 @@
 # Dale
 
+![Codex Dale — graph orchestration for your GPT fam models](assets/dale-banner.png)
+
 A compact development toolbox for Codex: think one-on-one, build a trusted
 repository index, synthesize a task graph that adapts while it runs, put a
 consequential task through a resident review loop, or turn complex material
@@ -153,6 +155,7 @@ skills/
   dale-max/
   dale-visualize/
 assets/
+  dale-banner.png
   dale-icon.png
   dale-logo.png
   dale-brainstorm.png
