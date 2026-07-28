@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dale Proof"
+  short_description: "Verify technical claims with direct evidence"
+  default_prompt: "Use $dale-proof to verify this technical claim against the strongest available direct evidence."

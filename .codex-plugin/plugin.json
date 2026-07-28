@@ -1,7 +1,7 @@
 {
   "name": "dale",
-  "version": "0.2.0+codex.20260725025419",
-  "description": "One-on-one brainstorming, repository indexing, adaptive task graphs, high-assurance review loops, and standalone HTML visualization for Codex.",
+  "version": "0.3.0+codex.20260728012842",
+  "description": "One-on-one brainstorming, rigorous reasoning lenses, repository indexing, adaptive task graphs, high-assurance review loops, scoped technical proof, and standalone HTML visualization for Codex.",
   "license": "MPL-2.0",
   "author": {
     "name": "Dale"
@@ -9,8 +9,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Dale",
-    "shortDescription": "Brainstorm, index, graph, verify, and visualize.",
-    "longDescription": "Dale supports focused brainstorming, evidence-backed repository primitives, adaptive graphs of visible Codex tasks, resident-worker review loops for consequential work, and self-contained HTML visualizations selected from task-relevant patterns.",
+    "shortDescription": "Think with lenses, index, orchestrate, prove, and visualize.",
+    "longDescription": "Dale supports focused brainstorming, falsifiable reasoning lenses for hard problems, evidence-backed repository primitives, adaptive graphs of visible Codex tasks, resident-worker review loops for consequential work, scoped verification of technical claims, and self-contained HTML visualizations selected from task-relevant patterns.",
     "developerName": "Dale",
     "category": "Productivity",
     "capabilities": [
@@ -19,9 +19,11 @@
     ],
     "defaultPrompt": [
       "Brainstorm this idea with me one-on-one.",
+      "Apply the strongest Dale reasoning lens to this difficult problem.",
       "Index this repository with Dale.",
       "Synthesize a Dale graph for this task.",
       "Run this consequential task through Dale Max.",
+      "Verify this technical claim with Dale Proof.",
       "Turn this material into a standalone HTML visualization."
     ],
     "brandColor": "#51C878",

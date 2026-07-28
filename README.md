@@ -2,10 +2,11 @@
 
 ![Codex Dale — graph orchestration for your GPT fam models](assets/dale-banner.png)
 
-A compact development toolbox for Codex: think one-on-one, build a trusted
-repository index, synthesize a task graph that adapts while it runs, put a
-consequential task through a resident review loop, or turn complex material
-into an effective standalone HTML visualization.
+A compact development toolbox for Codex: think one-on-one, reframe hard
+problems through rigorous lenses, build a trusted repository index, synthesize
+a task graph that adapts while it runs, put consequential work through a
+resident review loop, prove technical claims against direct evidence, or turn
+complex material into an effective standalone HTML visualization.
 
 ## Skills
 
@@ -22,6 +23,23 @@ work in exploration mode instead of rushing into a plan or implementation.
 - proposes at most one visible evidence task, only when a separable research
   question emerges and you explicitly approve it;
 - routes an approved evidence task to the cheapest sufficient GPT-5.6 model.
+
+### `$dale-lenses`
+
+![Dale Lenses architecture](assets/dale-lenses.png)
+
+Applies one primary reasoning lens and, only when it can change the conclusion,
+one challenging lens to a bounded difficult problem.
+
+- selects causal, systems, temporal, conservation, inversion, constraint,
+  contradiction, or decision-theoretic reasoning by problem signature;
+- requires a method-specific artifact instead of a tour of frameworks;
+- fixes a falsifier or stop condition before interpreting new evidence;
+- exposes the assumptions and observations that can reverse the conclusion;
+- stays in the current task and does not silently plan or execute.
+
+Its result is a compact crux map: model, evidence boundary, risky prediction,
+decision impact, and remaining unknowns.
 
 ### `$dale-index`
 
@@ -101,6 +119,25 @@ a literal poem unless requested. Dale Max is explicit-only because it runs an
 exhaustive review loop with no preset cost, token, reviewer-count, or cycle
 budget.
 
+### `$dale-proof`
+
+![Dale Proof architecture](assets/dale-proof.png)
+
+Verifies an existing implementation, fix, migration, deployment, runtime
+behavior, or compatibility claim without turning verification into a
+remediation or independent-review loop.
+
+- splits broad success statements into atomic material claims;
+- works backward from each claim to the shortest decisive primary signal;
+- distinguishes declared, implemented, exercised, integrated, and observed
+  behavior;
+- reconciles conflicting evidence by directness, target, revision, freshness,
+  reproducibility, and coverage rather than majority vote;
+- returns scoped `PROVEN`, `PARTIAL`, `UNPROVEN`, or `CONTRADICTED` verdicts.
+
+Missing runtime or user-visible evidence stays missing: source inspection and
+green secondary checks cannot manufacture a full pass.
+
 ### `$dale-visualize`
 
 ![Dale Visualize architecture](assets/dale-visualize.png)
@@ -134,6 +171,10 @@ The live Codex tool schema is authoritative. Dale shows the selected model,
 reasoning effort, and concrete routing reason before dispatch. Sol at `xhigh`,
 `max`, or `ultra` is never inherited merely because the coordinator uses it.
 
+Dale Lenses and Dale Proof stay in the current task by default. They do not
+create visible tasks or hidden subagents merely to multiply perspectives or
+make a verdict appear independent.
+
 ## Principles
 
 - visible Codex tasks for top-level ownership;
@@ -141,6 +182,8 @@ reasoning effort, and concrete routing reason before dispatch. Sol at `xhigh`,
 - runtime graph synthesis instead of predefined orchestration shapes;
 - explicit read/write scopes and conflict edges;
 - evidence before synthesis;
+- falsifiable models before confident conclusions;
+- verdicts no stronger than their direct evidence;
 - verify first, integrate second;
 - no Git mutation unless the user requested it.
 
@@ -150,22 +193,27 @@ reasoning effort, and concrete routing reason before dispatch. Sol at `xhigh`,
 .codex-plugin/plugin.json
 skills/
   dale-brainstorm/
+  dale-lenses/
   dale-index/
   dale-graph/
   dale-max/
+  dale-proof/
   dale-visualize/
 assets/
   dale-banner.png
   dale-icon.png
   dale-logo.png
   dale-brainstorm.png
+  dale-lenses.png
   dale-index.png
   dale-graph.png
+  dale-proof.png
   dale-visualize.png
 ```
 
 Select a skill from Codex or invoke it explicitly with `$dale-brainstorm`,
-`$dale-index`, `$dale-graph`, `$dale-max`, or `$dale-visualize`.
+`$dale-lenses`, `$dale-index`, `$dale-graph`, `$dale-max`, `$dale-proof`, or
+`$dale-visualize`.
 
 ## License
 

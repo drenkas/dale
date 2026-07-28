@@ -1,0 +1,6 @@
+interface:
+  display_name: "Dale Lenses"
+  short_description: "Apply rigorous lenses to difficult problems"
+  default_prompt: "Use $dale-lenses to choose and apply the strongest reasoning lens to this problem."
+policy:
+  allow_implicit_invocation: false
