@@ -4,9 +4,10 @@
 
 A compact development toolbox for Codex: think one-on-one, reframe hard
 problems through rigorous lenses, build a trusted repository index, synthesize
-a task graph that adapts while it runs, put consequential work through a
-resident review loop, prove technical claims against direct evidence, or turn
-complex material into an effective standalone HTML visualization.
+a task graph that adapts while it runs, keep repeatable agent work moving in a
+verified loop, put consequential work through a resident review loop, prove
+technical claims against direct evidence, or turn complex material into an
+effective standalone HTML visualization.
 
 ## Skills
 
@@ -87,6 +88,31 @@ fixed diamond, pipeline, debate, or other remembered template.
 
 The outer graph remains visible and user-owned. Node-local subagents cannot
 create Codex tasks, expand authority, or spawn another agent layer.
+
+### `$dale-loop`
+
+![Dale Loop architecture](assets/dale-loop.png)
+
+Designs the smallest closed loop that can keep agent work moving without making
+the user carry state between steps:
+
+```text
+observe -> decide -> dispatch -> verify -> persist -> wait or stop
+```
+
+The core skill chooses a focused variant when the work has a clear shape:
+
+| Skill | Loop shape |
+|---|---|
+| `$dale-loop-project` | Split a multi-PR project, review each head, and carry clean changes through merge |
+| `$dale-loop-pr` | Watch and repair one pull request until it is merge-ready or blocked |
+| `$dale-loop-repo` | Run a conservative recurring repository-maintenance heartbeat |
+| `$dale-loop-watch` | Monitor a changing source and react only to meaningful changes |
+| `$dale-loop-goal` | Keep one linear task moving until its completion predicate passes |
+
+Every variant defines objective verification, persistent state, resource
+limits, and human gates. Live systems outrank stale task reports, and an agent's
+own completion claim is never sufficient proof.
 
 ### `$dale-max`
 
@@ -196,6 +222,12 @@ skills/
   dale-lenses/
   dale-index/
   dale-graph/
+  dale-loop/
+  dale-loop-project/
+  dale-loop-pr/
+  dale-loop-repo/
+  dale-loop-watch/
+  dale-loop-goal/
   dale-max/
   dale-proof/
   dale-visualize/
@@ -207,13 +239,14 @@ assets/
   dale-lenses.png
   dale-index.png
   dale-graph.png
+  dale-loop.png
   dale-proof.png
   dale-visualize.png
 ```
 
 Select a skill from Codex or invoke it explicitly with `$dale-brainstorm`,
-`$dale-lenses`, `$dale-index`, `$dale-graph`, `$dale-max`, `$dale-proof`, or
-`$dale-visualize`.
+`$dale-lenses`, `$dale-index`, `$dale-graph`, `$dale-loop` (or one of its five
+focused variants), `$dale-max`, `$dale-proof`, or `$dale-visualize`.
 
 ## License
 

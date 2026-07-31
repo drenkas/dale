@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dale Loop PR"
+  short_description: "Watch and repair one pull request"
+  default_prompt: "Use $dale-loop-pr to watch this PR, address valid feedback, and get it merge-ready."

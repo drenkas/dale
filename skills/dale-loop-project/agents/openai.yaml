@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dale Loop Project"
+  short_description: "Carry a multi-PR project through merge"
+  default_prompt: "Use $dale-loop-project to split this project into PRs and carry them through review to merge."

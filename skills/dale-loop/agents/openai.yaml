@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dale Loop"
+  short_description: "Design the right loop shape for any agent workflow"
+  default_prompt: "Use $dale-loop to design and run the right agent loop for this goal."

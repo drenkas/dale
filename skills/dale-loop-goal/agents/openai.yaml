@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dale Loop Goal"
+  short_description: "Keep one task moving until verified"
+  default_prompt: "Use $dale-loop-goal to keep working on this objective until its completion check passes."

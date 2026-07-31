@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dale Loop Watch"
+  short_description: "Monitor a source and report meaningful changes"
+  default_prompt: "Use $dale-loop-watch to monitor this source and notify me only when the condition changes."
