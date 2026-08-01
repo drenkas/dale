@@ -4,13 +4,12 @@
 #   curl -fsSL https://borkiss.net/dale-install.sh | sh
 #
 # Downloads the latest `dale` release binary for this platform and installs it
-# into ~/.local/bin (override with DALE_INSTALL_DIR). Then run `dale` to pick
-# and inject the Dale skills into Codex.
+# into a directory on PATH (override with DALE_INSTALL_DIR). Then run `dale`
+# to pick and inject the Dale skills into Codex.
 
 set -eu
 
 REPO="lubluniky/dale"
-INSTALL_DIR="${DALE_INSTALL_DIR:-$HOME/.local/bin}"
 GREEN="$(printf '\033[38;2;81;200;120m')"
 BOLD="$(printf '\033[1m')"
 DIM="$(printf '\033[2m')"
@@ -23,6 +22,28 @@ fail() {
 }
 
 say "${GREEN}${BOLD}● Dale${RESET} — Codex skill installer"
+
+in_path() {
+    case ":$PATH:" in
+    *":$1:"*) return 0 ;;
+    *) return 1 ;;
+    esac
+}
+
+# Pick an install dir that is already on PATH and writable; fall back to
+# ~/.local/bin and wire it into the shell profile below.
+if [ -n "${DALE_INSTALL_DIR:-}" ]; then
+    INSTALL_DIR="$DALE_INSTALL_DIR"
+else
+    INSTALL_DIR=""
+    for dir in /opt/homebrew/bin /usr/local/bin "$HOME/.local/bin" "$HOME/bin"; do
+        if in_path "$dir" && [ -d "$dir" ] && [ -w "$dir" ]; then
+            INSTALL_DIR="$dir"
+            break
+        fi
+    done
+    [ -n "$INSTALL_DIR" ] || INSTALL_DIR="$HOME/.local/bin"
+fi
 
 os="$(uname -s)"
 arch="$(uname -m)"
@@ -56,14 +77,22 @@ install -m 755 "$tmp/dale" "$INSTALL_DIR/dale"
 
 say "installed ${BOLD}${INSTALL_DIR}/dale${RESET}"
 
-case ":$PATH:" in
-*":$INSTALL_DIR:"*) ;;
-*)
-    say ""
-    say "${BOLD}note:${RESET} $INSTALL_DIR is not in your PATH. Add this to your shell profile:"
-    say "  export PATH=\"$INSTALL_DIR:\$PATH\""
-    ;;
-esac
+if ! in_path "$INSTALL_DIR"; then
+    # Wire the install dir into the shell profile so `dale` just works.
+    case "${SHELL:-}" in
+    */zsh) profile="$HOME/.zshrc" ;;
+    */bash) profile="$HOME/.bashrc" ;;
+    *) profile="$HOME/.profile" ;;
+    esac
+    path_line="export PATH=\"$INSTALL_DIR:\$PATH\""
+    if [ -f "$profile" ] && grep -qF "$path_line" "$profile"; then
+        : # already wired
+    else
+        printf '\n# added by dale installer\n%s\n' "$path_line" >>"$profile"
+        say "added $INSTALL_DIR to PATH in ${BOLD}${profile}${RESET}"
+    fi
+    say "${DIM}open a new terminal (or: source $profile) for PATH to apply${RESET}"
+fi
 
 say ""
 say "run ${GREEN}${BOLD}dale${RESET} to pick and install the skills into Codex."
