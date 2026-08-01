@@ -1,0 +1,7 @@
+name = "dale-install"
+main = "worker.js"
+compatibility_date = "2026-07-01"
+
+routes = [
+  { pattern = "borkiss.net/dale-install.sh", zone_name = "borkiss.net" },
+]

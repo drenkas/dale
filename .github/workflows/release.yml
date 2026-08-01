@@ -1,0 +1,51 @@
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create release if missing
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 || \
+            gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" \
+              --title "Dale $GITHUB_REF_NAME" \
+              --notes "Install: \`curl -fsSL https://borkiss.net/dale-install.sh | sh\`"
+
+  build:
+    needs: create-release
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-14
+            slug: macos-arm64
+          - runner: macos-13
+            slug: macos-x64
+          - runner: ubuntu-22.04
+            slug: linux-x64
+          - runner: ubuntu-22.04-arm
+            slug: linux-arm64
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: cargo build --release --manifest-path tui/Cargo.toml
+      - name: Package
+        run: |
+          tar -czf "dale-${{ matrix.slug }}.tar.gz" -C tui/target/release dale
+      - name: Upload asset
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" \
+            "dale-${{ matrix.slug }}.tar.gz" --clobber

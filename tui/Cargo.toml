@@ -1,0 +1,33 @@
+[package]
+name = "dale-tui"
+version = "0.4.0"
+edition = "2021"
+license = "MPL-2.0"
+description = "Interactive TUI installer for the Dale skill family for Codex"
+
+[lib]
+name = "dale_tui"
+path = "src/lib.rs"
+
+[[bin]]
+name = "dale"
+path = "src/main.rs"
+
+[dependencies]
+ratatui = "0.29"
+crossterm = "0.28"
+xai-ratatui-textarea = { git = "https://github.com/xai-org/grok-build", rev = "a4221165824e5b1f5c4c10b7459f65e78dd6448d" }
+xai-ratatui-inline = { git = "https://github.com/xai-org/grok-build", rev = "a4221165824e5b1f5c4c10b7459f65e78dd6448d" }
+rust-embed = { version = "8", features = ["include-exclude"] }
+clap = { version = "4", features = ["derive"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+similar = "2"
+ureq = "2"
+flate2 = "1"
+tar = "0.4"
+
+[dev-dependencies]
+tempfile = "3"
+flate2 = "1"
+tar = "0.4"

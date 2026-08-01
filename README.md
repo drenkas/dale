@@ -9,6 +9,17 @@ verified loop, put consequential work through a resident review loop, prove
 technical claims against direct evidence, or turn complex material into an
 effective standalone HTML visualization.
 
+## Install
+
+```sh
+curl -fsSL https://borkiss.net/dale-install.sh | sh
+```
+
+`dale` is an interactive TUI installer built on the grok-build pager stack;
+headless flags (`install`, `update`, `list --json`, `uninstall`, with
+`--yes`, `--codex-home`, `--update-url`, `--agents-md`) exist for agents and
+CI — see [tui/README.md](tui/README.md).
+
 ## Skills
 
 ### `$dale-brainstorm`
