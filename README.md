@@ -2,12 +2,12 @@
 
 ![Codex Dale — graph orchestration for your GPT fam models](assets/dale-banner.png)
 
-A compact development toolbox for Codex: think one-on-one, reframe hard
-problems through rigorous lenses, build a trusted repository index, synthesize
-a task graph that adapts while it runs, keep repeatable agent work moving in a
-verified loop, put consequential work through a resident review loop, prove
-technical claims against direct evidence, or turn complex material into an
-effective standalone HTML visualization.
+A compact development toolbox for Codex: think one-on-one, learn from recent
+Codex task history, reframe hard problems through rigorous lenses, build a
+trusted repository index, synthesize a task graph that adapts while it runs,
+keep repeatable agent work moving in a verified loop, put consequential work
+through a resident review loop, prove technical claims against direct evidence,
+or turn complex material into an effective standalone HTML visualization.
 
 ## Install
 
@@ -35,6 +35,22 @@ work in exploration mode instead of rushing into a plan or implementation.
 - proposes at most one visible evidence task, only when a separable research
   question emerges and you explicitly approve it;
 - routes an approved evidence task to the cheapest sufficient GPT-5.6 model.
+
+### `$dale-coach`
+
+Runs a read-only retrospective over recent Codex tasks using visible GPT-5.6
+Luna tasks with `max` thinking.
+
+- defaults to Codex tasks updated during the rolling last 30 days, newest-first;
+- automatically surveys up to the app's current 50-task discovery limit;
+- accepts up to 100 explicit task ids and splits them across two Luna Max
+  batches when needed;
+- reads every selected task at least once, then deep-reads the sources needed
+  to support or reject candidate patterns;
+- separates user-controlled choices from Codex behavior, platform limits, and
+  unknown causes;
+- returns at most three evidenced changes, one reusable move, and one bounded
+  experiment — or honestly reports that no material change is supported.
 
 ### `$dale-lenses`
 
@@ -230,6 +246,7 @@ make a verdict appear independent.
 .codex-plugin/plugin.json
 skills/
   dale-brainstorm/
+  dale-coach/
   dale-lenses/
   dale-index/
   dale-graph/
@@ -256,8 +273,9 @@ assets/
 ```
 
 Select a skill from Codex or invoke it explicitly with `$dale-brainstorm`,
-`$dale-lenses`, `$dale-index`, `$dale-graph`, `$dale-loop` (or one of its five
-focused variants), `$dale-max`, `$dale-proof`, or `$dale-visualize`.
+`$dale-coach`, `$dale-lenses`, `$dale-index`, `$dale-graph`, `$dale-loop` (or
+one of its five focused variants), `$dale-max`, `$dale-proof`, or
+`$dale-visualize`.
 
 ## License
 

@@ -1,7 +1,7 @@
 {
   "name": "dale",
-  "version": "0.4.0+codex.20260731205247",
-  "description": "One-on-one brainstorming, rigorous reasoning lenses, repository indexing, adaptive task graphs, persistent agent loops, high-assurance review loops, scoped technical proof, and standalone HTML visualization for Codex.",
+  "version": "0.4.0+codex.20260803193852",
+  "description": "One-on-one brainstorming, evidence-backed Codex coaching, rigorous reasoning lenses, repository indexing, adaptive task graphs, persistent agent loops, high-assurance review loops, scoped technical proof, and standalone HTML visualization for Codex.",
   "license": "MPL-2.0",
   "author": {
     "name": "Dale"
@@ -9,8 +9,8 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Dale",
-    "shortDescription": "Think, index, orchestrate, loop, prove, and visualize.",
-    "longDescription": "Dale supports focused brainstorming, falsifiable reasoning lenses for hard problems, evidence-backed repository primitives, adaptive graphs of visible Codex tasks, persistent verified loops for repeatable agent work, resident-worker review loops for consequential work, scoped verification of technical claims, and self-contained HTML visualizations selected from task-relevant patterns.",
+    "shortDescription": "Think, coach, index, orchestrate, loop, prove, and visualize.",
+    "longDescription": "Dale supports focused brainstorming, evidence-backed coaching from recent Codex task history, falsifiable reasoning lenses for hard problems, evidence-backed repository primitives, adaptive graphs of visible Codex tasks, persistent verified loops for repeatable agent work, resident-worker review loops for consequential work, scoped verification of technical claims, and self-contained HTML visualizations selected from task-relevant patterns.",
     "developerName": "Dale",
     "category": "Productivity",
     "capabilities": [
@@ -19,6 +19,7 @@
     ],
     "defaultPrompt": [
       "Brainstorm this idea with me one-on-one.",
+      "Review how I use Codex across my recent tasks with Dale Coach.",
       "Apply the strongest Dale reasoning lens to this difficult problem.",
       "Index this repository with Dale.",
       "Synthesize a Dale graph for this task.",

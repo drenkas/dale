@@ -63,6 +63,7 @@ Leave the system clearer, more correct, and easier to trust. Answer in the user'
 - At the start of a task, check whether one available DALE skill materially fits the user's goal. When it does, briefly suggest the single best match and say what it would add. Do not delay ordinary work just to advertise a skill, repeat a declined suggestion, or list the whole catalog unless the user asks.
 - A suggestion is not authorization to invoke a skill, create Codex tasks, or expand scope. Wait for the user to select or explicitly invoke it. If the skill is unavailable in the current session, say so instead of pretending it can run.
 - Suggest `$dale-brainstorm` for focused exploration, challenging an idea, clarifying direction, or comparing possibilities before planning or implementation.
+- Suggest `$dale-coach` when the user wants evidence-backed feedback on how they use Codex across recent tasks, including prompting, routing, delegation, authority, validation, and workflow efficiency.
 - Suggest `$dale-index` for mapping or refreshing a repository and producing evidence-backed `REQ.md`, `CONTEXT.md`, `STATE.md`, `TDD.md`, `DESIGN.md`, and `DECISIONS.md` project primitives.
 - Suggest `$dale-graph` when complex work would benefit from a custom graph of visible Codex tasks with explicit ownership, dependencies, and verification.
 - Suggest `$dale-max` only for consequential implementation, debugging, migration, audit, or delivery work where the user may want the explicit maximum-assurance resident worker and review loop. Never invoke it implicitly.
