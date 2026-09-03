@@ -88,7 +88,8 @@ Dale launches three parallel, read-only discovery tasks, then sends their raw
 reports through an adversarial evidence verifier. The calling task is the sole
 integrator and writes only claims that survive verification.
 
-Each visible task is routed independently across GPT-5.6 Luna, Terra, and Sol.
+Each visible task is routed independently across GPT-5.6 Luna, using `xhigh`
+or `max` reasoning when deeper work requires it, and Sol.
 Repository inventory does not default to frontier-level reasoning.
 
 ### `$dale-graph`
@@ -100,10 +101,11 @@ fixed diamond, pipeline, debate, or other remembered template.
 
 1. Derives observable outcomes, artifacts, evidence boundaries, and ownership.
 2. Creates only the nodes and edges justified by the work.
-3. Forks the calling Codex task when available, inheriting its completed
-   history and project context.
-4. Sends the active request and exact node contract into every fork because an
-   unfinished turn is not part of inherited history.
+3. Resolves the exact project and atomically creates each visible node with a
+   fresh, sanitized leaf contract and unique dispatch identity.
+4. Publishes a recoverable dispatch manifest, adopts an existing exact-title
+   match after continuation, and refuses to retry ambiguous creation. Because
+   the API has no idempotency key, this may block rather than risk a duplicate.
 5. Routes every node to the cheapest sufficient GPT-5.6 model and reasoning
    effort.
 6. Lets every visible node orchestrate one bounded layer of node-local
@@ -113,8 +115,9 @@ fixed diamond, pipeline, debate, or other remembered template.
 8. Verifies, rejects, revises, and integrates surviving artifacts into one
    result.
 
-The outer graph remains visible and user-owned. Node-local subagents cannot
-create Codex tasks, expand authority, or spawn another agent layer.
+The outer graph remains visible and user-owned. The coordinator waits for every
+created task to reach a terminal state. Node-local subagents cannot create Codex
+tasks, expand authority, or spawn another agent layer.
 
 ### `$dale-loop`
 
@@ -214,11 +217,11 @@ reports, incidents, slide decks, and small editing interfaces.
 
 ## GPT-5.6 routing
 
-| Model | Default role |
-|---|---|
-| Luna | Bounded discovery, inventory, extraction, and narrow checks |
-| Terra | Everyday implementation, debugging, integration, and normal proof |
-| Sol | Difficult cross-layer synthesis and consequential ambiguity |
+| Route | Model ID | Default role |
+|---|---|---|
+| Luna standard | `gpt-5.6-luna` | Bounded discovery, inventory, extraction, and narrow checks |
+| Luna deep | `gpt-5.6-luna` | Everyday implementation, debugging, integration, and normal proof |
+| Sol | `gpt-5.6-sol` | Difficult cross-layer synthesis and consequential ambiguity |
 
 The live Codex tool schema is authoritative. Dale shows the selected model,
 reasoning effort, and concrete routing reason before dispatch. Sol at `xhigh`,

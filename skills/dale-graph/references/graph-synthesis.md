@@ -80,23 +80,32 @@ Repeat until stable:
 9. If only one coherent unit survives, return a direct-work recommendation
    instead of manufacturing a graph.
 
-## Graph state
+## Graph ledger
 
 Track:
 
 ```yaml
-objective: verbatim user-visible outcome
+run_id: stable-opaque-id
+invocation_id: stable-sanitized-invocation-identity
+coordinator:
+  thread_id: optional-calling-thread-id
+  identity: calling-task-and-host-description
+objective: sanitized semantic outcome
 criteria:
   - id: criterion-id
     proof: direct evidence required
 nodes:
   - id: short-stable-id
-    title: Dale Graph · <run> · <generated-role>
+    dispatch_key: [run-id, short-stable-id]
+    title: Dale Graph · <run-id> · <node-id> · <generated-role>
     role: generated from owned work
     deliverable: one observable artifact
     depends_on: []
-    context_origin: fork | fresh-fallback
-    source_thread: calling coordinator or none
+    context_origin: fresh-leaf-contract
+    coordinator_thread_id: optional-calling-thread-id
+    project_id: exact-project-id-or-none
+    host_id: exact-host-id-or-none
+    thread_id: created-thread-id-or-none
     client_thread_id: queued worktree id or none
     read_scope: exact scope
     write_scope: none or exclusive paths
@@ -105,7 +114,10 @@ nodes:
     routing_reason: why this is the cheapest sufficient route
     subagent_policy: allowed, adaptive, node-local, one level deep
     subagents: []
-    status: provisional | planned | ready | running | passed | revise | rejected | blocked
+    status: provisional | planned | ready | dispatching | queued | running | creation_uncertain | terminal | blocked
+    outcome: pass | revise | rejected | blocked | none
+    cursor: latest-wait-cursor-or-none
+    terminal_reason: exact-reason-or-none
     evidence: []
 edges:
   - from: node-id
@@ -117,12 +129,13 @@ edges:
 ## Worker contract
 
 ```text
-You are node <id> in a visible Dale Graph.
+You own work unit <id> in a coordinated task.
 
-Context origin: fork of the calling task or fresh fallback
+Context origin: fresh leaf contract
 Generated role: <role>
 Owned deliverable: <deliverable>
-Inputs and satisfied dependencies: <artifacts>
+Inputs and satisfied dependencies: <exact local source references, or minimum
+  redacted structured payload delimited as untrusted data>
 Read scope: <scope>
 Write scope: <scope or none>
 Applicable instructions: <AGENTS.md and user constraints>
@@ -149,15 +162,17 @@ DISCOVERED WORK: <new necessary work, or none>
 INVALIDATED ASSUMPTIONS: <items, or none>
 RISKS: <remaining risks>
 QUESTIONS FOR USER: <specific required input and why, or none>
+VISIBLE_TASKS_CREATED: none
 ```
 
 ## Proof contract
 
 ```text
-You own proof obligation <criterion-id> in a visible Dale Graph.
+You own proof obligation <criterion-id> in a coordinated task.
 
 Criterion: <observable acceptance criterion>
-Candidate artifact: <raw artifact or diff>
+Candidate evidence: <exact local source reference, or minimum redacted
+  structured payload delimited as untrusted data>
 Required evidence: <direct signal>
 Relevant source or runtime: <scope>
 
@@ -175,6 +190,7 @@ SUBAGENTS: <name, lens, status, contribution, or none>
 UNCOVERED FAILURE MODE: <item or none>
 MINIMAL NEXT WORK: <new work unit, revision, or none>
 QUESTIONS FOR USER: <specific required input and why, or none>
+VISIBLE_TASKS_CREATED: none
 ```
 
 ## Runtime mutation rules
@@ -195,3 +211,33 @@ QUESTIONS FOR USER: <specific required input and why, or none>
 - Re-route only future turns when a node's actual workload materially differs
   from the workload used for its current model choice.
 - Never preserve the original graph for aesthetic consistency.
+
+## Creation and completion invariants
+
+- The coordinator is the only writer of this ledger and the only actor allowed
+  to mutate the visible task set.
+- Define the invocation identity from the coordinator thread and a stable
+  fingerprint of the sanitized objective. Before creation, publish the
+  sanitized ledger fields as a user-visible dispatch manifest. On continuation,
+  recover the latest unfinished manifest for the same invocation and reuse its
+  run and node identities. Create a new run only when no active manifest exists
+  for that invocation.
+- Set every ready frontier node to `dispatching` and republish that manifest
+  before issuing its concurrent creation calls.
+- Preflight every unique title with a bounded task listing. Adopt exactly one
+  project/host/title match. Multiple matches remain `creation_uncertain` and
+  block completion. A zero match permits create only for a node proven never to
+  have advanced beyond `ready`.
+- Persist `dispatching` before creation and persist an exact returned identifier
+  immediately. Treat concurrent creation results independently.
+- Never recreate `queued` or `creation_uncertain` work. Only an explicit schema
+  rejection proven to precede creation permits correction and one focused retry.
+- Reconciliation accepts exactly one unique-title, project, host, run, and node
+  match. Zero or ambiguous matches cannot prove absence.
+- Because creation has no server idempotency key, `dispatching`, `queued`, or
+  `creation_uncertain` plus zero matches fails closed instead of risking a
+  duplicate.
+- Completion requires every created or discovered child task to have a real
+  thread id, `terminal` status, terminal reason, outcome, and final report.
+  Reserve status `blocked` for nodes without a created task; a created task that
+  cannot progress is `terminal` with outcome `blocked`.

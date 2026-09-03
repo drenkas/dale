@@ -5,25 +5,22 @@ the whole graph. Its automatic catalog contains only the GPT-5.6 generation.
 
 ## Runtime catalog
 
-Immediately before creating tasks, inspect the current
-`send_message_to_thread` schema for forked nodes and the `create_thread` schema
-for fresh fallbacks. They are authoritative for availability and supported
-reasoning efforts on the calling host; the destination host validates the final
-combination. `fork_thread` itself does not select a model, so apply the route on
-the first follow-up sent to the fork.
+Immediately before creating tasks, inspect the current `create_thread` schema.
+It is authoritative for availability and supported reasoning efforts on the
+calling host; the destination host validates the final combination.
 
 Route only among these GPT-5.6 roles when they are currently available:
 
-| Model | Use it for | Normal thinking range |
-|---|---|---|
-| `gpt-5.6-luna` | Fast, bounded exploration; repository inventory; mechanical extraction; narrow checks; routine independent work | `low` to `medium` |
-| `gpt-5.6-terra` | Everyday implementation; debugging; integration; normal code review; work that needs balanced reasoning | `medium` to `high` |
-| `gpt-5.6-sol` | Genuinely ambiguous architecture; difficult cross-layer synthesis; high-stakes proof where stronger reasoning can change the conclusion | `high` |
+| Route | Model ID | Use it for | Normal thinking range |
+|---|---|---|---|
+| Luna standard | `gpt-5.6-luna` | Fast, bounded exploration; repository inventory; mechanical extraction; narrow checks; routine independent work | `low` to `medium` |
+| Luna deep | `gpt-5.6-luna` | Everyday implementation; debugging; integration; normal code review; work that needs balanced reasoning | `xhigh` to `max` |
+| Sol | `gpt-5.6-sol` | Genuinely ambiguous architecture; difficult cross-layer synthesis; high-stakes proof where stronger reasoning can change the conclusion | `high` |
 
-At the time this skill was authored, all three accept `low`, `medium`, `high`,
-`xhigh`, `max`, and `ultra`. Do not assume that snapshot outranks the live tool
-schema. If no allowed GPT-5.6 route is available, omit overrides and report the
-fallback instead of inventing a model id.
+At authoring time, Luna accepts `low`, `medium`, `high`, `xhigh`, and `max`;
+Sol also accepts `ultra`. The live schema outranks this snapshot. If no allowed
+GPT-5.6 route is available, omit overrides and report the fallback instead of
+inventing a model id.
 
 ## Selection procedure
 
@@ -34,25 +31,27 @@ For every ready node:
    than silently replacing it.
 2. Classify the node by its owned deliverable, evidence risk, ambiguity,
    coupling, and cost of a wrong result.
-3. Start with Luna, promote to Terra only when the node needs substantial
-   implementation or reasoning, and promote to Sol only when Terra would
-   materially reduce confidence or create likely rework.
+3. Start with Luna at `low` or `medium`; raise the effort to `xhigh` or `max`
+   only when the node needs substantial implementation or reasoning, and
+   promote to Sol only when stronger capability would materially reduce
+   confidence or create likely rework.
 4. Pick effort separately: `low` for mechanical work, `medium` for ordinary
-   reasoning, and `high` for complex work or independent proof.
+   reasoning, and `xhigh` or `max` for complex work or independent proof.
 5. Record a one-line reason that names the workload property which justified the
    route. Do not use generic claims such as "best model".
 
 Use `xhigh` only when the node has an unusually difficult, consequential
-reasoning bottleneck that can be stated concretely. Use `max` or `ultra` only
-after a cheaper route failed or when a uniquely high-stakes proof obligation
-clearly justifies it. Never use higher effort to compensate for a vague node
+reasoning bottleneck that can be stated concretely. Use `max` only after a
+cheaper route failed or when a uniquely high-stakes proof obligation clearly
+justifies it. Route `ultra` only to Sol and only when the live schema confirms
+that exact combination. Never use higher effort to compensate for a vague node
 contract.
 
 ## Cost and concurrency guardrails
 
 - Parallel discovery nodes default to Luna `low` or `medium`, not Sol.
-- Ordinary implementation defaults to Terra `medium`; increase capability only
-  for a stated reason.
+- Ordinary implementation defaults to Luna `xhigh`; use `max` only for a stated
+  reason.
 - Never assign Sol `xhigh`, `max`, or `ultra` merely because the coordinator is
   running at that setting.
 - Run at most one Sol node above `high` at a time unless distinct critical paths
