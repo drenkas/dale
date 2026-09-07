@@ -17,7 +17,7 @@ task at runtime.
   a direct request to run Dale Max. Do not activate it implicitly for an
   ordinary difficult task.
 - Explicit use authorizes visible Codex thread creation, thread-local
-  subagents, and per-node GPT-5.6 routing. It does not authorize new
+  subagents, and per-node Luna and Astra routing. It does not authorize new
   permissions, destructive actions, external writes, Git mutation, or ignored
   repository instructions.
 - If Codex thread tools or resident-thread `spawn_agent` capability are
@@ -75,8 +75,8 @@ user choice. Show the compact execution contract and routing before dispatch:
 DALE MAX
 outcome: <observable result>
 stop: <evidence-based terminal and re-plan conditions>
-resident worker: <scope> — <GPT-5.6 model / thinking> — <reason>
-resident reviewer: <scope> — <GPT-5.6 model / thinking> — <reason>
+resident worker: <scope> — <Luna or Astra model / thinking> — <reason>
+resident reviewer: <scope> — <Luna or Astra model / thinking> — <reason>
 review lenses: generated after inspecting the artifact; no preset count
 proof: <criterion -> direct signal>
 ```
@@ -95,11 +95,13 @@ unfinished response are not inherited, so send the current request with secret
 values redacted plus the complete role contract immediately with
 `send_message_to_thread`.
 
-- Use a same-directory fork for read-only work and for one designated writer
-  when no concurrent node can touch the same files.
-- Use a worktree for isolated mutation when the live tool supports it.
+- Use a same-directory fork for every resident node. Do not create a worktree.
+- Treat each repository's branch, index, and working tree as one mutation
+  resource. Only one mutating resident or subagent may run there at a time,
+  even for disjoint paths; read-only review may remain concurrent.
 - Use `create_thread` only when forking is unavailable; pass all context
-  explicitly and label it as a fresh fallback.
+  explicitly, label it as a fresh fallback, and target the exact saved project
+  with `target.environment.type: "local"`.
 - Title nodes `Dale Max · <run> · Worker` and
   `Dale Max · <run> · Reviewer 1`.
 - Keep threads visible and user-owned. Never archive them unless asked.
@@ -125,13 +127,13 @@ Worker and Reviewer 1 on their first turn and preserve it on later feedback
 turns. Record `SUBAGENT_CAPABILITY: AVAILABLE | UNAVAILABLE` for both resident
 thread IDs before accepting their artifacts.
 
-For an isolated Worker, require exact diffs, changed artifacts, and validation.
-Review may mark that artifact provisionally acceptable, but that is not the
-final gate. Apply only the provisionally accepted changes in the destination
-checkout without a Git merge, run the primary validation there, and only then
-issue `PASS`. Failed integration or validation returns `REVISE`; if safe
-integration is impossible within current authority, return `BLOCKED`. A
-worker-local success is not a delivered result.
+Require the Worker to report exact diffs, changed artifacts, and validation.
+Its changes already exist in the shared destination checkout, so after review
+inspect that current state and run primary validation there; never replay or
+reapply the Worker's patch. Issue `PASS` only for the reviewed checkout state.
+Failed validation returns `REVISE`; if a safe correction is impossible within
+current authority, return `BLOCKED`. A Worker report alone is not a delivered
+result.
 
 Create Reviewer 1 at the start, but send it the candidate artifact only
 after Worker returns one. The reviewer must not be primed with the desired
@@ -201,6 +203,13 @@ erase evidence, blockers, safety notes, or requested detail.
 ## Keep a run ledger
 
 Track the state from `references/contracts.md` after every node completion.
+The coordinator conversation ledger is the authoritative resident-task
+registry. Persist every exact returned `threadId`, `hostId`, `projectId`, title,
+status, and wait cursor immediately and preserve it in continuation summaries.
+Use known IDs directly for read, send, and wait; `list_threads` is optional
+discovery only and cannot gate them or prove absence. Validate a user-supplied
+actual ID with `read_thread` before adoption. Never use a `clientThreadId` as a
+real ID; an unexpected client ID or ambiguous creation blocks recreation.
 Wait in bounded intervals, reuse task wait cursors, and re-evaluate as soon as a
 resident node needs attention. A running turn cannot be rerouted in place;
 change model or thinking only on a later follow-up when its workload materially
@@ -211,5 +220,5 @@ changed.
 Report the plan, resident thread IDs and subagent capability checks, ephemeral
 reviewers, cycle verdicts, rejected findings, accepted artifact, exact final
 validation, and remaining risk. Include one `::created-thread` directive per
-visible resident thread using its exact `threadId` or `clientThreadId`. Never
-emit a thread directive for a subagent.
+visible resident thread with a real `threadId`. Never emit a directive for a
+`clientThreadId`-only result or subagent.

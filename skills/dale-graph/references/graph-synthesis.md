@@ -106,15 +106,15 @@ nodes:
     project_id: exact-project-id-or-none
     host_id: exact-host-id-or-none
     thread_id: created-thread-id-or-none
-    client_thread_id: queued worktree id or none
+    client_thread_id: unexpected queued id retained only as diagnostic evidence or none
     read_scope: exact scope
     write_scope: none or exclusive paths
-    model: supported GPT-5.6 model selected for this node
+    model: supported Luna or Astra model selected for this node
     thinking: supported effort selected for this node
     routing_reason: why this is the cheapest sufficient route
     subagent_policy: allowed, adaptive, node-local, one level deep
     subagents: []
-    status: provisional | planned | ready | dispatching | queued | running | creation_uncertain | terminal | blocked
+    status: provisional | planned | ready | dispatching | running | creation_uncertain | terminal | blocked
     outcome: pass | revise | rejected | blocked | none
     cursor: latest-wait-cursor-or-none
     terminal_reason: exact-reason-or-none
@@ -224,19 +224,28 @@ VISIBLE_TASKS_CREATED: none
   for that invocation.
 - Set every ready frontier node to `dispatching` and republish that manifest
   before issuing its concurrent creation calls.
-- Preflight every unique title with a bounded task listing. Adopt exactly one
-  project/host/title match. Multiple matches remain `creation_uncertain` and
-  block completion. A zero match permits create only for a node proven never to
-  have advanced beyond `ready`.
+- Create saved-project tasks in the selected project's local environment and
+  never in a worktree. Serialize every mutating task or subagent at repository
+  level because local tasks share the branch, index, and working tree; read-only
+  work may run concurrently.
+- Treat the conversation manifest as the authoritative registry. Preserve exact
+  returned task, host, and project IDs, title, node status, and wait cursor in
+  every continuation summary. Use known IDs directly. Task listing is optional
+  discovery and cannot gate them, prove absence, or authorize retry. Validate a
+  user-supplied actual ID with `read_thread` before adoption for the supplied
+  scope. Preserve uncertainty when readable identity and retained creation
+  evidence do not establish an unambiguous mapping. Treat a legacy `queued`
+  state as `creation_uncertain`, never as permission to retry.
 - Persist `dispatching` before creation and persist an exact returned identifier
   immediately. Treat concurrent creation results independently.
-- Never recreate `queued` or `creation_uncertain` work. Only an explicit schema
+- Never recreate `creation_uncertain` work. An unexpected `clientThreadId` is
+  diagnostic evidence, never a real task ID. Only an explicit schema
   rejection proven to precede creation permits correction and one focused retry.
-- Reconciliation accepts exactly one unique-title, project, host, run, and node
-  match. Zero or ambiguous matches cannot prove absence.
-- Because creation has no server idempotency key, `dispatching`, `queued`, or
-  `creation_uncertain` plus zero matches fails closed instead of risking a
-  duplicate.
+- A discovered actual ID is adopted only after `read_thread` confirms it is
+  readable and retained creation evidence makes its mapping unambiguous. Zero
+  or ambiguous listing matches prove nothing.
+- Because creation has no server idempotency key, `dispatching` or
+  `creation_uncertain` fails closed instead of risking a duplicate.
 - Completion requires every created or discovered child task to have a real
   thread id, `terminal` status, terminal reason, outcome, and final report.
   Reserve status `blocked` for nodes without a created task; a created task that

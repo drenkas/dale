@@ -47,10 +47,19 @@ Show the chosen shape in a compact ledger before launching it. Continue without 
 ## 3. Run the loop
 
 1. Read applicable instructions and inspect live state.
-2. Create user-visible Codex tasks for independent work. Use isolated worktrees for concurrent repository changes.
+2. Create user-visible Codex tasks for independent work. For a saved project,
+   use its `local` environment and do not create worktrees. Serialize all
+   mutation in the same repository, including disjoint paths and subagent work;
+   read-only tasks may run concurrently.
 3. Give every task the goal, current state, scope, verifier, limits, and required return fields.
 4. Reconcile task reports with live systems. Live GitHub, CI, deployments, trackers, and monitored sources beat stale reports.
-5. Persist the minimum state needed to resume: work units, task ids, dependencies, attempts, evidence, last observation, next wake, and blockers.
+5. Persist the minimum state needed to resume in the coordinator conversation:
+   work units, exact returned thread/host/project ids, titles, statuses, wait
+   cursors, dependencies, attempts, evidence, last observation, next wake, and
+   blockers. Preserve it in continuation summaries. Use known IDs directly;
+   task listing is optional discovery and cannot gate them or prove absence.
+   Validate a user-supplied actual ID with `read_thread`. Never use a
+   `clientThreadId` as a real ID, and never recreate uncertain work.
 6. On each wakeup, re-observe before acting. Do not replay stale actions.
 7. Create a fresh checker when independent judgment matters. Do not let a maker approve its own output.
 8. Stop or escalate when the verifier passes, a human gate is reached, limits are exhausted, or the same blocker repeats without new evidence.

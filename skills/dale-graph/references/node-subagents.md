@@ -32,18 +32,18 @@ capacity; do not queue speculative agents merely to fill available slots.
 ## Mutation ownership
 
 For a read-only node, all subagents remain read-only. For a mutating node,
-parallel subagents may write only to explicitly disjoint paths inside the
-parent's exclusive write scope. Otherwise designate one writer and keep other
-subagents read-only, or run conflicting work sequentially. The parent node must
-inspect the integrated diff and validate the final state.
+designate one writer at a time for the repository and keep other subagents
+read-only, or run writers sequentially. Disjoint paths do not make concurrent
+writes safe because local tasks share the branch, index, and working tree. The
+parent node must inspect the integrated diff and validate the final state.
 
 ## Model routing
 
 Subagents inherit the visible node's model and reasoning by default. A node may
-select another GPT-5.6 route only when the live `spawn_agent` schema exposes a
+select another Luna or Astra route only when the live `spawn_agent` schema exposes a
 supported combination and the subagent's workload materially differs. Apply the
 same cheapest-sufficient rules as `model-routing.md`, record the reason, and
-never introduce a non-GPT-5.6 model automatically.
+never introduce a model outside the Luna and Astra catalog automatically.
 
 ## Spawn contract
 
@@ -55,7 +55,7 @@ Generated subagent role: <role derived from owned subwork>
 Owned output: <one observable result>
 Inputs: <minimum required context>
 Read scope: <narrow scope>
-Write scope: <disjoint paths or none>
+Write scope: <exclusive paths for a serialized writer, or none>
 Applicable instructions: <AGENTS.md and user constraints>
 Forbidden actions: <list>
 Required evidence: <direct proof>

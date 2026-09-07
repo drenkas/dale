@@ -23,12 +23,12 @@ as the sole integrator.
 - Make every created task user-owned and inspectable. Do not archive it unless
   the user asks.
 - Explicit `$dale-index` selection or a direct request to run Dale Index also
-  delegates per-task GPT-5.6 model and reasoning selection to this skill. For an
+  delegates per-task Luna and Astra model and reasoning selection to this skill. For an
   implicit match, get consent for both visible task creation and automatic
   routing; otherwise omit `model` and `thinking`.
-- Read `references/model-routing.md` before dispatch. Explicit GPT-5.6 model or
+- Read `references/model-routing.md` before dispatch. Explicit Luna or Astra model or
   reasoning constraints in the current request override automatic routing. If
-  a requested route falls outside the GPT-5.6 boundary or the live tool schema,
+  a requested route falls outside the Luna and Astra boundary or the live tool schema,
   state the conflict instead of silently substituting another model.
 - In every worker prompt, forbid that worker from creating subagents or more
   tasks.
@@ -87,7 +87,7 @@ ask for the missing project choice before creating tasks.
 
 Read `references/index-roles.md` and `references/model-routing.md` before
 creating tasks. Immediately before dispatch, inspect the current `create_thread`
-tool schema and intersect its supported combinations with the GPT-5.6 catalog.
+tool schema and intersect its supported combinations with the Luna and Astra catalog.
 Route each role from its actual repository scope and evidence risk; do not copy
 the coordinator's model settings. Show each role's model, thinking, and one-line
 routing reason, then create these roles concurrently:
@@ -100,8 +100,18 @@ Give each task the shared evidence contract and its role contract. Require
 read-only inspection and a structured final report; do not let discovery tasks
 edit primitives.
 
-Rename each task immediately with `set_thread_title`. Retain its `threadId`,
-`hostId`, model, thinking, routing reason, and wait cursor.
+Create every role in the selected project's `local` environment. Before
+creation, publish a coordinator manifest with title, exact `projectId`, expected
+host, role, and `dispatching` status. Immediately record the exact returned
+`threadId`, `hostId`, status, and wait cursor and preserve this registry in
+continuation summaries. Use known IDs directly for read, send, and wait;
+`list_threads` is optional discovery only and cannot gate a known ID or prove
+absence. Validate a user-supplied actual ID with `read_thread` before adoption.
+Never use a `clientThreadId` as a real ID; an unexpected client ID or ambiguous
+creation becomes uncertain and must never be recreated.
+
+Rename each task immediately with `set_thread_title`. Retain its model,
+thinking, and routing reason in the same manifest.
 
 ### 4. Collect without busy polling
 
@@ -113,7 +123,7 @@ result lacks evidence needed for integration.
 If a report violates its contract, send one precise correction with
 `send_message_to_thread` and wait again. Preserve the task's current route
 unless the required correction materially changes its workload; a follow-up may
-use a newly justified supported GPT-5.6 route, but an already running turn
+use a newly justified supported Luna or Astra route, but an already running turn
 cannot be changed in place.
 
 ### 5. Launch the verification gate
@@ -131,6 +141,9 @@ coordinator's settings or the generic fact that it is a verifier. Give it:
 Require it to reject unsupported claims, detect contradictions and stale
 documentation, identify missing coverage, and return a pass/fail list. Do not
 ask it to make repository edits.
+
+Create the verifier in the same selected project's `local` environment and add
+its exact identifiers, status, and cursor to the authoritative manifest.
 
 ### 6. Integrate only survivors
 
@@ -166,5 +179,5 @@ material claim.
 
 State which primitives were created or refreshed, which claims remain unknown,
 what the verifier rejected, and the exact checks run. Include one
-`::created-thread` directive per created task in the final response, using
-`threadId` or `clientThreadId` exactly as returned by `create_thread`.
+`::created-thread` directive per created task with a real returned `threadId`.
+Do not emit a directive for a `clientThreadId`-only or uncertain result.

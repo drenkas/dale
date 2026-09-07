@@ -34,7 +34,7 @@ work in exploration mode instead of rushing into a plan or implementation.
 - challenges the strongest option instead of agreeing automatically;
 - proposes at most one visible evidence task, only when a separable research
   question emerges and you explicitly approve it;
-- routes an approved evidence task to the cheapest sufficient GPT-5.6 model.
+- routes an approved evidence task to the cheapest sufficient Luna or Astra model.
 
 ### `$dale-coach`
 
@@ -88,8 +88,8 @@ Dale launches three parallel, read-only discovery tasks, then sends their raw
 reports through an adversarial evidence verifier. The calling task is the sole
 integrator and writes only claims that survive verification.
 
-Each visible task is routed independently across GPT-5.6 Luna, using `xhigh`
-or `max` reasoning when deeper work requires it, and Sol.
+Each visible task is routed independently across Luna and Astra, using `xhigh`
+or `max` reasoning when deeper work requires it.
 Repository inventory does not default to frontier-level reasoning.
 
 ### `$dale-graph`
@@ -102,11 +102,13 @@ fixed diamond, pipeline, debate, or other remembered template.
 1. Derives observable outcomes, artifacts, evidence boundaries, and ownership.
 2. Creates only the nodes and edges justified by the work.
 3. Resolves the exact project and atomically creates each visible node with a
-   fresh, sanitized leaf contract and unique dispatch identity.
-4. Publishes a recoverable dispatch manifest, adopts an existing exact-title
-   match after continuation, and refuses to retry ambiguous creation. Because
-   the API has no idempotency key, this may block rather than risk a duplicate.
-5. Routes every node to the cheapest sufficient GPT-5.6 model and reasoning
+   fresh, sanitized leaf contract and unique dispatch identity in the project's
+   local environment.
+4. Publishes a recoverable dispatch manifest with exact returned task IDs, uses
+   those IDs directly after continuation, and refuses to retry ambiguous
+   creation. Because the API has no idempotency key, this may block rather than
+   risk a duplicate.
+5. Routes every node to the cheapest sufficient Luna or Astra model and reasoning
    effort.
 6. Lets every visible node orchestrate one bounded layer of node-local
    subagents inside its own authority and write scope.
@@ -118,6 +120,12 @@ fixed diamond, pipeline, debate, or other remembered template.
 The outer graph remains visible and user-owned. The coordinator waits for every
 created task to reach a terminal state. Node-local subagents cannot create Codex
 tasks, expand authority, or spawn another agent layer.
+
+For now, Dale creates saved-project tasks in the project's local environment
+and keeps exact returned task IDs in the coordinator manifest. It uses those IDs
+directly after continuation. Because local tasks share Git state, Dale
+serializes all mutation in one repository while allowing read-only work to run
+concurrently.
 
 ### `$dale-loop`
 
@@ -215,16 +223,16 @@ The bundled gallery includes patterns for comparisons, code review, module
 maps, design systems, prototypes, SVG figures, flowcharts, explainers, plans,
 reports, incidents, slide decks, and small editing interfaces.
 
-## GPT-5.6 routing
+## Luna and Astra routing
 
 | Route | Model ID | Default role |
 |---|---|---|
 | Luna standard | `gpt-5.6-luna` | Bounded discovery, inventory, extraction, and narrow checks |
 | Luna deep | `gpt-5.6-luna` | Everyday implementation, debugging, integration, and normal proof |
-| Sol | `gpt-5.6-sol` | Difficult cross-layer synthesis and consequential ambiguity |
+| Astra | `gpt-6-astra` | Difficult cross-layer synthesis and consequential ambiguity |
 
 The live Codex tool schema is authoritative. Dale shows the selected model,
-reasoning effort, and concrete routing reason before dispatch. Sol at `xhigh`,
+reasoning effort, and concrete routing reason before dispatch. Astra at `xhigh`,
 `max`, or `ultra` is never inherited merely because the coordinator uses it.
 
 Dale Lenses and Dale Proof stay in the current task by default. They do not

@@ -81,9 +81,9 @@ Propose one additional visible Codex task only when all conditions hold:
 Consent is per task. Never treat approval for one task as permission to create
 later tasks. Keep at most one additional task active during a brainstorm.
 Before asking for approval, read `references/model-routing.md`, inspect the live
-`create_thread` model schema, and include the proposed GPT-5.6 model, thinking,
+`create_thread` model schema, and include the proposed Luna or Astra model, thinking,
 and one-line routing reason with the task's scope and deliverable. The user may
-override that route with another supported GPT-5.6 combination.
+override that route with another supported Luna or Astra combination.
 
 Continue one-on-one when the issue concerns the user's taste, scope, values, or
 priorities; when a quick inline read is sufficient; when a task would merely
@@ -95,9 +95,10 @@ narrow enough to be self-contained.
 After explicit per-task approval:
 
 1. Call `list_projects` before repository-scoped creation and select the exact
-   saved project. Use a projectless target only for non-repository work.
+   saved project. Target it with `target.environment.type: "local"`; do not
+   create a worktree. Use a projectless target only for non-repository work.
 2. Create one read-only task with `create_thread`, using the approved or
-   automatically proposed supported GPT-5.6 `model` and `thinking`. If the route
+   automatically proposed supported Luna or Astra `model` and `thinking`. If the route
    is no longer available, state the conflict instead of silently substituting
    another model.
 3. Title it `Dale Brainstorm · Evidence · <specific question>` with
@@ -110,9 +111,17 @@ After explicit per-task approval:
    resolved, contradicted, and left unknown.
 7. Keep the task visible and user-owned. Do not archive it unless asked.
 
+Before creation, publish a compact coordinator manifest with title, exact
+`projectId`, expected host, and `dispatching` status. Immediately persist the
+returned `threadId`, `hostId`, status, and wait cursor and preserve them in
+continuation summaries. Use the known ID directly; `list_threads` is optional
+discovery only. Validate a user-supplied actual ID with `read_thread` before
+adoption. Never use a `clientThreadId` as a task ID; an unexpected client ID or
+ambiguous creation blocks recreation.
+
 If a correction follow-up is required, preserve the task's current route unless
 the evidence workload materially changed. A later turn may be rerouted with a
-new supported GPT-5.6 model and thinking, but an already running turn cannot be
+new supported Luna or Astra model and thinking, but an already running turn cannot be
 changed in place.
 
 If the user declines, continue the one-on-one conversation without pressure.
@@ -133,4 +142,4 @@ only when the next phase genuinely contains multiple evidence or ownership
 boundaries; never make it the default handoff.
 
 If an evidence task was created, include its exact `::created-thread` directive
-in the final response using the returned `threadId` or `clientThreadId`.
+in the final response only when creation returned a real `threadId`.

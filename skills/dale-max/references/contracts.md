@@ -21,18 +21,26 @@ criteria:
 resident:
   worker:
     thread_id: exact id or none
-    client_thread_id: queued id or none
+    client_thread_id: unexpected queued id retained only as diagnostic evidence or none
+    host_id: exact host id or none
+    project_id: exact project id or none
+    title: exact visible title
+    cursor: latest wait cursor or none
     context_origin: fork | fresh-fallback
-    model: supported GPT-5.6 route
+    model: supported Luna or Astra route
     thinking: supported effort
     routing_reason: concrete workload reason
     subagent_capability: pending | available | unavailable
     status: ready | running | revise | passed | blocked | rejected
   lead_reviewer:
     thread_id: exact id or none
-    client_thread_id: queued id or none
+    client_thread_id: unexpected queued id retained only as diagnostic evidence or none
+    host_id: exact host id or none
+    project_id: exact project id or none
+    title: exact visible title
+    cursor: latest wait cursor or none
     context_origin: fork | fresh-fallback
-    model: supported GPT-5.6 route
+    model: supported Luna or Astra route
     thinking: supported effort
     routing_reason: concrete workload reason
     subagent_capability: pending | available | unavailable
@@ -108,8 +116,8 @@ multi-agent work is disabled, return `SUBAGENT_CAPABILITY: UNAVAILABLE` and
 `SUBAGENT_CAPABILITY: AVAILABLE`. Spawn fresh ephemeral reviewers with
 `spawn_agent` only for genuinely independent, material lenses; do not use a
 stock role list or target count. Each subagent is
-one level deep, stays read-only unless a disjoint write is explicitly assigned,
-and may create neither agents nor Codex threads. Inspect raw outputs yourself.
+one level deep, remains read-only, and may create neither agents nor Codex
+threads. Inspect raw outputs yourself.
 Resolve disagreement by evidence quality, not votes.
 
 Return:
@@ -132,7 +140,7 @@ Generated lens: <task-derived lens>
 Owned question: <one falsifiable question>
 Candidate artifact: <minimum raw input>
 Read scope: <narrow scope>
-Write scope: none unless explicitly disjoint
+Write scope: none; reviewers are read-only
 Required evidence: <direct proof>
 Forbidden actions: <list>
 

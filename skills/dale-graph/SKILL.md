@@ -57,15 +57,12 @@ manufacturing a graph.
 Call `list_projects` and resolve the exact saved project and host before any
 creation call.
 
-- For a saved Git project, use a worktree by default, including for read-only
-  work. Use the saved project directly with a local environment only when the
-  user explicitly requests it.
-- For a saved non-Git project, use a local environment.
-- Set worktree `startingState` only when the user explicitly requests a
-  particular Git state; otherwise omit it.
+- For every saved project, use `target.environment.type: "local"`. Do not create
+  a worktree until Codex exposes reliable worktree task identity.
 - Use projectless only when the task has no repository.
-- Represent overlapping write scopes as conflict edges and never run them
-  concurrently.
+- Treat each repository's branch, index, and working tree as one mutation
+  resource. Only one mutating task or subagent may run there at a time, even for
+  disjoint paths. Read-only work may run concurrently.
 - Never commit, merge, stash, reset, push, delete, or broaden authority unless
   the user explicitly requested that action.
 
@@ -91,49 +88,53 @@ rules to every later `send_message_to_thread` follow-up.
 ## Dispatch without duplicates
 
 Maintain the graph ledger from `references/graph-synthesis.md`. Before any
-creation call, publish a sanitized user-visible dispatch manifest containing
-the invocation identity, `run_id`, `node_id`, `dispatch_key`, unique title,
-project, host, and status for every planned node. This manifest is the
+creation call, publish a sanitized user-visible dispatch manifest in the
+coordinator conversation containing the invocation identity, `run_id`,
+`node_id`, `dispatch_key`, unique title, exact `projectId`, `hostId`, returned
+`threadId`, node status, and latest wait cursor for every planned node. This is the
 crash-recovery record; never put secrets or unsanitized objective text in it.
 A node moves through `planned -> ready -> dispatching`, then exactly
-one of `queued`, `running`, `creation_uncertain`, or `blocked`. Write the
+one of `running`, `creation_uncertain`, or `blocked`. Write the
 dispatch transition before the call, republish the manifest with every ready
 frontier node set to `dispatching`, and only then create them concurrently.
 Record every returned identifier and host/project value immediately after it
 returns.
 
-On continuation or retry, first recover the latest unfinished manifest for the
-same invocation and reuse its identities. Before creating any ready node,
-preflight `list_threads` for its exact unique title and project/host identity.
-Adopt exactly one match and record its real `threadId`; multiple matches remain
-`creation_uncertain` and block coordinator completion.
-A zero match permits creation only when the recovered state proves the node was
-never past `ready`. If its manifest state is `dispatching`, `queued`, or
-`creation_uncertain`, a zero match still blocks and never permits recreation.
+On continuation or retry, recover the latest unfinished manifest and reuse its
+identities. Preserve it in continuation summaries. Its exact returned
+`threadId` and `hostId` are authoritative: use them directly with read, send,
+and wait tools. `list_threads` is optional discovery only; it must never gate a
+known ID, prove absence, or authorize recreation. Validate a user-supplied
+actual ID once with `read_thread` before adopting it for the user-specified
+scope. Cross-check readable identity with retained creation evidence; if the
+mapping remains ambiguous, preserve uncertainty. Never infer an ID from title
+or recency alone. Treat a recovered legacy `queued` state as
+`creation_uncertain`; it never permits recreation.
 
 - Call `create_thread` once per ready `dispatch_key`. Dispatch independent nodes
   concurrently, but capture each result separately with all-settled semantics;
   one failure must not retry the entire frontier.
-- A returned `threadId` means `running`. A returned `clientThreadId` means
-  `queued`: retain it, never pass it where a `threadId` is required, and never
-  recreate that node.
+- A returned `threadId` means `running`; persist it before any other action.
+- A returned `clientThreadId` is unexpected under the local policy. Retain it
+  only as diagnostic evidence, never pass it where a `threadId` is required,
+  mark creation uncertain, and never recreate the node.
 - A timeout, transport ambiguity, or unknown result becomes
   `creation_uncertain`. Never automatically recreate it.
 - Retry creation only after a response explicitly proves schema validation
   failed before any task could have been created. Correct only that call.
-- Reconcile queued or uncertain creation with a bounded `list_threads` lookup.
-  Accept only one exact match on the coordinator-generated unique title plus
-  project, host, run, and node identity. Record its real `threadId`. Zero or
-  multiple matches remain `queued` or `creation_uncertain`; neither permits
-  recreation.
-- Never infer absence from recency alone. Never substitute a `clientThreadId`
-  for a `threadId`.
+- A bounded task listing may provide diagnostic evidence after uncertain
+  creation, but a missing result proves nothing. Adopt a discovered actual ID
+  only after `read_thread` confirms it is readable and retained manifest or
+  creation evidence makes the mapping unambiguous.
+- Never infer absence from recency or listing membership. Never substitute a
+  `clientThreadId` for a `threadId`.
 - The task API has no server idempotency key. This policy deliberately prefers
   a false block after ambiguous creation over risking a duplicate task.
 
 ## Run and rebuild
 
-Wait on active nodes with `threadId`, `hostId`, and the latest `afterCursor`.
+Wait on active nodes using the manifest's exact `threadId`, `hostId`, and latest
+`afterCursor`.
 Use bounded waits for at most eight tasks at a time. Record new cursors and
 handle each result independently:
 
@@ -182,7 +183,7 @@ evidence only.
 
 Before the final response, every successfully created task, including any
 discovered unauthorized child, must have a real `threadId` and a terminal
-state. No node may remain `dispatching`, `queued`, `running`, or
+state. No node may remain `dispatching`, `running`, or
 `creation_uncertain`. If reconciliation or user input cannot resolve one, do
 not claim completion. A node with no created task may use status `blocked`; a
 created task that finishes unable to progress uses status `terminal` with
@@ -190,6 +191,6 @@ outcome `blocked`. Report its exact identifier and reason.
 
 Report the generated nodes and edges, runtime mutations, accepted and rejected
 artifacts, exact primary-signal validation, and remaining risks. Emit one
-`::created-thread` directive for each successful `create_thread` result, using
-the exact original returned `threadId` or `clientThreadId`. Emit none for failed
-or uncertain calls, discovered child tasks, or node-local subagents.
+`::created-thread` directive for each successful result with a real returned
+`threadId`. Emit none for failed or uncertain calls, `clientThreadId`-only
+results, discovered child tasks, or node-local subagents.

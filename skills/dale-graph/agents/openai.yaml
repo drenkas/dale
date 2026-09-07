@@ -1,4 +1,4 @@
 interface:
   display_name: "Dale Graph"
   short_description: "Create and route adaptive Codex tasks"
-  default_prompt: "Use $dale-graph to create an adaptive GPT-5.6 task graph whose nodes may orchestrate bounded subagents."
+  default_prompt: "Use $dale-graph to create an adaptive Luna and Astra task graph whose nodes may orchestrate bounded subagents."
