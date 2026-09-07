@@ -1,6 +1,6 @@
 ---
 name: dale-visualize
-description: Create clear, polished, self-contained HTML visualizations by selecting and adapting task-relevant patterns from Anthropic's html-effectiveness examples. Use when the user invokes $dale-visualize, selects Dale Visualize through /skills, or asks to turn code, architecture, research, plans, comparisons, reports, incidents, workflows, design systems, concepts, or editable decisions into a browser-readable visual artifact. Do not use for a production application, an image-only deliverable, or prose that gains nothing from spatial layout or interaction.
+description: Create self-contained HTML visualizations, including code walkthroughs with actual snippets, change rationale, and linked execution or data flow. Use when the user invokes $dale-visualize, selects Dale Visualize through /skills, or asks to turn code changes, architecture, research, plans, comparisons, reports, incidents, workflows, design systems, concepts, or editable decisions into a browser-readable visual artifact. Do not use for a production application, an image-only deliverable, or prose that gains nothing from spatial layout or interaction.
 ---
 
 # Dale Visualize
@@ -42,6 +42,11 @@ language when one exists.
 
 ## Choose the artifact form
 
+- For code changes or code-path explanations, default to a linked code
+  walkthrough: actual snippet, why it changed or matters, and where execution
+  or data goes next. Read [references/code-walkthrough.md](references/code-walkthrough.md)
+  before tracing the source and building the page. Keep an explicitly requested
+  high-level overview high-level.
 - Use a static explainer when the reader mainly needs to scan and understand.
 - Use inline SVG for flows, architecture, timelines, call graphs, and custom
   figures whose geometry carries meaning.
@@ -103,6 +108,10 @@ Validate at minimum:
 6. displayed facts match the supplied evidence;
 7. export or copy actions return the exact user-controlled result when the page
    is an editor.
+
+For a code walkthrough, also run the source and navigation checks in
+`references/code-walkthrough.md`; a module diagram with prose alone does not
+satisfy that form.
 
 If direct `file://` loading is blocked, use an isolated local server rather than
 weakening browser security or interfering with an existing process. If browser

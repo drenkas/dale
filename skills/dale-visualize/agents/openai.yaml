@@ -1,4 +1,4 @@
 interface:
   display_name: "Dale Visualize"
-  short_description: "Create effective standalone HTML visuals"
-  default_prompt: "Use $dale-visualize to turn this material into a clear, self-contained HTML visualization."
+  short_description: "HTML visuals with linked code walkthroughs"
+  default_prompt: "Use $dale-visualize to turn this material into a self-contained HTML visualization; for code changes, show actual snippets, why each changed, and linked execution or data flow."

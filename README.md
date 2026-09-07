@@ -213,6 +213,10 @@ artifact.
 - selects one primary pattern and at most two supporting patterns from
   Anthropic's MIT-licensed `html-effectiveness` examples;
 - adapts the information shape instead of copying fictional sample content;
+- explains code changes through actual diffs or before/after snippets with
+  source locations, the reason for each change, and connected execution or data
+  flow; supports Previous/Next navigation, selectable branches, and collapsible
+  groups of related fragments;
 - defaults to standalone HTML with inline CSS, SVG, and minimal JavaScript;
 - uses interaction only when it improves understanding or enables a decision;
 - preserves source evidence and labels unknowns instead of inventing data;

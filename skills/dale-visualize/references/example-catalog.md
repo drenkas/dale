@@ -36,6 +36,9 @@ required by `SKILL.md` when substantially adapting code.
 
 ## Useful combinations
 
+- Code changes: read `code-walkthrough.md`; use `04` for the linked source tour,
+  `03` for actual before/after excerpts, and `13` when branch navigation is
+  needed. Keep code, rationale, and the next connected fragment together.
 - Architecture or runtime explanation: `04` as the page skeleton plus `13` for
   branching flow details.
 - Technical decision: `01` for alternatives plus a focused diagram technique
