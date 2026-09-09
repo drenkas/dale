@@ -9,22 +9,21 @@ It is authoritative for available models and supported efforts.
 
 | Route | Model ID | Evidence-task use | Normal thinking range |
 |---|---|---|---|
-| Luna standard | `gpt-5.6-luna` | Bounded lookup, repository sweep, extraction, or narrow measurement | `low` to `medium` |
-| Luna deep | `gpt-5.6-luna` | Coupled investigation, technical comparison, or evidence that needs substantial interpretation | `xhigh` to `max` |
+| Luna standard | `gpt-5.6-luna` | Bounded lookup, repository sweep, extraction, or narrow measurement | `high` |
+| Luna deep | `gpt-5.6-luna` | Coupled investigation, technical comparison, or evidence that needs substantial interpretation | `high` or `max` |
 | Astra | `gpt-6-astra` | Rare, consequential ambiguity where deep cross-domain reasoning can materially change the evidence conclusion | `high` |
 
-At authoring time, Luna accepts `low`, `medium`, `high`, `xhigh`, and `max`;
-Astra accepts the same efforts plus `ultra`. The live schema outranks this snapshot. If no allowed
+Dale routes Luna only at `high` or `max`. Validate the chosen effort against
+the live schema. Astra efforts are also validated against the live schema. If no allowed
 Luna or Astra route is available, omit overrides and report the fallback rather than
 inventing an id.
 
-Choose the cheapest sufficient route. Start with Luna, raise it to `xhigh` or
-`max` for real coupling or interpretation, and use Astra only for a concrete
-high-consequence reason. Use `low` for mechanical work, `medium` for normal
-investigation, and `xhigh` or `max` for complex evidence analysis. Never
+Choose the cheapest sufficient route. Start with Luna, raise it to `max` for real coupling or interpretation, and use Astra only for a concrete
+high-consequence reason. Use `high` for mechanical work and normal investigation, and `max` for
+complex evidence analysis that benefits from deeper reasoning. Never
 inherit Astra or elevated effort from the coordinator by default.
 
-Use `xhigh` only for a named, unusually difficult reasoning bottleneck. Use
+Use Astra `xhigh` only for a named, unusually difficult reasoning bottleneck. Use
 `max` only after a cheaper route failed or a uniquely high-stakes proof
 obligation clearly justifies it. Route `ultra` only to Astra and only when the
 live schema confirms that exact combination. Present the chosen model, effort,
