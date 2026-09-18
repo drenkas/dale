@@ -1,161 +1,59 @@
 ---
 name: dale-proof
-description: Verify an existing implementation, fix, migration, deployment, runtime behavior, compatibility boundary, or other technical claim by mapping atomic claims to direct, fresh, reproducible primary signals and returning scoped PROVEN, PARTIAL, UNPROVEN, or CONTRADICTED verdicts with a compact proof capsule. Use when the user invokes $dale-proof, selects Dale Proof through /skills, asks to prove, verify, confirm, or validate whether a technical result is actually true, or needs claimed success separated from available evidence. Do not use as a general code-review, implementation, remediation, independent-review, or orchestration workflow.
+description: Verify a concrete technical claim against direct, fresh evidence. Use for implementation, migration, deployment, runtime, or compatibility claims.
 ---
 
 # Dale Proof
 
-Establish what the available evidence actually proves. Work backward from a
-technical claim to the shortest decisive observation; never promote source
-inventory, green secondary checks, or plausible reasoning into runtime truth.
+Test a claim at its stated boundary and return `PROVEN`, `PARTIAL`, `UNPROVEN`,
+or `CONTRADICTED`. Verification is read-only unless the user separately asks
+for remediation.
 
-## Verify without repairing
+## Boundary and authority
 
-- Treat the supplied result as an object to verify, not a request to fix it.
-  Diagnose or implement only when the user separately asks.
-- Default to read-only inspection and non-destructive validation. Do not deploy,
-  restart, promote, mutate production data, alter configuration, or perform a
-  real external transaction merely to obtain proof.
-- Preserve dirty worktrees and live systems. Never mutate Git, expose secrets,
-  print raw environment values, or capture sensitive payloads.
-- Stay in the current task. Do not create Codex tasks, subagents, or review
-  swarms merely to make the verdict look independent.
-- Describe same-agent verification honestly. Dale Proof checks evidence but does
-  not provide reviewer independence; use a separately authorized review workflow
-  when independence itself is an acceptance criterion.
-- Ask for new authority only when the decisive signal requires a sensitive,
-  destructive, or externally mutating action. Otherwise gather the strongest
-  safe evidence available and bound the verdict accordingly.
+- Preserve material quantifiers, target, revision, environment, time window,
+  side effects, and forbidden outcomes. Split the claim into atomic obligations.
+- Use the shortest evidence path that can observe each obligation. Source can
+  prove implementation; tests can prove exercised cases; only matching runtime
+  evidence can prove deployment or user-visible behavior.
+- Treat absent, inaccessible, stale, or indirect evidence as `UNPROVEN`, not as
+  success or contradiction. Direct falsification is `CONTRADICTED`; mixed or
+  incomplete coverage is `PARTIAL`.
+- Do not edit code, redeploy, restart, mutate data, trigger production side
+  effects, or broaden permissions merely to obtain proof. Stop at the authority
+  boundary and identify the missing signal.
+- Redact secrets, credentials, private payloads, raw environment values, and
+  unnecessary personal data. Do not run an unsafe reproduction.
 
-Read `references/proof-contract.md` completely before gathering evidence.
+Read [the detailed proof contract](references/proof-contract.md) only when the
+claim needs its domain patterns, evidence-quality rubric, contradiction method,
+or full proof-capsule schema. For a narrow claim, the rules above are sufficient.
 
-## Build the proof
+## Verify
 
-### 1. Normalize the claim
+1. Restate the original claim and exact evidence boundary. Resolve cheap,
+   non-material ambiguity from context; ask only when different answers would
+   change the verdict.
+2. Map each atomic obligation to its primary signal and the smallest safe check.
+   Record target identity, revision, time, command or source, result, and
+   coverage. A command name or green exit alone is not the observation.
+3. Reconcile conflicts by directness, target fit, freshness, reproducibility,
+   coverage, and source integrity. Keep unresolved version or boundary drift
+   explicit.
+4. Assign atomic verdicts, then compose the overall verdict deterministically:
+   any material `CONTRADICTED` makes the whole claim `CONTRADICTED`; all
+   material obligations must be `PROVEN` for overall `PROVEN`; a non-contradictory
+   mix with at least one `PROVEN` or `PARTIAL` is `PARTIAL`; an all-`UNPROVEN`
+   set is `UNPROVEN`.
 
-Preserve the user's original claim before bounding it. Split it into atomic
-material claims without dropping quantifiers, named environments, side effects,
-user-visible outcomes, or forbidden outcomes. Map every material phrase from
-the original claim to an atomic claim or an explicit uncovered obligation. For
-each atomic claim record:
+## Return the proof capsule
 
-- exact subject and expected behavior;
-- target environment, revision, identity, and time window;
-- success and failure observations;
-- forbidden side effects;
-- strongest available primary signal;
-- inaccessible surfaces that limit certainty.
+Lead with the overall verdict and verified boundary. Include the atomic claim
+table, direct primary signal, supporting evidence, failed or unavailable
+checks, contradictions, freshness and coverage limits, and at most one next
+decisive check when it could change the verdict.
 
-Do not silently broaden “the tested case works” into “the feature always works,”
-or “a deployment succeeded” into “that revision serves user traffic.” Do not
-silently narrow an unbounded or universal claim to the tested slice. If a safe
-verification can cover only a narrower scope, keep that evidence scoped and
-make the original overall claim `PARTIAL` or `UNPROVEN`.
-
-### 2. Choose the shortest sufficient evidence ladder
-
-Start with the cheapest signal that can falsify the claim, then climb only while
-a material obligation remains unresolved:
-
-1. source and configuration;
-2. focused static or type checks;
-3. targeted behavioral tests or isolated reproduction;
-4. producer-consumer or integration observation;
-5. actual runtime, deployed target, or user-visible behavior.
-
-Higher cost does not automatically mean stronger proof. Match the signal to the
-claim. A targeted contract test may directly prove a library boundary; a green
-pipeline cannot prove that production is serving its artifact.
-
-Prefer existing repository commands and the narrowest safe test. Run a wider
-suite only when coupling or regression scope justifies it. Treat every non-zero
-exit, failed assertion, runtime error, or unavailable required surface as
-material evidence, never as noise to hide.
-
-### 3. Capture evidence as evidence
-
-For every material observation retain the target, revision or identity,
-environment, timestamp or freshness, exact non-secret command or source,
-result, scope, and limitation. Redact credentials and private data before they
-enter a command, log, screenshot, task, or final answer.
-
-Distinguish:
-
-- declared behavior in documentation or schemas;
-- implemented behavior in code;
-- exercised behavior in tests;
-- observed behavior in an integration or runtime;
-- user-visible outcome at the requested surface.
-
-Repetition does not turn indirect evidence into a primary signal.
-
-### 4. Reconcile contradictions
-
-Do not vote across sources. Compare directness, target fit, revision identity,
-freshness, reproducibility, and covered scope. Preserve contradictions that
-cannot be resolved safely. A fresher production observation may describe the
-live boundary while an authoritative schema still proves a declaration drift;
-report both instead of forcing one global truth.
-
-### 5. Assign scoped verdicts
-
-Use only these claim verdicts:
-
-- `PROVEN` — direct evidence satisfies the atomic claim within the stated scope
-  and no material contradiction remains;
-- `PARTIAL` — some material obligations are directly supported, but the full
-  claim exceeds the observed scope;
-- `UNPROVEN` — adequate evidence is absent or inaccessible; this does not mean
-  the claim is false;
-- `CONTRADICTED` — direct evidence falsifies a material part of the claim.
-
-Compose the overall verdict deterministically:
-
-1. return `CONTRADICTED` if any material atomic claim is contradicted;
-2. otherwise return `PROVEN` only if every material atomic claim is proven;
-3. otherwise return `PARTIAL` if at least one material atomic claim is proven or
-   partial;
-4. otherwise return `UNPROVEN`.
-
-If the required runtime or user-visible signal is unavailable, never substitute
-source inspection or local green tests for it; return `PARTIAL` or `UNPROVEN`
-under this composition rule and name the missing observation exactly.
-
-## Return a proof capsule
-
-Keep the result in the conversation unless the user asks for a persisted
-artifact. Use this compact contract:
-
-```text
-claim: <original claim, preserving material quantifiers>
-verified scope: <exact narrower scope, if any>
-target: <environment / revision / identity / time>
-verdict: PROVEN | PARTIAL | UNPROVEN | CONTRADICTED
-
-atomic claims:
-- <claim> — <verdict> — <direct evidence or missing signal>
-
-primary signal: <strongest observation and result>
-supporting evidence: <useful but weaker observations>
-contradictions: <preserved conflicts or none>
-checks not passed: <failed, blocked, skipped, and unavailable checks>
-coverage boundary: <what was not exercised>
-reproduction: <exact safe command or observation path, when available>
-next decisive check: <one minimal check, only when it could change the verdict>
-```
-
-Lead with the verdict and primary signal. State exact checks run and every
-failed or blocked check. Avoid dumping raw logs when a precise result and source
-pointer carry the evidence.
-
-## Refuse false closure
-
-Absence claims require an explicit search universe and detection capability;
-otherwise they remain unproven. Scheduled delivery requires evidence of the
-send or receive path, not merely a healthy scheduler. Deployment readiness
-requires the actual serving identity and requested behavior, not only a passed
-pipeline. A test inventory proves that tests exist, not that they passed.
-
-End when each material atomic claim has a verdict, the primary signal is named,
-and the remaining uncertainty is explicit. Do not continue into remediation or
-another Dale workflow without a new user request.
+Never let code inspection imply execution, a test imply deployment, a healthy
+producer imply downstream receipt, or lack of observed failures imply universal
+absence. If the requested boundary cannot be fully observed, return `PARTIAL`
+or `UNPROVEN` according to the atomic coverage.

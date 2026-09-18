@@ -15,17 +15,18 @@ It is authoritative for available models and supported efforts.
 
 Dale routes Luna only at `high` or `max`. Validate the chosen effort against
 the live schema. Astra efforts are also validated against the live schema. If no allowed
-Luna or Astra route is available, omit overrides and report the fallback rather than
-inventing an id.
+Luna or Astra route is available, report the conflict rather than inventing an
+ID or silently changing an already approved route. Re-propose a supported route
+and obtain approval before dispatch.
 
 Choose the cheapest sufficient route. Start with Luna, raise it to `max` for real coupling or interpretation, and use Astra only for a concrete
 high-consequence reason. Use `high` for mechanical work and normal investigation, and `max` for
 complex evidence analysis that benefits from deeper reasoning. Never
 inherit Astra or elevated effort from the coordinator by default.
 
-Use Astra `xhigh` only for a named, unusually difficult reasoning bottleneck. Use
-`max` only after a cheaper route failed or a uniquely high-stakes proof
-obligation clearly justifies it. Route `ultra` only to Astra and only when the
+Use Astra `xhigh` only for a named, unusually difficult reasoning bottleneck.
+Use Luna `max` when the evidence analysis genuinely benefits from deeper
+reasoning; no failed cheaper attempt is required. Route `ultra` only to Astra and only when the
 live schema confirms that exact combination. Present the chosen model, effort,
 and reason with the evidence-task proposal so the user can override or decline
 it.

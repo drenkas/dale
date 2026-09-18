@@ -19,8 +19,9 @@ Route only among these Luna and Astra roles when they are currently available:
 
 Dale routes Luna only at `high` or `max`. Validate the chosen effort against
 the live schema. Astra efforts are also validated against the live schema. If no allowed
-Luna or Astra route is available, omit overrides and report the fallback instead of
-inventing a model id.
+Luna or Astra route is available, omit automatic overrides and report the
+fallback instead of inventing a model ID. If the user required a specific route,
+report the conflict and do not substitute it silently.
 
 ## Selection procedure
 
@@ -34,7 +35,7 @@ For every ready node:
 3. Start with Luna at `high`; raise the effort to `max`
    only when the node needs substantial implementation or reasoning, and
    promote to Astra only when stronger capability would materially reduce
-   confidence or create likely rework.
+   uncertainty, error risk, or likely rework.
 4. Pick effort separately: `high` for mechanical work and ordinary
    reasoning, and `max` for complex work or independent proof.
 5. Record a one-line reason that names the workload property which justified the

@@ -23,7 +23,9 @@ Dale routes Luna only at `high` or `max`; use `high` for bounded work and
 
 ## Selection
 
-1. Obey explicit user constraints that fit the live Luna and Astra catalog.
+1. Obey an explicit user-approved model and effort when the live schema supports
+   that exact combination. If it does not, report the conflict and do not
+   substitute another route without the user's resolution.
 2. Use Luna for bounded mechanical work whose correctness does not depend on
    deeper synthesis.
 3. Use Luna with `high` or `max` reasoning for substantial implementation or

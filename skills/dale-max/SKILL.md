@@ -1,224 +1,98 @@
 ---
 name: dale-max
-description: Run a maximum-assurance resident-worker orchestration loop with persistent forked Codex threads, thread-local task-derived subagents, plan review, synthesis, an explicit pass gate, and progress-gated revision feedback without preset cost, token, reviewer-count, or cycle budgets. Use only when the user explicitly invokes $dale-max, selects Dale Max through /skills, or directly asks to run Dale Max for consequential implementation, debugging, migration, audit, or delivery work.
+description: Run an explicit-only resident worker and review loop for consequential implementation, debugging, migration, audit, or delivery work.
 ---
 
 # Dale Max
 
-Execute the fixed control loop shown in `assets/dale-max-graph.png`. Dale Max is
-the deliberate, high-assurance companion to Dale Graph: Dale Graph creates a
-unique topology from the task; Dale Max keeps this review-and-revision topology
-while generating its reviewer lenses, evidence obligations, and routes from the
-task at runtime.
+Own one consequential outcome through implementation, independent challenge,
+revision, and direct proof. Keep persistent resident threads for continuity;
+add ephemeral reviewers only when a distinct risk or evidence question warrants
+one.
 
-## Require explicit invocation
+## Authority
 
-- Run only after explicit `$dale-max` selection, selection through `/skills`, or
-  a direct request to run Dale Max. Do not activate it implicitly for an
-  ordinary difficult task.
-- Explicit use authorizes visible Codex thread creation, thread-local
-  subagents, and per-node Luna and Astra routing. It does not authorize new
-  permissions, destructive actions, external writes, Git mutation, or ignored
-  repository instructions.
-- If Codex thread tools or resident-thread `spawn_agent` capability are
-  unavailable, report the blocker. Do not simulate resident threads inside one
-  response or replace them with coordinator-local subagents.
+- Explicit invocation authorizes the visible Codex tasks required by this loop
+  and task-matched Luna/Astra routing. It does not authorize broader product
+  scope, external writes, Git history changes, deployment, or deletion.
+- Keep created tasks visible and user-owned. Do not archive or hand them off
+  unless asked. Created tasks must not create other visible Codex tasks.
+- Use one mutating writer per shared checkout. Read-only reviewers may run in
+  parallel; route requested edits back to the resident Worker.
+- Prefer a saved project's local checkout. Use projectless tasks only when no
+  repository is involved.
+- If task creation is unavailable, report the blocker rather than silently
+  substituting another orchestration mode.
+- Explicit invocation grants intent, not tool capability; obey live task and
+  model schemas when dispatching.
 
-## Map the graph to Codex
+Read [node contracts](references/contracts.md) before dispatch. Read
+[model routing](references/model-routing.md) when choosing or changing a route.
 
-Keep two green resident Codex threads across feedback cycles. A resident node
-must be created with `fork_thread` or the `create_thread` fallback; never create
-it with `spawn_agent`:
+## Shape the run from the proof obligation
 
-1. **Worker** — a visible fork of the calling thread that owns the implementation
-   or primary artifact.
-2. **Reviewer 1 / Lead Reviewer** — a separate visible fork that owns
-   adversarial review and dispatches fresh, task-derived reviewer subagents.
+Define the requested outcome, authority, acceptance criteria, forbidden
+outcomes, and primary observable signal. Inspect repository instructions and
+live state before writing a plan. Use the smallest graph that can produce and
+challenge the result:
 
-Run the white nodes ephemerally:
+- a persistent Resident Worker owns implementation and integration;
+- a persistent Lead Reviewer owns independent review and synthesis;
+- an ephemeral Plan Reviewer is useful only when a mistaken plan would be
+  costly;
+- additional ephemeral reviewers each own one concrete risk, boundary, or
+  falsification question.
 
-- **Planner, Synthesizer, Pass Gate, and Final Compressor** are phases owned by
-  the calling coordinator.
-- **Reviewer 2..N** are fresh `spawn_agent` subagents of Lead Reviewer. Each
-  receives the Worker's raw artifact directly as input so the logical
-  Worker-to-reviewer edges in the diagram remain intact. Create only the lenses
-  justified by the current artifact and failure modes; there is no stock role
-  list and no target reviewer count.
-- **Plan Reviewer** is a fresh coordinator-local `spawn_agent` subagent. Run a
-  preflight review as soon as Planner produces the plan, then run a fresh result
-  review for each material cycle. It compares plan, result, and evidence without
-  inheriting the coordinator's intended verdict.
-- Worker and Lead Reviewer may each spawn one bounded layer of node-local
-  subagents when their own work contains genuinely independent parts. No
-  subagent may create another agent or Codex thread.
+Do not invent a reviewer count, cycle count, token spend, or model tier. Honor
+budgets and limits supplied by the user. Add a node only when its answer can
+change the work or verdict. Redact credentials, tokens, raw environment values,
+private keys, and unnecessary personal data from ledgers and task prompts.
 
-Read `references/contracts.md` before dispatching any node. Read
-`references/model-routing.md` before selecting models or reasoning effort.
+## Create and track resident tasks
+
+Resolve the exact saved project with `list_projects`. Create the Worker and Lead
+Reviewer with complete initial prompts, explicit routes, titles, ownership,
+evidence requirements, and stop conditions. Fork persistent successors only
+when continuity is needed and the source task has completed history.
+
+Maintain the run ledger defined in `references/contracts.md`. Persist every
+returned `threadId`, `hostId`, route, status, and wait cursor immediately. A
+known real ID is authoritative; listings are discovery aids, not proof of
+absence. Never pass a `clientThreadId` where a `threadId` is required. Ambiguous
+creation blocks recreation unless the service proves that no task was created.
 
 ## Run the control loop
 
-### 1. Plan against observable proof
+1. Let the Worker inspect, plan, and identify the primary signal. If plan risk
+   warrants it, ask one Plan Reviewer to challenge concrete assumptions before
+   implementation.
+2. Let the Worker implement the coherent task and run proportionate checks.
+   Keep unrelated user changes intact and keep all repository writes with this
+   one owner. Its output already exists in the shared checkout: inspect and
+   validate that actual state, never replay or reapply a reported patch.
+3. Give reviewers the exact revision, diff, requirements, and evidence boundary.
+   Keep their prompts independent: do not pre-state the desired verdict or copy
+   another reviewer's conclusion.
+4. The Lead Reviewer synthesizes raw reviewer evidence. The coordinator then
+   applies the final pass gate to the actual checkout and direct evidence.
+   Conflicts remain explicit; majority agreement is not proof.
+5. For a failed gate, send the Worker only actionable findings and the failed
+   primary signal. After revision, review the complete new result again. If two
+   revisions do not move the same signal, reframe the cause or evidence need.
 
-Preserve the user's exact intent and wording, but replace any credential, token,
-secret, raw `.env` value, or private key material with an explicit redaction
-before storing or forwarding it. Define the outcome, acceptance criteria,
-forbidden outcomes, authority boundary, artifacts, direct primary evidence,
-and failure conditions. Do not impose a cost, token, reviewer-count, dispatch,
-or cycle budget. Generate every independent review lens that could materially
-change the verdict and schedule all of them in as many batches as live capacity
-requires.
+Use `wait_threads` with retained cursors and bounded waits. A timeout with live
+progress is not failure. Use `read_thread` only when the wait result omits
+material evidence. A route may change on a later follow-up when the workload
+changes; never claim to reroute a turn already running.
 
-Do not ask for confirmation unless the plan needs new authority or a material
-user choice. Show the compact execution contract and routing before dispatch:
+## Completion
 
-```text
-DALE MAX
-outcome: <observable result>
-stop: <evidence-based terminal and re-plan conditions>
-resident worker: <scope> — <Luna or Astra model / thinking> — <reason>
-resident reviewer: <scope> — <Luna or Astra model / thinking> — <reason>
-review lenses: generated after inspecting the artifact; no preset count
-proof: <criterion -> direct signal>
-```
+Finish only when the coordinator gate returns `PASS`, every acceptance
+criterion has direct evidence at the claimed boundary, and every created task
+has a real ID and terminal state. Report code/static, test, browser, and
+deployed/runtime evidence separately so one level does not imply another.
 
-### 2. Review the plan and fork the resident threads
-
-Spawn the first ephemeral Plan Reviewer as soon as the plan exists. Run it in
-parallel with resident setup when safe; if it finds a material plan flaw before
-Worker proceeds irreversibly, revise or steer the plan first. This preserves the
-diagram's direct `Planner -> Plan Reviewer` edge instead of reviewing the plan
-only after implementation.
-
-Prefer `fork_thread` without `threadId` so both resident nodes inherit the
-calling thread's completed history and project context. An active user turn and
-unfinished response are not inherited, so send the current request with secret
-values redacted plus the complete role contract immediately with
-`send_message_to_thread`.
-
-- Use a same-directory fork for every resident node. Do not create a worktree.
-- Treat each repository's branch, index, and working tree as one mutation
-  resource. Only one mutating resident or subagent may run there at a time,
-  even for disjoint paths; read-only review may remain concurrent.
-- Use `create_thread` only when forking is unavailable; pass all context
-  explicitly, label it as a fresh fallback, and target the exact saved project
-  with `target.environment.type: "local"`.
-- Title nodes `Dale Max · <run> · Worker` and
-  `Dale Max · <run> · Reviewer 1`.
-- Keep threads visible and user-owned. Never archive them unless asked.
-- Never commit, merge, stash, reset, push, or delete unless explicitly asked.
-
-In the first `send_message_to_thread` prompt for **each** resident thread,
-include this authority block:
-
-```text
-RESIDENT CODEX THREAD
-You are a visible resident Codex thread, not a coordinator-local subagent.
-You are explicitly authorized to use your local `spawn_agent` tool for
-independent work inside your role, read/write scope, and current permissions.
-Subagent use is adaptive, but the capability must be available. Inspect your
-live tool surface before work. If `spawn_agent` is unavailable or multi-agent
-work is disabled, return `SUBAGENT_CAPABILITY: UNAVAILABLE` and `STATUS:
-BLOCKED`; do not simulate delegation. Every spawned subagent is one level deep
-and must create neither subagents nor Codex threads.
-```
-
-Do not infer this authority from inherited history alone. Send it explicitly to
-Worker and Reviewer 1 on their first turn and preserve it on later feedback
-turns. Record `SUBAGENT_CAPABILITY: AVAILABLE | UNAVAILABLE` for both resident
-thread IDs before accepting their artifacts.
-
-Require the Worker to report exact diffs, changed artifacts, and validation.
-Its changes already exist in the shared destination checkout, so after review
-inspect that current state and run primary validation there; never replay or
-reapply the Worker's patch. Issue `PASS` only for the reviewed checkout state.
-Failed validation returns `REVISE`; if a safe correction is impossible within
-current authority, return `BLOCKED`. A Worker report alone is not a delivered
-result.
-
-Create Reviewer 1 at the start, but send it the candidate artifact only
-after Worker returns one. The reviewer must not be primed with the desired
-conclusion.
-
-### 3. Produce, fan out, and synthesize
-
-Worker returns one artifact plus exact evidence. Forward that raw artifact,
-without coordinator synthesis or a desired verdict, to Reviewer 1. Reviewer 1
-derives material failure modes and creates Reviewer 2..N with
-`spawn_agent` only when independent lenses improve confidence. It passes the
-same raw Worker artifact to each reviewer and integrates their raw reports
-without majority voting. Live concurrency limits only scheduling, not coverage:
-queue additional batches until every material lens has completed or reached a
-real `BLOCKED` state. Never drop a material lens merely to save time, tokens, or
-model spend.
-
-In parallel with artifact review when capacity allows, spawn a fresh result-mode
-Plan Reviewer with the original plan, preflight feedback, actual result,
-validation, and discovered constraints. It identifies plan drift, missing
-obligations, and unnecessary work; it does not rewrite the deliverable.
-
-The coordinator then synthesizes:
-
-- worker artifact and primary-signal evidence;
-- Reviewer 1 report and raw ephemeral reviews;
-- Plan Reviewer verdict;
-- repository/runtime evidence gathered directly by the coordinator.
-
-Resolve contradictions by directness, freshness, source quality, and fit. Never
-average reviewer opinions or hide unresolved uncertainty.
-
-### 4. Gate and revise
-
-Evaluate every acceptance criterion and return exactly one internal verdict:
-
-- `PASS` — direct evidence satisfies every material criterion;
-- `REVISE` — a bounded correction by the resident Worker can plausibly pass;
-- `REJECT` — the approach is structurally wrong or unsafe;
-- `BLOCKED` — required authority, input, dependency, or runtime is unavailable.
-
-On `REVISE`, send precise failed criteria, evidence, and the smallest required
-change back to the same resident Worker. Reuse Reviewer 1 for continuity;
-spawn fresh ephemeral reviewers when the artifact or failure modes changed.
-Spawn a fresh Plan Reviewer for the next material cycle.
-
-If two revisions fail to move the same primary signal, stop patching harder and
-re-plan with a different evidence path or approach. If re-planning cannot
-produce a credible way to move that signal, return `REJECT` or `BLOCKED` rather
-than repeating the same loop. Continue otherwise until `PASS`, `REJECT`,
-`BLOCKED`, or explicit user interruption.
-
-### 5. Compress the passed result
-
-The image's “Turn into haiku” node means editorial compression by default, not
-a literal 5-7-5 poem. After `PASS`, produce the shortest complete outcome-first
-handoff that still states:
-
-- what changed or was proved;
-- the exact primary signal and status;
-- remaining risk, if any;
-- created resident thread directives.
-
-Write a literal haiku only when the user asks for one. Do not let compression
-erase evidence, blockers, safety notes, or requested detail.
-
-## Keep a run ledger
-
-Track the state from `references/contracts.md` after every node completion.
-The coordinator conversation ledger is the authoritative resident-task
-registry. Persist every exact returned `threadId`, `hostId`, `projectId`, title,
-status, and wait cursor immediately and preserve it in continuation summaries.
-Use known IDs directly for read, send, and wait; `list_threads` is optional
-discovery only and cannot gate them or prove absence. Validate a user-supplied
-actual ID with `read_thread` before adoption. Never use a `clientThreadId` as a
-real ID; an unexpected client ID or ambiguous creation blocks recreation.
-Wait in bounded intervals, reuse task wait cursors, and re-evaluate as soon as a
-resident node needs attention. A running turn cannot be rerouted in place;
-change model or thinking only on a later follow-up when its workload materially
-changed.
-
-## Completion contract
-
-Report the plan, resident thread IDs and subagent capability checks, ephemeral
-reviewers, cycle verdicts, rejected findings, accepted artifact, exact final
-validation, and remaining risk. Include one `::created-thread` directive per
-visible resident thread with a real `threadId`. Never emit a directive for a
-`clientThreadId`-only result or subagent.
+If a task is blocked or creation remains uncertain, report the exact ID or
+diagnostic identifier and reason without claiming completion. Return one
+`::created-thread` directive for each successfully created task with a real
+`threadId`; never emit one for a client-only or ambiguous result.

@@ -1,6 +1,6 @@
 ---
 name: dale-loop-project
-description: Orchestrate a multi-stage engineering project through dynamically grouped or stacked Codex tasks, branches, pull requests, independent reviews, remediation cycles, and merge. Use when one goal needs multiple PRs or when the user wants a project carried autonomously from plan to merged changes.
+description: Carry a multi-stage engineering goal through dependency-aware pull requests, independent review, remediation, and authorized merges. Use for explicit autonomous project delivery.
 ---
 
 # Dale Loop Project
@@ -15,8 +15,9 @@ Turn one engineering goal into a dependency-aware PR graph and carry it to merge
 4. Create each ready task in the exact saved project's `local` environment; do
    not create worktrees. Because tasks share the branch, index, and working
    tree, run at most one mutating task or subagent per repository at a time,
-   including for disjoint paths. Require a `codex/` branch, behavioral
-   verification where possible, repository checks, commit, push, and ready PR.
+   including for disjoint paths. Use a `codex/` branch and require commit, push,
+   or PR creation only when those individual actions are authorized. Otherwise
+   prepare and verify the concrete local result.
    Before each writer starts, verify the checkout is clean enough to transition
    without losing user work and is on the intended starting state: the default
    base for a new independent unit, its predecessor branch for a new stacked
@@ -26,10 +27,14 @@ Turn one engineering goal into a dependency-aware PR graph and carry it to merge
 5. Reconcile every report with live GitHub state. When a PR head first appears or changes, create a fresh independent review task with the acceptance criteria, diff, and verification evidence.
 6. Create a fresh remediation task for active valid findings. Re-review the new head. Stop after three unsuccessful cycles or an earlier ambiguous/destructive blocker.
 7. Treat a PR as clean only when required checks pass, independent review has no actionable findings, GitHub has no unresolved thread or active change request, the diff is in scope, and the PR is mergeable.
-8. Squash-merge clean PRs in dependency order and delete remote branches. Update or retarget dependent work against the merged base, then rerun checks and review.
+8. When explicitly authorized, squash-merge clean PRs in dependency order.
+   Delete remote branches only with separate authority. Update or retarget
+   dependent work against the merged base, then rerun checks and review.
 9. Finish with task ids, branches, PRs, checks, review cycles, merge commits, and blockers.
 
 Never let an implementation task approve its own work. Never merge silence as approval.
+Treat monitoring, local repair, commit, push, PR creation, merge, and branch
+deletion as distinct authorities; completing one does not authorize the next.
 
 ## Task registry
 

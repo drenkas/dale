@@ -1,6 +1,6 @@
 ---
 name: dale-coach
-description: Review recent Codex task history through one or two visible GPT-5.6 Luna Max coach tasks and return evidence-backed advice about prompting, model and skill selection, delegation, authority, validation, and workflow efficiency. Use when the user explicitly invokes $dale-coach, selects Dale Coach through /skills, or directly asks to run Dale Coach on named Codex tasks or a recent time window. Do not use implicitly for ordinary Codex questions because this skill reads task history and creates visible coach tasks.
+description: Audit named or recent Codex tasks with Luna Max and return evidence-backed workflow improvements. Use only for an explicit Dale Coach retrospective.
 ---
 
 # Dale Coach
@@ -9,11 +9,8 @@ Turn recent Codex work into a bounded retrospective. Survey every selected task,
 deep-read the tasks that carry material evidence, and recommend only changes
 that are supported by the user's actual history.
 
-## Require explicit use
+## Authority
 
-- Run only after explicit `$dale-coach` invocation, selection through `/skills`,
-  or a direct request to run Dale Coach. An ordinary question about Codex does
-  not authorize reading task history or creating tasks.
 - Treat explicit use as authorization for read-only `list_threads` and
   `read_thread` access plus the one or two visible coach tasks defined here. It
   does not authorize source-task messages, filesystem or Git mutation,
@@ -40,8 +37,8 @@ that are supported by the user's actual history.
 - Do not send messages to source tasks or alter their state. A coach observes;
   it does not correct the historical record.
 
-Read `references/coach-contract.md` completely before selecting or dispatching
-coach tasks.
+Read `references/coach-contract.md` before dispatch; it defines the evidence and
+output contract.
 
 ## Select a recent cohort
 
@@ -138,5 +135,5 @@ the discovery cap, inaccessible tasks, and any partial validation. If no
 material improvement survives the evidence gate, say so plainly rather than
 manufacturing recommendations.
 
-Include one exact `::created-thread` directive per coach task in the final
-response, using the returned `threadId` or `clientThreadId`.
+Include one exact `::created-thread` directive per coach task only when creation
+returned a real `threadId`. A `clientThreadId` is setup evidence, not a task ID.

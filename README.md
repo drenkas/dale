@@ -71,8 +71,6 @@ decision impact, and remaining unknowns.
 
 ### `$dale-index`
 
-![Dale Index architecture](assets/dale-index.png)
-
 Turns the current repository into six evidence-backed project primitives:
 
 | Primitive | Source of truth for |
@@ -84,9 +82,10 @@ Turns the current repository into six evidence-backed project primitives:
 | `DESIGN.md` | Visual language, primitives, states, and accessibility |
 | `DECISIONS.md` | Durable decisions, alternatives, evidence, and consequences |
 
-Dale launches three parallel, read-only discovery tasks, then sends their raw
-reports through an adversarial evidence verifier. The calling task is the sole
-integrator and writes only claims that survive verification.
+Dale creates only the read-only discovery roles justified by distinct evidence
+boundaries. It adds an adversarial verifier when contradictions or unsupported
+claims make independent checking useful. The calling task is the sole
+integrator.
 
 Each visible task is routed independently across Luna and Astra, using `xhigh`
 or `max` reasoning when deeper work requires it.
@@ -154,34 +153,24 @@ own completion claim is never sufficient proof.
 
 ### `$dale-max`
 
-Runs a fixed high-assurance control loop for consequential work. Unlike Dale
-Graph, which creates its topology on the fly, Dale Max preserves the topology
-below while generating reviewer lenses, proof obligations, and model routes
-from the actual task.
-
-![Dale Max resident-worker review loop](skills/dale-max/assets/dale-max-graph.png)
+Runs a high-assurance resident-worker loop for consequential work. Unlike Dale
+Graph, it preserves Worker and Lead Reviewer continuity while adding plan or
+specialist reviewers only when a concrete risk warrants them.
 
 1. The coordinator plans the outcome and direct proof.
-2. A persistent forked Codex Worker thread produces the artifact, receives every
-   revision, and may spawn its own task-local subagents.
-3. A persistent forked Codex Reviewer 1 / Lead Reviewer thread creates fresh
-   Reviewer 2..N subagents with `spawn_agent` only for material, task-specific
-   failure modes.
-4. A fresh Plan Reviewer checks the initial plan, then another fresh instance
-   checks plan drift against each actual result.
+2. A persistent Codex Worker thread produces the artifact and owns every
+   revision.
+3. A persistent Lead Reviewer thread independently reviews and synthesizes the
+   evidence; it may add bounded reviewers for distinct material risks.
+4. A Plan Reviewer is added only when a mistaken plan would be costly.
 5. The coordinator synthesizes evidence and applies a `PASS`, `REVISE`,
    `REJECT`, or `BLOCKED` gate.
 6. Failed criteria loop back to the same Worker; a passed result is compressed
    into the shortest complete handoff.
 
-Green nodes in the diagram are resident forked Codex threads; white nodes are
-ephemeral phases or `spawn_agent` subagents. Every green thread receives
-explicit authority to spawn one level of task-local subagents and must report
-that the capability is available before its artifact can pass. “Turn into
-haiku” means concise editorial compression, not
-a literal poem unless requested. Dale Max is explicit-only because it runs an
-exhaustive review loop with no preset cost, token, reviewer-count, or cycle
-budget.
+Missing subagent capability does not block work unless delegated evidence is
+itself required. Dale Max is explicit-only and has no preset reviewer or
+revision count.
 
 ### `$dale-proof`
 
@@ -210,8 +199,9 @@ Turns code, architecture, research, plans, comparisons, reports, incidents,
 design systems, concepts, and editable decisions into a self-contained HTML
 artifact.
 
-- selects one primary pattern and at most two supporting patterns from
-  Anthropic's MIT-licensed `html-effectiveness` examples;
+- when a bundled example would help, selects one primary pattern and at most two
+  supporting patterns from Anthropic's MIT-licensed `html-effectiveness`
+  examples;
 - adapts the information shape instead of copying fictional sample content;
 - explains code changes through actual diffs or before/after snippets with
   source locations, the reason for each change, and connected execution or data

@@ -1,6 +1,6 @@
 ---
 name: dale-visualize
-description: Create self-contained HTML visualizations, including code walkthroughs with actual snippets, change rationale, and linked execution or data flow. Use when the user invokes $dale-visualize, selects Dale Visualize through /skills, or asks to turn code changes, architecture, research, plans, comparisons, reports, incidents, workflows, design systems, concepts, or editable decisions into a browser-readable visual artifact. Do not use for a production application, an image-only deliverable, or prose that gains nothing from spatial layout or interaction.
+description: Create a self-contained HTML visualization when spatial layout or interaction materially clarifies technical material or decisions. Skip production apps and prose-sufficient tasks.
 ---
 
 # Dale Visualize
@@ -30,10 +30,9 @@ requires an HTML artifact.
 
 ## Select examples deliberately
 
-Read `references/example-catalog.md` before implementation. Select one primary
-example whose information shape matches the task, then at most two secondary
-examples for a specific interaction or visual device. Inspect only those HTML
-files under `assets/examples/`.
+Read `references/example-catalog.md` only when a bundled example would speed up
+or improve the artifact. Select one primary example and at most two supporting
+examples, then inspect only those HTML files.
 
 Borrow structure, interaction ideas, and implementation techniques—not the
 fictional Acme content, arbitrary palette, or entire page composition. Generate

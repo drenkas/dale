@@ -76,7 +76,8 @@ You persist across revision cycles and own one integrated artifact. You may
 spawn bounded subagents with `spawn_agent` only for independent work inside
 your scope. First inspect your live tool surface. If `spawn_agent` is absent or
 multi-agent work is disabled, return `SUBAGENT_CAPABILITY: UNAVAILABLE` and
-`STATUS: BLOCKED`; do not simulate delegation. Otherwise return
+continue the owned work directly unless delegated evidence is an acceptance
+requirement. Otherwise return
 `SUBAGENT_CAPABILITY: AVAILABLE`. Give each subagent a narrower contract;
 require it not to create agents or Codex threads.
 Do not create Codex threads yourself. Do not hide user changes or claim a local
@@ -112,7 +113,8 @@ every independent material review lens inside this contract.
 Do not inherit the Worker's conclusion. Derive failure modes from this artifact
 and task. First inspect your live tool surface. If `spawn_agent` is absent or
 multi-agent work is disabled, return `SUBAGENT_CAPABILITY: UNAVAILABLE` and
-`VERDICT: BLOCKED`; do not simulate delegation. Otherwise return
+perform the lead review directly; block only when independent delegated
+evidence is a material acceptance requirement. Otherwise return
 `SUBAGENT_CAPABILITY: AVAILABLE`. Spawn fresh ephemeral reviewers with
 `spawn_agent` only for genuinely independent, material lenses; do not use a
 stock role list or target count. Each subagent is

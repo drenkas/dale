@@ -17,8 +17,9 @@ calling host; the destination host validates the final combination.
 
 Dale routes Luna only at `high` or `max`. Validate the chosen effort against
 the live schema. Astra efforts are also validated against the live schema. If no allowed
-Luna or Astra route is available, omit overrides and report the fallback instead of
-inventing a model id.
+Luna or Astra route is available, omit automatic overrides and report the
+fallback instead of inventing a model ID. If the user required a specific route,
+report the conflict and do not substitute it silently.
 
 ## Route each role from evidence
 
@@ -41,8 +42,8 @@ For every task:
 Discovery tasks must not default to Astra. A verifier does not automatically need
 Astra. Never assign `xhigh`, `max`, or `ultra` merely because the coordinator uses
 that setting. Use Astra `xhigh` only for an unusually difficult, consequential
-reasoning bottleneck that can be named; use `max` only after a cheaper route
-failed or a uniquely high-stakes proof obligation clearly justifies it. Route
+reasoning bottleneck that can be named; use Luna `max` when the owned analysis
+or proof obligation benefits from it, without requiring a prior failure. Route
 `ultra` only to Astra and only when the live schema confirms that combination.
 
 Model choice may change for an undispatched verifier or a later follow-up when

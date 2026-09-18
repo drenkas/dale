@@ -1,6 +1,6 @@
 ---
 name: dale-graph
-description: Synthesize and run a unique graph of visible Codex tasks, each able to orchestrate its own bounded node-local subagents, directly from the current request, repository boundaries, dependencies, evidence needs, and runtime discoveries. Use when the user invokes $dale-graph, selects Dale Graph through /skills, explicitly asks for a task graph or multiple Codex threads, or wants complex work decomposed into adaptive roles and relationships created on the fly instead of selected from predefined graph patterns.
+description: Build an adaptive graph of visible Codex tasks from deliverable, dependency, ownership, and proof boundaries. Use for explicit graph-shaped orchestration.
 ---
 
 # Dale Graph
@@ -22,8 +22,10 @@ gates, and execution order justified by distinct work or evidence boundaries.
   `read_thread`, and `send_message_to_thread`. If `create_thread` is unavailable,
   report `BLOCKED`; do not simulate the graph with hidden agents or another task
   creation mechanism.
-- Read [graph synthesis](references/graph-synthesis.md), [model routing](references/model-routing.md),
-  and [node subagents](references/node-subagents.md) before dispatch.
+- Read [graph synthesis](references/graph-synthesis.md) before dispatch and
+  [model routing](references/model-routing.md) when selecting routes. Read
+  [node subagents](references/node-subagents.md) only for a node that genuinely
+  needs node-local delegation.
 
 ## Synthesize and expose the graph
 

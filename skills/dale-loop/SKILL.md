@@ -1,6 +1,6 @@
 ---
 name: dale-loop
-description: Design and run a loop around any repeatable agent workflow. Use when the user invokes `$dale-loop`, asks Codex to keep watching or working, wants agents to prompt other agents, or needs a dynamic workflow whose shape should be inferred from the goal rather than selected up front.
+description: Design the smallest observe-decide-act-verify loop for recurring agent work. Use when Codex should keep watching, working, or coordinating repeated turns.
 ---
 
 # Dale Loop
@@ -47,7 +47,9 @@ Show the chosen shape in a compact ledger before launching it. Continue without 
 ## 3. Run the loop
 
 1. Read applicable instructions and inspect live state.
-2. Create user-visible Codex tasks for independent work. For a saved project,
+2. Create user-visible Codex tasks only when the user explicitly requested task
+   orchestration or a focused loop skill requires it. Otherwise use direct work
+   or available local subagents. For a saved project,
    use its `local` environment and do not create worktrees. Serialize all
    mutation in the same repository, including disjoint paths and subagent work;
    read-only tasks may run concurrently.

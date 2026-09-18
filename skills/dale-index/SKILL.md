@@ -1,13 +1,14 @@
 ---
 name: dale-index
-description: Index or refresh a software repository through four visible Codex tasks and produce evidence-backed REQ.md, CONTEXT.md, STATE.md, TDD.md, DESIGN.md, and DECISIONS.md primitives. Use when the user invokes $dale-index, selects Dale Index through /skills, asks to index or map a repository, bootstrap project primitives, recover project context, or update stale primitive documents after substantial repository changes.
+description: Build or refresh six evidence-backed project primitives. Use for repository mapping, project-context recovery, or a Dale Index request.
 ---
 
 # Dale Index
 
-Build a compact source of truth from the repository as it exists now. Use three
-parallel discovery tasks, one adversarial verification task, and the calling task
-as the sole integrator.
+Build a compact source of truth from the repository as it exists now. Split
+discovery only where repository boundaries justify parallel work, add an
+independent verifier when unsupported claims or cross-domain contradictions
+make it useful, and keep the calling task as the sole integrator.
 
 ## Keep the orchestration thread-native
 
@@ -15,10 +16,12 @@ as the sole integrator.
   an explicit request for multiple Codex tasks as authorization to create the
   visible tasks described here.
 - If this skill matched implicitly from an ordinary documentation request, tell
-  the user that Dale Index creates four visible tasks and get consent before
+  the user that Dale Index creates visible tasks and get consent before
   calling `create_thread`.
 - Use `list_projects`, `create_thread`, `set_thread_title`, `wait_threads`,
   `read_thread`, and `send_message_to_thread`.
+- Authorization does not make unavailable task tools callable. If live tool
+  policy forbids creation, report the blocker instead of substituting tasks.
 - Never use subagents, `spawn_agent`, or hidden delegation as a substitute.
 - Make every created task user-owned and inspectable. Do not archive it unless
   the user asks.
@@ -83,24 +86,26 @@ the repository. Use `target.environment.type: "local"` because discovery tasks
 are read-only and the calling task owns all writes. If selection is ambiguous,
 ask for the missing project choice before creating tasks.
 
-### 3. Launch three discovery tasks
+### 3. Launch discovery tasks
 
 Read `references/index-roles.md` and `references/model-routing.md` before
 creating tasks. Immediately before dispatch, inspect the current `create_thread`
 tool schema and intersect its supported combinations with the Luna and Astra catalog.
-Route each role from its actual repository scope and evidence risk; do not copy
-the coordinator's model settings. Show each role's model, thinking, and one-line
-routing reason, then create these roles concurrently:
+Route each needed role from its actual repository scope and evidence risk; do
+not copy the coordinator's model settings. Show each role's route and reason,
+then create only the independent roles needed. Candidate role contracts are:
 
 1. `Dale Index · Context Cartographer`
 2. `Dale Index · Product & State Historian`
 3. `Dale Index · Quality & Design Auditor`
 
+Combine adjacent candidate contracts when their evidence scope is inseparable.
 Give each task the shared evidence contract and its role contract. Require
 read-only inspection and a structured final report; do not let discovery tasks
 edit primitives.
 
-Create every role in the selected project's `local` environment. Before
+Do not create a role with no material evidence boundary. Create every role in
+the selected project's `local` environment. Before
 creation, publish a coordinator manifest with title, exact `projectId`, expected
 host, role, and `dispatching` status. Immediately record the exact returned
 `threadId`, `hostId`, status, and wait cursor and preserve this registry in
@@ -128,8 +133,9 @@ cannot be changed in place.
 
 ### 5. Launch the verification gate
 
-Create `Dale Index · Evidence Verifier` only after the three discovery reports
-are available. Select its route from the actual contradictions, missing
+Create `Dale Index · Evidence Verifier` after the discovery reports only when
+independent verification can materially change the result. Select its route
+from actual contradictions, missing
 coverage, repository complexity, and consequence of a false pass—not from the
 coordinator's settings or the generic fact that it is a verifier. Give it:
 
