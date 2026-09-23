@@ -13,7 +13,7 @@ one.
 ## Authority
 
 - Explicit invocation authorizes the visible Codex tasks required by this loop
-  and task-matched Luna/Astra routing. It does not authorize broader product
+  and task-matched Luna/Sol routing. It does not authorize broader product
   scope, external writes, Git history changes, deployment, or deletion.
 - Keep created tasks visible and user-owned. Do not archive or hand them off
   unless asked. Created tasks must not create other visible Codex tasks.

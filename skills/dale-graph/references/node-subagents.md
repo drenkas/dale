@@ -40,10 +40,10 @@ parent node must inspect the integrated diff and validate the final state.
 ## Model routing
 
 Subagents inherit the visible node's model and reasoning by default. A node may
-select another Luna or Astra route only when the live `spawn_agent` schema exposes a
+select another Luna or Sol route only when the live `spawn_agent` schema exposes a
 supported combination and the subagent's workload materially differs. Apply the
 same cheapest-sufficient rules as `model-routing.md`, record the reason, and
-never introduce a model outside the Luna and Astra catalog automatically.
+never introduce a model outside the Luna and Sol catalog automatically.
 
 ## Spawn contract
 

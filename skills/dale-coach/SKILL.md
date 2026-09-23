@@ -73,7 +73,7 @@ window: <rolling dates or explicit selection>
 discovered: <count and live cap>
 selected: <count, sorted newest-first>
 excluded: <active / old / non-Codex / coach / inaccessible counts>
-workers: <one or two> × gpt-5.6-luna / max
+workers: <one or two> × gpt-6-luna / max
 ```
 
 If no eligible tasks remain, stop without creating a coach task.
@@ -81,14 +81,14 @@ If no eligible tasks remain, stop without creating a coach task.
 ## Dispatch Luna Max coaches
 
 Immediately before creation, inspect the live `create_thread` model schema.
-Require `gpt-5.6-luna` with `max` thinking. This route is part of Dale Coach's
+Require `gpt-6-luna` with `max` thinking. This route is part of Dale Coach's
 explicit contract; if it is unavailable, report the conflict instead of
 silently substituting another model or effort.
 
 - Use one coach task for 1–50 selected sources.
 - Split 51–100 explicit sources into two non-overlapping newest-first batches
   of at most 50 and create the two coach tasks concurrently.
-- Use `target.type: "projectless"`, `model: "gpt-5.6-luna"`, and
+- Use `target.type: "projectless"`, `model: "gpt-6-luna"`, and
   `thinking: "max"`.
 - Title tasks `Dale Coach · <YYYY-MM-DD> · 1/1` or
   `Dale Coach · <YYYY-MM-DD> · <batch>/2`.

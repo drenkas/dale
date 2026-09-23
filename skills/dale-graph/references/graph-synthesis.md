@@ -109,7 +109,7 @@ nodes:
     client_thread_id: unexpected queued id retained only as diagnostic evidence or none
     read_scope: exact scope
     write_scope: none or exclusive paths
-    model: supported Luna or Astra model selected for this node
+    model: supported Luna or Sol model selected for this node
     thinking: supported effort selected for this node
     routing_reason: why this is the cheapest sufficient route
     subagent_policy: allowed, adaptive, node-local, one level deep

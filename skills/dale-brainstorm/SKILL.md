@@ -37,7 +37,7 @@ deliverable. Obtain explicit approval for that task; approval does not carry to
 later tasks.
 
 Before proposing it, read [model routing](references/model-routing.md), inspect
-the live task schema, and state the supported Luna/Astra route and reason. If
+the live task schema, and state the supported Luna/Sol route and reason. If
 approved, resolve the exact saved project, prefer its local environment, give
 the task minimum ledger context and one evidence deliverable, and forbid further
 task or subagent creation. Keep it visible and user-owned.

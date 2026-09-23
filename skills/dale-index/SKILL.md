@@ -26,12 +26,12 @@ make it useful, and keep the calling task as the sole integrator.
 - Make every created task user-owned and inspectable. Do not archive it unless
   the user asks.
 - Explicit `$dale-index` selection or a direct request to run Dale Index also
-  delegates per-task Luna and Astra model and reasoning selection to this skill. For an
+  delegates per-task Luna and Sol model and reasoning selection to this skill. For an
   implicit match, get consent for both visible task creation and automatic
   routing; otherwise omit `model` and `thinking`.
-- Read `references/model-routing.md` before dispatch. Explicit Luna or Astra model or
+- Read `references/model-routing.md` before dispatch. Explicit Luna or Sol model or
   reasoning constraints in the current request override automatic routing. If
-  a requested route falls outside the Luna and Astra boundary or the live tool schema,
+  a requested route falls outside the Luna and Sol boundary or the live tool schema,
   state the conflict instead of silently substituting another model.
 - In every worker prompt, forbid that worker from creating subagents or more
   tasks.
@@ -90,7 +90,7 @@ ask for the missing project choice before creating tasks.
 
 Read `references/index-roles.md` and `references/model-routing.md` before
 creating tasks. Immediately before dispatch, inspect the current `create_thread`
-tool schema and intersect its supported combinations with the Luna and Astra catalog.
+tool schema and intersect its supported combinations with the Luna and Sol catalog.
 Route each needed role from its actual repository scope and evidence risk; do
 not copy the coordinator's model settings. Show each role's route and reason,
 then create only the independent roles needed. Candidate role contracts are:
@@ -128,7 +128,7 @@ result lacks evidence needed for integration.
 If a report violates its contract, send one precise correction with
 `send_message_to_thread` and wait again. Preserve the task's current route
 unless the required correction materially changes its workload; a follow-up may
-use a newly justified supported Luna or Astra route, but an already running turn
+use a newly justified supported Luna or Sol route, but an already running turn
 cannot be changed in place.
 
 ### 5. Launch the verification gate

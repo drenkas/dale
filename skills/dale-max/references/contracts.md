@@ -27,7 +27,7 @@ resident:
     title: exact visible title
     cursor: latest wait cursor or none
     context_origin: fork | fresh-fallback
-    model: supported Luna or Astra route
+    model: supported Luna or Sol route
     thinking: supported effort
     routing_reason: concrete workload reason
     subagent_capability: pending | available | unavailable
@@ -40,7 +40,7 @@ resident:
     title: exact visible title
     cursor: latest wait cursor or none
     context_origin: fork | fresh-fallback
-    model: supported Luna or Astra route
+    model: supported Luna or Sol route
     thinking: supported effort
     routing_reason: concrete workload reason
     subagent_capability: pending | available | unavailable

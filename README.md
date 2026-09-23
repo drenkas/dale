@@ -34,11 +34,11 @@ work in exploration mode instead of rushing into a plan or implementation.
 - challenges the strongest option instead of agreeing automatically;
 - proposes at most one visible evidence task, only when a separable research
   question emerges and you explicitly approve it;
-- routes an approved evidence task to the cheapest sufficient Luna or Astra model.
+- routes an approved evidence task to the cheapest sufficient Luna or Sol model.
 
 ### `$dale-coach`
 
-Runs a read-only retrospective over recent Codex tasks using visible GPT-5.6
+Runs a read-only retrospective over recent Codex tasks using visible GPT-6
 Luna tasks with `max` thinking.
 
 - defaults to Codex tasks updated during the rolling last 30 days, newest-first;
@@ -87,7 +87,7 @@ boundaries. It adds an adversarial verifier when contradictions or unsupported
 claims make independent checking useful. The calling task is the sole
 integrator.
 
-Each visible task is routed independently across Luna and Astra, using `xhigh`
+Each visible task is routed independently across Luna and Sol, using `xhigh`
 or `max` reasoning when deeper work requires it.
 Repository inventory does not default to frontier-level reasoning.
 
@@ -107,7 +107,7 @@ fixed diamond, pipeline, debate, or other remembered template.
    those IDs directly after continuation, and refuses to retry ambiguous
    creation. Because the API has no idempotency key, this may block rather than
    risk a duplicate.
-5. Routes every node to the cheapest sufficient Luna or Astra model and reasoning
+5. Routes every node to the cheapest sufficient Luna or Sol model and reasoning
    effort.
 6. Lets every visible node orchestrate one bounded layer of node-local
    subagents inside its own authority and write scope.
@@ -217,16 +217,16 @@ The bundled gallery includes patterns for comparisons, code review, module
 maps, design systems, prototypes, SVG figures, flowcharts, explainers, plans,
 reports, incidents, slide decks, and small editing interfaces.
 
-## Luna and Astra routing
+## Luna and Sol routing
 
 | Route | Model ID | Default role |
 |---|---|---|
-| Luna standard | `gpt-5.6-luna` | Bounded discovery, inventory, extraction, and narrow checks |
-| Luna deep | `gpt-5.6-luna` | Everyday implementation, debugging, integration, and normal proof |
-| Astra | `gpt-6-astra` | Difficult cross-layer synthesis and consequential ambiguity |
+| Luna standard | `gpt-6-luna` | Bounded discovery, inventory, extraction, and narrow checks |
+| Luna deep | `gpt-6-luna` | Everyday implementation, debugging, integration, and normal proof |
+| Sol | `gpt-6-sol` | Difficult cross-layer synthesis and consequential ambiguity |
 
 The live Codex tool schema is authoritative. Dale shows the selected model,
-reasoning effort, and concrete routing reason before dispatch. Astra at `xhigh`,
+reasoning effort, and concrete routing reason before dispatch. Sol at `xhigh`,
 `max`, or `ultra` is never inherited merely because the coordinator uses it.
 
 Dale Lenses and Dale Proof stay in the current task by default. They do not
