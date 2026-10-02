@@ -24,28 +24,25 @@ Use these files as distinct, non-overlapping sources of truth:
 | `DESIGN.md` | Existing visual language, tokens, primitives, states, accessibility |
 | `DECISIONS.md` | Dated decisions, alternatives, evidence, consequences, status |
 
-Keep `STATE.md` volatile and `DECISIONS.md` durable. Do not duplicate a fact
-across documents; link to its owning file. If the project has no UI, say so with
-evidence in `DESIGN.md` instead of inventing a design system.
+Keep `STATE.md` volatile and `DECISIONS.md` durable. Link facts to their owning
+file instead of duplicating them. For projects without UI, record evidenced
+non-applicability in `DESIGN.md`.
 
 Use the established primitive directory even when its set is incomplete. Add
 missing documents there and preserve relative links. Use the repository root
 only when no established location exists; resolve competing locations from
 repository conventions before writing. Never create a second competing set.
 
-Use the schemas under `assets/primitives/` when creating files. Treat them as
-structure, not prose to copy blindly. Remove every placeholder from files
-written to the target repository.
+Use `assets/primitives/` schemas as structure, adapting prose and removing every
+placeholder from target files.
 
 ## Bound the refresh
 
-1. Resolve the repository root.
-2. Read every applicable `AGENTS.md`, including deeper files for scoped paths.
-3. Inspect `git status`, tracked files, manifests, lockfiles, runtime entrypoints,
-   tests, schemas, routes, configuration examples, and existing documentation.
-4. Record the current branch or revision when Git exists. Never mutate Git state.
-5. Label repository evidence as `verified`, `inferred`, `unknown`, or `stale`.
-6. Treat code, tests, schemas, and runtime output as stronger evidence than docs.
+Resolve the root and applicable `AGENTS.md` hierarchy. Inspect Git status,
+tracked files, manifests/lockfiles, entrypoints, tests, schemas, routes,
+configuration examples, and docs. Record Git branch/revision without mutating
+Git state. Label evidence `verified`, `inferred`, `unknown`, or `stale`;
+code, tests, schemas, and runtime output outrank docs.
 
 Do not print secrets or raw environment values. Use names of required variables,
 not their values.
@@ -108,13 +105,11 @@ Keep route changes for subsequent turns; never claim to alter a running turn.
 
 ## Integrate only survivors
 
-Let the calling task write or update all six primitives. Preserve existing
-hand-written content unless current evidence disproves it. Mark unresolved
-conflicts and unknowns explicitly; never fill a gap with a plausible guess.
+The calling task writes all six primitives. Preserve hand-written content unless
+current evidence disproves it; mark unresolved conflicts and unknowns, never guess.
 
-For each material claim, include a compact source pointer such as a file path,
-symbol, test name, or exact non-secret command. Prefer useful summaries over
-inventories of every file.
+Support each material claim with a path, symbol, test, or exact non-secret
+command. Summarize usefully rather than inventorying every file.
 
 ## Validate and report
 
@@ -132,9 +127,8 @@ Check at minimum:
 8. A final diff or file inventory contains only Dale's intended documentation
    changes.
 
-Do not run broad builds or test suites solely for documentation indexing.
-Run a narrow non-mutating command only when it is the cheapest way to verify a
-material claim.
+Do not run broad builds/tests solely for indexing. Use a narrow non-mutating
+command only when cheapest for verifying a material claim.
 
 State which primitives were created or refreshed, which claims remain unknown,
 what the verifier rejected, and the exact checks run. Record revision and

@@ -17,10 +17,9 @@ Inspect the repository read-only. Do not edit files, create generated artifacts,
 change Git state, commit, stash, reset, push, install dependencies, or access
 secrets. Do not create subagents or additional Codex tasks.
 
-Code, tests, schemas, and runtime output outrank prose documentation. Label every
-material claim VERIFIED, INFERRED, UNKNOWN, or STALE. Give a source path plus
-line/symbol/test/command for VERIFIED claims. Never turn absence of evidence
-into a confident statement.
+Code, tests, schemas, and runtime outrank docs. Label material claims VERIFIED,
+INFERRED, UNKNOWN, or STALE; VERIFIED needs a path plus line/symbol/test/command.
+Absent evidence cannot establish a claim.
 
 Return exactly:
 1. COVERAGE

@@ -5,9 +5,8 @@ description: Explore and challenge possibilities one-on-one without prematurely 
 
 # Dale Brainstorm
 
-Think with the user in the current conversation. Preserve creative tension long
-enough to find meaningfully different options while keeping the user's values
-and judgment central.
+Explore meaningfully different options in this conversation, keeping the user's
+values and judgment central.
 
 ## Conversation contract
 
@@ -25,8 +24,8 @@ and judgment central.
   code, owners, deadlines, or effort estimates. The user initiates convergence
   by asking to choose, decide, summarize, plan, or act.
 
-If three consecutive exchanges add no option, eliminate no option, and clarify
-no criterion, name the stall and ask whether to reframe or converge.
+After three exchanges without adding/eliminating options or clarifying criteria,
+name the stall and ask whether to reframe or converge.
 
 ## Gather evidence without taking over
 

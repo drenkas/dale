@@ -57,10 +57,9 @@ For every proposed change:
    signal for whether the change helped.
 5. Reject generic advice that would fit any Codex user.
 
-Do not infer intent, satisfaction, cost, latency, or success from silence.
-Distinguish observed evidence from inference and state confidence. Paraphrase;
-do not reproduce long user messages or raw outputs. Omit a recommendation when
-the evidence is too weak.
+Do not infer intent, satisfaction, cost, latency, or success from silence. Separate
+observation/inference and state confidence. Paraphrase without long messages
+or raw outputs; omit weakly evidenced advice.
 
 ## Output contract
 

@@ -5,126 +5,77 @@ description: Create a self-contained HTML visualization when spatial layout or i
 
 # Dale Visualize
 
-Turn material into a standalone HTML artifact that makes an important
-relationship easier to see, inspect, compare, or manipulate. Adapt patterns to
-the task; never replace the task with a generic dashboard.
+Create a tailored HTML artifact that clarifies a relationship or decision.
+Define its question, audience, intended understanding, evidence, uncertainties,
+and spatial relationship (comparison, hierarchy, sequence, dependency, time,
+state, or manipulation). Add interaction only when it improves comprehension.
 
-## Frame the visual question
+Do not invent facts, metrics, events, citations, behavior, or evidence. Label
+inferences and unknowns; exclude secrets, credentials, private environment values,
+and unrelated user data. Prefer
+prose, a table, or a repository-native component when clearer, unless the user
+explicitly requires HTML.
 
-Before writing HTML, identify:
+## Choose the form
 
-- the one question the artifact should answer;
-- the audience and the decision or understanding it should enable;
-- the verified facts, code, data, and uncertainties available;
-- the relationship best expressed spatially: comparison, hierarchy, sequence,
-  dependency, change over time, state, or direct manipulation;
-- whether interaction materially improves comprehension.
+- Code changes or paths: default to a linked code walkthrough. Read
+  [code-walkthrough.md](references/code-walkthrough.md) before tracing source:
+  real snippets, rationale, and connected execution/data flow. Preserve an
+  explicitly requested high-level overview.
+- Static explainer: scanning and understanding.
+- Inline SVG: meaningful geometry in flows, architecture, timelines or graphs.
+- Cards or matrices: alternatives and variants.
+- Controls: inputs that teach or support a decision.
+- Small editor: reorder, tune, toggle, or export user-controlled output.
+- Slides: when pacing and sequential presentation matter.
 
-Do not invent metrics, events, citations, product behavior, or source evidence.
-Never embed secrets, credentials, private environment values, or unrelated user
-data. Label unknown or inferred material honestly.
+Read [example-catalog.md](references/example-catalog.md) only if examples help;
+inspect one primary and at most two supporting HTML examples. Borrow techniques,
+not fictional Acme content, arbitrary palettes, or entire compositions. Use the
+user's material and the owning project's visual language. Do not add ornamental
+tabs, charts, animation, drag-and-drop, or filters.
 
-If a compact table, short prose, or an existing repository-native component is
-clearer than HTML, say so and use the simpler form unless the user explicitly
-requires an HTML artifact.
+## Build
 
-## Select examples deliberately
+Unless another target is requested, write one self-contained `.html` file with
+inline CSS/SVG and minimal vanilla JavaScript, no build step or production
+dependency. Default to no remote fonts/scripts, analytics, network, storage,
+or trackers.
 
-Read `references/example-catalog.md` only when a bundled example would speed up
-or improve the artifact. Select one primary example and at most two supporting
-examples, then inspect only those HTML files.
+Use the requested path; otherwise `visualizations/<slug>.html` for durable
+repository artifacts or `.scratch/dale-visualize/<slug>.html` for throwaway work.
+Never overwrite an artifact without a replacement request.
 
-Borrow structure, interaction ideas, and implementation techniques—not the
-fictional Acme content, arbitrary palette, or entire page composition. Generate
-the final hierarchy from the user's material and the owning project's visual
-language when one exists.
+Require semantic structure, meaningful title and heading order, desktop/mobile
+responsiveness, keyboard operation, visible focus, sufficient contrast, no
+clipping/overlap, and reduced-motion support for animation. Insert untrusted
+text as text, not executable markup. Keep the page useful without JavaScript
+unless interaction is its core deliverable.
 
-## Choose the artifact form
-
-- For code changes or code-path explanations, default to a linked code
-  walkthrough: actual snippet, why it changed or matters, and where execution
-  or data goes next. Read [references/code-walkthrough.md](references/code-walkthrough.md)
-  before tracing the source and building the page. Keep an explicitly requested
-  high-level overview high-level.
-- Use a static explainer when the reader mainly needs to scan and understand.
-- Use inline SVG for flows, architecture, timelines, call graphs, and custom
-  figures whose geometry carries meaning.
-- Use side-by-side cards or matrices for genuine alternatives and variants.
-- Use controls only when changing an input teaches something or enables a real
-  decision.
-- Use a small editor when the output must be reordered, tuned, toggled, or
-  exported back into the user's workflow.
-- Use a slide deck only when pacing and sequential presentation matter.
-
-Do not add tabs, charts, animation, drag-and-drop, or filters merely to make the
-artifact feel interactive.
-
-## Build a standalone page
-
-Unless the user requests another integration target, create one self-contained
-`.html` file with inline CSS, inline SVG, and minimal vanilla JavaScript. Require
-no build step and no production dependency. Avoid remote fonts, scripts,
-analytics, network calls, storage, and trackers by default.
-
-When the user names a destination, write there. For a durable repository
-artifact without a named path, use `visualizations/<descriptive-slug>.html`.
-For a throwaway exploration, use `.scratch/dale-visualize/<slug>.html`. Never
-overwrite an existing artifact unless the user asked for replacement.
-
-Keep the page:
-
-- semantically structured with a meaningful title and heading order;
-- responsive at desktop and narrow mobile widths;
-- keyboard usable with visible focus states;
-- readable with sufficient contrast and no clipped or overlapping content;
-- compatible with `prefers-reduced-motion` when animation exists;
-- safe with untrusted text inserted via text content rather than executable
-  markup;
-- useful without JavaScript when interaction is not the core deliverable.
-
-If substantial code or styling is adapted from the bundled examples, preserve
-this source comment in the output:
+For substantial code or styling adapted from bundled examples, preserve:
 
 ```html
 <!-- Adapted from anthropics/html-effectiveness (MIT), commit 58c305be97f47b26b678f2c07dec01d4242268ec. -->
 ```
 
-## Verify in a real browser
+## Verify and deliver
 
-Inspect the source first for placeholders, fictional sample data, secret-like
-values, broken local links, and unintended external URLs. Then use available
-browser control or Playwright tooling to render the page.
+Inspect source for placeholders, fictional sample data, secret-like values,
+broken local links, and unintended external URLs. Render with browser control
+or Playwright and verify:
 
-Validate at minimum:
+1. The question is answered above the fold or through an obvious first action.
+2. Desktop and narrow-mobile layouts have no overflow, clipping, or unreadable labels.
+3. Keyboard navigation and every material interaction work without console/runtime errors.
+4. Applicable loading, empty, error, selected, and changed states exist.
+5. Facts match evidence; editor export/copy returns the exact user-controlled result.
+6. Code walkthroughs pass the source/navigation checks in their reference;
+   a prose module diagram alone is insufficient.
 
-1. the primary visual question is answered above the fold or through an obvious
-   first action;
-2. desktop and narrow-mobile layouts have no overflow, clipping, or unreadable
-   labels;
-3. keyboard navigation and every material interaction work;
-4. browser console and page runtime show no errors;
-5. loading, empty, error, selected, and changed states exist when applicable;
-6. displayed facts match the supplied evidence;
-7. export or copy actions return the exact user-controlled result when the page
-   is an editor.
+If `file://` is blocked, use an isolated local server; do not weaken browser
+security or interfere with existing processes. Without browser rendering,
+report static validation as partial.
 
-For a code walkthrough, also run the source and navigation checks in
-`references/code-walkthrough.md`; a module diagram with prose alone does not
-satisfy that form.
-
-If direct `file://` loading is blocked, use an isolated local server rather than
-weakening browser security or interfering with an existing process. If browser
-rendering is unavailable, report static validation as partial rather than
-claiming visual success.
-
-## Deliver
-
-Return the artifact as the main result. State:
-
-- its exact path;
-- the primary and secondary examples selected and what pattern each supplied;
-- the visual and interaction checks run;
-- any evidence gaps or browser coverage not completed.
-
-Do not ship the bundled examples themselves as the answer. The result must be a
-new artifact tailored to the user's question.
+Deliver the tailored artifact, exact path, selected examples and borrowed
+patterns, checks run, and evidence/browser-coverage gaps. Do not deliver the
+bundled examples themselves.
