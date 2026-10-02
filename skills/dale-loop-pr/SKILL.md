@@ -1,33 +1,45 @@
 ---
 name: dale-loop-pr
-description: Carry one existing pull request through review, authorized repair, and fresh-head verification until merge-ready or blocked.
+description: Monitor or repair one existing pull request using current review and CI evidence. Use for PR babysitting, scoped fixes, or carrying a PR to merge-ready state.
 ---
 
 # Dale Loop PR
 
-Keep one PR moving without making the user relay comments between GitHub and Codex.
+Resolve the exact PR, current head, repository instructions, checks, review
+findings, scope, and mergeability. Record artifact identity and current blockers.
 
-## Workflow
+Use a read-only subagent for independent review when it adds meaningful coverage;
+inherit model settings and supply the requirement, diff, and evidence. Do not
+prime its verdict or allow further delegation. The coordinator or one scoped
+worker repairs valid findings and PR-caused failures. Create separate Codex
+tasks only when explicitly requested. Run one mutating worker per shared
+checkout, including disjoint files; read-only review may run concurrently.
 
-1. Resolve the PR and read repository instructions, scope, checks, active unresolved threads, latest review state, mergeability, and head SHA.
-2. Record the head SHA, active findings, check state, cycle count, and last meaningful activity.
-3. When the head is new, create a fresh independent review task. Give it the original intent, acceptance criteria, diff, and verification evidence, not the maker's reasoning.
-4. When valid findings or PR-caused CI failures exist and repair is authorized,
-   create a fresh remediation task on the PR branch. Require scoped fixes and
-   behavioral and repository checks; request commit and push only when those
-   actions are also authorized.
-   Create saved-project tasks in its `local` environment without worktrees.
-   Serialize every mutating task or subagent in that repository, even for
-   disjoint paths; read-only review may run concurrently. Persist exact returned
-   task IDs and wait cursors in the coordinator state and use known IDs directly.
-   Never treat a `clientThreadId` as a real ID or recreate uncertain work.
-5. Re-observe GitHub after every task. A new head triggers a new review. Do not reuse the maker or previous checker.
-6. Declare merge-ready only when required checks pass, no actionable independent finding remains, no unresolved GitHub thread or active change request remains, scope is valid, and the PR is mergeable.
-7. Stop after three failed remediation cycles, repeated unchanged failures, conflicting intent, unrelated required work, missing permission, or destructive action.
-8. Merge only when the user requested it. Otherwise return a merge-ready receipt.
+Preserve unrelated changes. Commit and push only within the user's publication
+authority; do not treat a monitoring-only request as permission to repair.
+After a changed head, refresh GitHub state and re-review affected risks. Retain
+valid evidence for unchanged behavior only after confirming the dependency scope.
 
-Treat monitoring, repair, commit, push, review requests, and merge as separate
-authorities. An observe-only request stays read-only. Require commit or push
-only when the user authorized it; otherwise prepare and verify the local result.
+Declare merge-ready only when required checks pass, review has no unresolved
+actionable findings or active change requests, scope is correct, and the PR is
+mergeable. Merge only when requested. Change approach after repeated unchanged
+failure; report concrete blockers without treating silence as approval.
 
-Poll through task wakeups or automations, not shell sleeps. Silence is not approval.
+Use an automation for requested later checks. Persist head, findings, actions,
+and terminal condition; re-observe on wake and stay quiet while unchanged.
+Do not assume workers remain alive between wakeups.
+
+For explicitly requested separate tasks, use the saved project's local checkout
+unless the user requested a worktree. Retain the stable work identity and
+dispatch state before creation; persist exact returned thread/host/project IDs,
+status, and wait cursors immediately. Use known IDs directly; listings cannot
+prove absence. A `clientThreadId` or ambiguous creation remains uncertain:
+never pass it as `threadId` or recreate the work. Preserve this registry on resume.
+
+## Cancellation and changed scope
+
+On cancellation or revoked scope, interrupt affected workers immediately before
+other work, invalidate pending outputs, and preserve existing changes. Update
+or disable related scheduled work only within the user's cancellation scope.
+For a correction, stop conflicting work first, then send the revised contract;
+accept subsequent results only against the current request and artifact state.

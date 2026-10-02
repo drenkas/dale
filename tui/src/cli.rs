@@ -38,7 +38,7 @@ pub enum Command {
         /// Install every available skill.
         #[arg(long)]
         all: bool,
-        /// Skill names to install (e.g. dale-brainstorm dale-graph).
+        /// Skill names to install (e.g. dale-brainstorm dale-index).
         names: Vec<String>,
         /// Confirm the installation (required; there is no prompt).
         #[arg(long)]

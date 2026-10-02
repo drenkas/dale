@@ -1,98 +1,111 @@
 ---
 name: dale-max
-description: Run an explicit-only resident worker and review loop for consequential implementation, debugging, migration, audit, or delivery work.
+description: Run consequential work through implementation, independent review, evidence-based acceptance, and focused revision. Use only for explicit $dale-max or a direct request to run Dale Max.
 ---
 
 # Dale Max
 
-Own one consequential outcome through implementation, independent challenge,
-revision, and direct proof. Keep persistent resident threads for continuity;
-add ephemeral reviewers only when a distinct risk or evidence question warrants
-one.
+Use a high-assurance review loop for explicitly requested consequential work.
+The calling agent owns the plan, integration, and final gate. Use subagents for
+independent implementation or review; separate Codex tasks are optional only
+when the user explicitly requests them.
 
-## Authority
+## Establish the acceptance contract
 
-- Explicit invocation authorizes the visible Codex tasks required by this loop
-  and task-matched Luna/Sol routing. It does not authorize broader product
-  scope, external writes, Git history changes, deployment, or deletion.
-- Keep created tasks visible and user-owned. Do not archive or hand them off
-  unless asked. Created tasks must not create other visible Codex tasks.
-- Use one mutating writer per shared checkout. Read-only reviewers may run in
-  parallel; route requested edits back to the resident Worker.
-- Prefer a saved project's local checkout. Use projectless tasks only when no
-  repository is involved.
-- If task creation is unavailable, report the blocker rather than silently
-  substituting another orchestration mode.
-- Explicit invocation grants intent, not tool capability; obey live task and
-  model schemas when dispatching.
+Define the outcome, authority, criteria, exact target, direct evidence, and
+material failure modes. Respect user-specified resource limits. Do not impose
+unlimited review or a fixed number of reviewers. Read
+[contracts.md](references/contracts.md) for worker and reviewer contracts.
+Read [model-routing.md](references/model-routing.md) when selecting routes.
+Keep established Luna/Sol routing; explicit user settings and the live dispatch
+schema take precedence.
 
-Read [node contracts](references/contracts.md) before dispatch. Read
-[model routing](references/model-routing.md) when choosing or changing a route.
+## Implement and review
 
-## Shape the run from the proof obligation
+The coordinator may implement directly or assign a bounded worker with exclusive
+write scope. Use live collaboration tools and capacity. Allow one mutating
+writer per shared checkout, including the coordinator and disjoint-file workers;
+read-only work may run in parallel. Workers do not spawn more agents or separate
+tasks. Preserve unrelated changes. Reuse the implementer for focused revisions.
 
-Define the requested outcome, authority, acceptance criteria, forbidden
-outcomes, and primary observable signal. Inspect repository instructions and
-live state before writing a plan. Use the smallest graph that can produce and
-challenge the result:
+Run a fresh independent reviewer against the original requirement, raw artifact,
+and evidence, without the implementer's intended verdict. Delegate distinct
+review questions only when each covers a material failure mode that could change
+acceptance. A separate preflight review is useful for costly or hard-to-reverse
+plans; do not require it for every cycle. The coordinator performs complementary
+work while review runs.
 
-- a persistent Resident Worker owns implementation and integration;
-- a persistent Lead Reviewer owns independent review and synthesis;
-- an ephemeral Plan Reviewer is useful only when a mistaken plan would be
-  costly;
-- additional ephemeral reviewers each own one concrete risk, boundary, or
-  falsification question.
+If independent review is unavailable, continue implementation and direct checks
+that remain useful, but report the Max independence gate as unavailable. Do not
+claim a same-agent review is independent or issue final PASS without the gate.
 
-Do not invent a reviewer count, cycle count, token spend, or model tier. Honor
-budgets and limits supplied by the user. Add a node only when its answer can
-change the work or verdict. Redact credentials, tokens, raw environment values,
-private keys, and unnecessary personal data from ledgers and task prompts.
+## Accept or revise
 
-## Create and track resident tasks
+Resolve findings by direct evidence, target identity, freshness, and coverage.
+Keep a compact criterion-to-evidence record. Integrate accepted changes and run
+required checks plus sufficient behavioral validation in the destination.
+Shared-checkout changes already exist; inspect the actual diff and never replay
+a reported patch. An isolated worker's success does not prove delivery.
 
-Resolve the exact saved project with `list_projects`. Create the Worker and Lead
-Reviewer with complete initial prompts, explicit routes, titles, ownership,
-evidence requirements, and stop conditions. Fork persistent successors only
-when continuity is needed and the source task has completed history.
+Use these internal outcomes:
 
-Maintain the run ledger defined in `references/contracts.md`. Persist every
-returned `threadId`, `hostId`, route, status, and wait cursor immediately. A
-known real ID is authoritative; listings are discovery aids, not proof of
-absence. Never pass a `clientThreadId` where a `threadId` is required. Ambiguous
-creation blocks recreation unless the service proves that no task was created.
+- PASS: material criteria have direct evidence and independent review is complete.
+- REVISE: a concrete bounded correction could satisfy failed criteria.
+- REJECT: the approach cannot credibly satisfy the outcome.
+- BLOCKED: required input, authority, independence, or evidence is inaccessible.
 
-## Run the control loop
+On revision, send failed criteria and supporting evidence to the owning worker.
+Recheck affected risks; reuse still-valid evidence for unchanged artifacts.
+A fresh reviewer is warranted when independence or changed failure modes require
+it, not merely because a cycle counter advanced. If two revisions fail to move
+the same primary signal, re-plan instead of repeating them.
 
-1. Let the Worker inspect, plan, and identify the primary signal. If plan risk
-   warrants it, ask one Plan Reviewer to challenge concrete assumptions before
-   implementation.
-2. Let the Worker implement the coherent task and run proportionate checks.
-   Keep unrelated user changes intact and keep all repository writes with this
-   one owner. Its output already exists in the shared checkout: inspect and
-   validate that actual state, never replay or reapply a reported patch.
-3. Give reviewers the exact revision, diff, requirements, and evidence boundary.
-   Keep their prompts independent: do not pre-state the desired verdict or copy
-   another reviewer's conclusion.
-4. The Lead Reviewer synthesizes raw reviewer evidence. The coordinator then
-   applies the final pass gate to the actual checkout and direct evidence.
-   Conflicts remain explicit; majority agreement is not proof.
-5. For a failed gate, send the Worker only actionable findings and the failed
-   primary signal. After revision, review the complete new result again. If two
-   revisions do not move the same signal, reframe the cause or evidence need.
+Stop after acceptance, a rejected approach with no credible alternative, a real
+blocker, a user limit, or interruption. Additional review needs a named uncovered
+risk; passing required checks is not an invitation to broaden tests indefinitely.
+Ask for new authority only when needed; existing authorization persists.
 
-Use `wait_threads` with retained cursors and bounded waits. A timeout with live
-progress is not failure. Use `read_thread` only when the wait result omits
-material evidence. A route may change on a later follow-up when the workload
-changes; never claim to reroute a turn already running.
+Before completion, finish or interrupt all delegated workers and reconcile any
+uncertain dispatch. Report the result, decisive evidence, unresolved risks, and
+any unmet gate. Distinguish code/static, test, browser, and deployed/runtime
+evidence so one proof level cannot imply another. Keep detailed cycle and agent accounting for a requested audit, not every reply.
+The legacy image in `assets/` illustrates an older thread topology and is not
+an execution requirement.
 
-## Completion
+## Optional separate tasks
 
-Finish only when the coordinator gate returns `PASS`, every acceptance
-criterion has direct evidence at the claimed boundary, and every created task
-has a real ID and terminal state. Report code/static, test, browser, and
-deployed/runtime evidence separately so one level does not imply another.
+Use only when the user explicitly requests separate Codex tasks or a fork;
+selecting this skill alone authorizes subagent work. Do not create a task merely
+because delegation is unavailable. Resolve the exact project with `list_projects`
+and use its local environment unless the user explicitly requests a worktree.
+The calling coordinator
+alone creates, messages, or manages tasks within the user's authorization.
 
-If a task is blocked or creation remains uncertain, report the exact ID or
-diagnostic identifier and reason without claiming completion. Return one
-`::created-thread` directive for each successfully created task with a real
-`threadId`; never emit one for a client-only or ambiguous result.
+Before creation, retain a sanitized invocation/run/node identity, dispatch key,
+unique title, project/host, ownership, and `dispatching` state in a conversation
+manifest. Recover that state on continuation. Record each exact returned
+`threadId`, `hostId`, status, and wait cursor immediately. Known real IDs are
+authoritative; listings cannot prove absence or justify recreation. An unexpected
+`clientThreadId` is diagnostic only. Timeout or ambiguous creation fails closed:
+never recreate unless a response proves pre-creation schema rejection. Validate
+a user-supplied actual ID once with `read_thread` for the specified scope. Adopt
+a discovered ID only when readable identity and retained creation evidence give
+an unambiguous mapping. Capture concurrent creation results separately.
+
+Use fresh sanitized leaf contracts, retained IDs and bounded `wait_threads`
+with cursors. Do not infer identity from title or recency, replay shared-checkout
+patches, or allow nested task creation. Created user-owned tasks remain available;
+archive or hand off only when explicitly asked. Before completion, every created
+or discovered child task requires a real ID, terminal state, reason and report;
+unresolved creation prevents PASS. Follow the live tool's created-thread
+directive with `threadId` for ready creation or `clientThreadId` only for
+explicitly reported queued setup. Never label a queued ID as real or treat the
+directive as resolving uncertainty; emit none for subagents or ambiguous results.
+
+## Cancellation and changed scope
+
+On cancellation or revoked scope, interrupt affected workers immediately before
+other work, invalidate pending outputs, and preserve existing changes. Update
+or disable related scheduled work only within the user's cancellation scope.
+For a correction, stop conflicting work first, then send the revised contract;
+accept subsequent results only against the current request and artifact state.

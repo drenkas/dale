@@ -5,39 +5,11 @@ description: Build or refresh six evidence-backed project primitives. Use for re
 
 # Dale Index
 
-Build a compact source of truth from the repository as it exists now. Split
-discovery only where repository boundaries justify parallel work, add an
-independent verifier when unsupported claims or cross-domain contradictions
-make it useful, and keep the calling task as the sole integrator.
-
-## Keep the orchestration thread-native
-
-- Treat explicit `$dale-index` selection, a direct request to run Dale Index, or
-  an explicit request for multiple Codex tasks as authorization to create the
-  visible tasks described here.
-- If this skill matched implicitly from an ordinary documentation request, tell
-  the user that Dale Index creates visible tasks and get consent before
-  calling `create_thread`.
-- Use `list_projects`, `create_thread`, `set_thread_title`, `wait_threads`,
-  `read_thread`, and `send_message_to_thread`.
-- Authorization does not make unavailable task tools callable. If live tool
-  policy forbids creation, report the blocker instead of substituting tasks.
-- Never use subagents, `spawn_agent`, or hidden delegation as a substitute.
-- Make every created task user-owned and inspectable. Do not archive it unless
-  the user asks.
-- Explicit `$dale-index` selection or a direct request to run Dale Index also
-  delegates per-task Luna and Sol model and reasoning selection to this skill. For an
-  implicit match, get consent for both visible task creation and automatic
-  routing; otherwise omit `model` and `thinking`.
-- Read `references/model-routing.md` before dispatch. Explicit Luna or Sol model or
-  reasoning constraints in the current request override automatic routing. If
-  a requested route falls outside the Luna and Sol boundary or the live tool schema,
-  state the conflict instead of silently substituting another model.
-- In every worker prompt, forbid that worker from creating subagents or more
-  tasks.
-- If the Codex task tools are unavailable or the repository cannot be resolved
-  to one saved project, stop and report the exact blocker. Do not silently run a
-  single-task imitation.
+Build a compact source of truth from the repository as it exists now. Work
+directly for a small repository or narrow refresh; use read-only subagents for
+independent evidence boundaries when that saves time or improves coverage.
+The calling task is the sole integrator and document writer. No saved Codex
+project or separate chat is needed for direct work or subagents.
 
 ## Produce the primitive set
 
@@ -56,17 +28,16 @@ Keep `STATE.md` volatile and `DECISIONS.md` durable. Do not duplicate a fact
 across documents; link to its owning file. If the project has no UI, say so with
 evidence in `DESIGN.md` instead of inventing a design system.
 
-Place missing primitives in the repository root, matching the reference layout.
-If an existing complete primitive set lives together elsewhere, update it in
-place. Never create a second competing set.
+Use the established primitive directory even when its set is incomplete. Add
+missing documents there and preserve relative links. Use the repository root
+only when no established location exists; resolve competing locations from
+repository conventions before writing. Never create a second competing set.
 
 Use the schemas under `assets/primitives/` when creating files. Treat them as
 structure, not prose to copy blindly. Remove every placeholder from files
 written to the target repository.
 
-## Run the indexing workflow
-
-### 1. Establish the evidence boundary
+## Bound the refresh
 
 1. Resolve the repository root.
 2. Read every applicable `AGENTS.md`, including deeper files for scoped paths.
@@ -79,79 +50,63 @@ written to the target repository.
 Do not print secrets or raw environment values. Use names of required variables,
 not their values.
 
-### 2. Resolve the Codex project
+For an initial index, cover material repository boundaries. For a refresh, use
+the last documented revision and actual changes to inspect affected claims and
+their consumers, including uncommitted changes. If the baseline is missing or
+unreliable, broaden inspection and disclose the coverage limit.
 
-Call `list_projects` first. Select the one exact saved project whose root matches
-the repository. Use `target.environment.type: "local"` because discovery tasks
-are read-only and the calling task owns all writes. If selection is ambiguous,
-ask for the missing project choice before creating tasks.
+## Discover and verify
 
-### 3. Launch discovery tasks
+Read [index roles](references/index-roles.md) when splitting discovery; combine
+or omit their candidate contracts to match real evidence boundaries. Read
+[model routing](references/model-routing.md) before dispatch. Give each worker
+minimum repository context, read-only scope, one structured evidence report,
+and no further delegation. Continue a distinct inspection or integration
+preparation while workers run. Workers never edit the shared checkout.
 
-Read `references/index-roles.md` and `references/model-routing.md` before
-creating tasks. Immediately before dispatch, inspect the current `create_thread`
-tool schema and intersect its supported combinations with the Luna and Sol catalog.
-Route each needed role from its actual repository scope and evidence risk; do
-not copy the coordinator's model settings. Show each role's route and reason,
-then create only the independent roles needed. Candidate role contracts are:
+Distinguish implemented behavior from exercised behavior. Keep a compact source
+pointer for every material claim: path, symbol, test, or non-secret command.
 
-1. `Dale Index · Context Cartographer`
-2. `Dale Index · Product & State Historian`
-3. `Dale Index · Quality & Design Auditor`
-
-Combine adjacent candidate contracts when their evidence scope is inseparable.
-Give each task the shared evidence contract and its role contract. Require
-read-only inspection and a structured final report; do not let discovery tasks
-edit primitives.
-
-Do not create a role with no material evidence boundary. Create every role in
-the selected project's `local` environment. Before
-creation, publish a coordinator manifest with title, exact `projectId`, expected
-host, role, and `dispatching` status. Immediately record the exact returned
-`threadId`, `hostId`, status, and wait cursor and preserve this registry in
-continuation summaries. Use known IDs directly for read, send, and wait;
-`list_threads` is optional discovery only and cannot gate a known ID or prove
-absence. Validate a user-supplied actual ID with `read_thread` before adoption.
-Never use a `clientThreadId` as a real ID; an unexpected client ID or ambiguous
-creation becomes uncertain and must never be recreated.
-
-Rename each task immediately with `set_thread_title`. Retain its model,
-thinking, and routing reason in the same manifest.
-
-### 4. Collect without busy polling
-
-Wait on all active tasks with one bounded `wait_threads` call. Reuse
-`afterCursor` values so completed text is not replayed. A progress timeout is
-normal; report meaningful changes only. Use `read_thread` only when the compact
-result lacks evidence needed for integration.
-
-If a report violates its contract, send one precise correction with
-`send_message_to_thread` and wait again. Preserve the task's current route
-unless the required correction materially changes its workload; a follow-up may
-use a newly justified supported Luna or Sol route, but an already running turn
-cannot be changed in place.
-
-### 5. Launch the verification gate
-
-Create `Dale Index · Evidence Verifier` after the discovery reports only when
-independent verification can materially change the result. Select its route
-from actual contradictions, missing
-coverage, repository complexity, and consequence of a false pass—not from the
-coordinator's settings or the generic fact that it is a verifier. Give it:
+For consequential contradictions or a broad initial synthesis, use a fresh
+read-only verifier. Select its route from evidence risk, not the generic role
+name. Give it:
 
 - the raw reports, not the coordinator's preferred synthesis;
 - the repository root and applicable instructions;
 - the primitive file contract;
-- the adversarial verifier prompt from `references/index-roles.md`.
+- the adversarial verifier prompt from [index roles](references/index-roles.md).
 
 Require it to reject unsupported claims, detect contradictions and stale
 documentation, identify missing coverage, and return a pass/fail list. Do not
 ask it to make repository edits.
 
-Create the verifier in the same selected project's `local` environment and add
-its exact identifiers, status, and cursor to the authoritative manifest.
+For a small refresh, check affected claims directly. If delegation or independent
+verification is unavailable, finish supported documentation and disclose the
+missing independence; do not invent a verifier or block accessible indexing
+merely because task tools are absent.
 
-### 6. Integrate only survivors
+## Separate chats, only when requested
+
+Create discovery chats only when the user explicitly requests separate chats.
+Call `list_projects`, resolve the exact saved project, and use its `local`
+environment unless the user explicitly requests a worktree; resolve an ambiguous
+project before creation. Keep every
+chat read-only, user-owned, and forbidden from further delegation. Do not archive
+it unless asked.
+
+Before dispatch, record title, exact `projectId`, host, role, route, reason, and
+`dispatching` status. Persist real returned `threadId`, `hostId`, status, and wait
+cursor in the manifest and continuation summaries. Use known IDs directly for
+read/send/wait; `list_threads` cannot gate a known ID or prove absence. Validate
+user-supplied IDs with `read_thread`. Never use a `clientThreadId` as a real task
+ID or recreate an ambiguously created chat.
+
+Collect explicitly requested chats with one bounded `wait_threads` call, reusing
+`afterCursor`. A progress timeout is normal. Read a chat only when compact
+output lacks material evidence; send a precise contract correction when needed.
+Keep route changes for subsequent turns; never claim to alter a running turn.
+
+## Integrate only survivors
 
 Let the calling task write or update all six primitives. Preserve existing
 hand-written content unless current evidence disproves it. Mark unresolved
@@ -161,7 +116,7 @@ For each material claim, include a compact source pointer such as a file path,
 symbol, test name, or exact non-secret command. Prefer useful summaries over
 inventories of every file.
 
-### 7. Validate the result
+## Validate and report
 
 Check at minimum:
 
@@ -181,9 +136,16 @@ Do not run broad builds or test suites solely for documentation indexing.
 Run a narrow non-mutating command only when it is the cheapest way to verify a
 material claim.
 
-## Report completion
-
 State which primitives were created or refreshed, which claims remain unknown,
-what the verifier rejected, and the exact checks run. Include one
-`::created-thread` directive per created task with a real returned `threadId`.
-Do not emit a directive for a `clientThreadId`-only or uncertain result.
+what the verifier rejected, and the exact checks run. Record revision and
+coverage so the next refresh can be scoped. Follow the live tool's
+`::created-thread` directive with `threadId` for ready creation or `clientThreadId`
+only for explicitly reported queued setup. Never label a queued ID as real or
+emit a directive for an ambiguous result.
+
+## Cancellation and changed scope
+
+On cancellation or revoked scope, interrupt affected subagents immediately,
+invalidate pending outputs, and preserve existing changes. For a correction,
+stop conflicting work first, send the revised contract, and accept results only
+against the current request and artifact state.

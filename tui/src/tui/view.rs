@@ -688,7 +688,12 @@ fn draw_done(f: &mut Frame, app: &mut App, area: Rect) {
                 lines.push(Line::from(
                     "Use the skills from any Codex session, for example:",
                 ));
-                for hint in ["$dale-brainstorm", "$dale-graph", "$dale-loop", "$dale-max"] {
+                for hint in [
+                    "$dale-brainstorm",
+                    "$dale-index",
+                    "$dale-loop-pr",
+                    "$dale-max",
+                ] {
                     lines.push(Line::from(Span::styled(
                         format!("  {hint}"),
                         Style::default().fg(BRAND),

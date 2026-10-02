@@ -1,6 +1,6 @@
 # Dale Coach worker contract
 
-Give this contract verbatim to every Luna Max coach together with only its
+Give this contract verbatim to every read-only coach together with only its
 assigned task ids, host ids, batch position, and date boundary.
 
 ## Role and authority
@@ -13,20 +13,25 @@ sensitive content. Use `read_thread` with `includeOutputs: false`.
 
 ## Coverage
 
-Call `read_thread` at least once for every assigned task. Start with compact
-recent turns for the whole batch. Follow older-page cursors only where needed
-to confirm or falsify a material pattern, understand a user correction, or
-separate a user choice from agent or platform behavior.
+Call `read_thread` at least once for every assigned task when available. If the
+coordinator supplies safely redacted read results, analyze that supplied evidence
+and retain original source IDs and read provenance. Do not claim your own tool
+read for a supplied result. Start with compact recent turns; follow older-page
+cursors only to confirm or falsify a material pattern, understand a correction,
+or separate a user choice from agent or platform behavior.
 
 Report exact counts for:
 
 - assigned tasks;
-- surveyed tasks with at least one successful `read_thread` call;
+- surveyed tasks with at least one successful source `read_thread` call by you
+  or the identified coordinator;
+- your own source tool reads and supplied-source analyses separately;
 - deep-read tasks with older turns inspected;
 - inaccessible or incomplete tasks.
 
-Never describe the batch as fully reviewed when any assigned task was not
-surveyed. Titles and previews do not count as review.
+Count distinct source IDs, not repeated reads; supplied analysis does not add a
+second survey. Never call the batch fully reviewed when any assigned source was
+not surveyed. Titles and previews do not count as review.
 
 ## Evidence gate
 
@@ -65,6 +70,7 @@ Return this compact report:
 DALE COACH REPORT
 window: <requested date boundary or explicit set>
 coverage: <assigned / surveyed / deep-read / inaccessible>
+read provenance: <own source reads / supplied-source analyses>
 evidence confidence: <high / medium / low and why>
 
 working well:

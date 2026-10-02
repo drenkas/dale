@@ -1,8 +1,8 @@
 # Luna and Sol routing for Dale Max
 
-Dale Max routes each resident thread and ephemeral reviewer independently. The
-live task, messaging, and subagent tool schemas are authoritative. Route only
-among available Luna and Sol models and supported reasoning efforts.
+Dale Max routes each worker and independent reviewer separately. The
+live task, messaging, and subagent tool schemas are authoritative. Its automatic
+catalog contains available Luna and Sol models and supported reasoning efforts.
 
 ## Catalog
 
@@ -10,22 +10,29 @@ among available Luna and Sol models and supported reasoning efforts.
 |---|---|---|---|
 | Luna standard | `gpt-6-luna` | Mechanical extraction, narrow checks, fresh low-risk reviewer lenses | `high` |
 | Luna deep | `gpt-6-luna` | Everyday implementation, debugging, integration, ordinary review | `high` or `max` |
-| Sol | `gpt-6-sol` | Consequential ambiguity, difficult cross-layer synthesis, adversarial proof | `high` |
+| Sol | `gpt-6.1-sol` | Consequential ambiguity, difficult cross-layer synthesis, adversarial proof | `high` |
 
 The exact model IDs and accepted efforts can change. Inspect the live schema
-immediately before dispatch. `fork_thread` does not select a route; set model
-and thinking on the first `send_message_to_thread` follow-up. If no allowed
-Luna or Sol route is available, return `BLOCKED`. Never omit the override when that
-could silently inherit a model outside the Luna and Sol boundary.
+immediately before dispatch. For `spawn_agent`, use `model` and
+`reasoning_effort` with fresh context (`fork_turns: "none"`) and explicit required
+inputs. Do not supply overrides on a full-history fork when the schema requires
+inheritance. A role may fix model/effort: select a compatible role or the default
+role, never claim that an override changes a fixed setting. Task-only `thinking`
+applies to explicitly requested separate tasks and their follow-ups; obey their
+live routing and authorization rules. If no allowed Luna or Sol route is
+available, continue useful local work and report the missing
+delegation route. Keep the independent-review gate blocked when it cannot be
+satisfied; never silently inherit a model outside this automatic catalog.
 
-Dale routes Luna only at `high` or `max`; use `high` for bounded work and
-`max` when deeper reasoning benefits the result.
+Automatic Luna routes use only `high` or `max`; explicit user settings take
+precedence. Use `high` for bounded work and `max` when deeper reasoning benefits
+the result.
 
 ## Selection
 
-1. Obey an explicit user-approved model and effort when the live schema supports
-   that exact combination. If it does not, report the conflict and do not
-   substitute another route without the user's resolution.
+1. Obey explicit user-approved model and effort first, including a supported
+   route outside this automatic catalog. If the live schema cannot support it,
+   report the conflict and do not substitute without the user's resolution.
 2. Use Luna for bounded mechanical work whose correctness does not depend on
    deeper synthesis.
 3. Use Luna with `high` or `max` reasoning for substantial implementation or
@@ -34,8 +41,8 @@ Dale routes Luna only at `high` or `max`; use `high` for bounded work and
    conclusion.
 5. Pick effort separately and state the concrete reason before dispatch.
 
-Typical starting routes are Luna `high` for the resident Worker, Sol `high`
-for resident Reviewer 1 only when the proof is genuinely difficult, and Luna
+Typical starting routes are Luna `high` for implementation, Sol `high`
+for independent review only when the proof is genuinely difficult, and Luna
 at the effort appropriate to the owned question for ephemeral reviewers.
 These are starting points, not defaults that outrank the task.
 
@@ -50,7 +57,9 @@ These are starting points, not defaults that outrank the task.
 - Use `max` when the owned reasoning bottleneck or proof obligation genuinely
   benefits from it; no prior cheaper failure is required. Route `ultra` only to
   Sol and only when the live schema confirms that exact combination.
-- Reviewer 2..N each receive the model and effort best matched to their owned
+- Additional reviewers receive the model and effort best matched to their owned
   question. Verification alone does not imply Sol.
-- A later follow-up may change route if the workload materially changed. Never
-  claim to reroute a turn already running.
+- Change undispatched routes only when the workload materially changes. A
+  subagent message or follow-up does not establish a model change. Separate-task
+  follow-ups may change route only when the live tool supports it; never claim
+  to reroute a running turn.

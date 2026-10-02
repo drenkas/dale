@@ -93,7 +93,6 @@ mod tests {
         assert!(!p.version.is_empty());
         assert_eq!(p.source, "bundled");
         assert!(p.agents_md.contains("AGENTS.md"));
-        assert!(p.skills.len() >= 13);
         let brainstorm = p.skill("dale-brainstorm").expect("dale-brainstorm");
         assert!(!brainstorm.description.is_empty());
         assert!(brainstorm.files.iter().any(|(rel, _)| rel == "SKILL.md"));

@@ -67,8 +67,13 @@ fn install_all_creates_skills_and_manifest() {
     assert!(out.status.success(), "stderr: {}", stderr(&out));
 
     let count = bundled_skill_count();
-    assert!(count >= 13);
-    for name in ["dale-brainstorm", "dale-loop-goal", "dale-max"] {
+    assert_eq!(count, 9);
+    for name in [
+        "dale-brainstorm",
+        "dale-loop-pr",
+        "dale-loop-watch",
+        "dale-max",
+    ] {
         assert!(
             home.join("skills").join(name).join("SKILL.md").is_file(),
             "{name} missing"
@@ -834,14 +839,14 @@ fn list_json_has_the_documented_shape() {
         bundled_version()
     );
     assert_eq!(brainstorm["updateAvailable"], serde_json::json!(false));
-    let graph = find("dale-graph");
-    assert_eq!(graph["installed"], serde_json::json!(false));
-    assert!(graph["source"].is_null());
-    assert!(graph["installedVersion"].is_null());
+    let index = find("dale-index");
+    assert_eq!(index["installed"], serde_json::json!(false));
+    assert!(index["source"].is_null());
+    assert!(index["installedVersion"].is_null());
 
     // With a plugin install, pluginInstall and source reflect it.
     let plug_home = tmp.path().join("plug-home");
-    build_plugin(&plug_home, "personal", "0.0.2+codex.2", &["dale-graph"]);
+    build_plugin(&plug_home, "personal", "0.0.2+codex.2", &["dale-index"]);
     let out = dale(&plug_home, &["list", "--json"]);
     assert!(out.status.success(), "stderr: {}", stderr(&out));
     let doc: serde_json::Value = serde_json::from_str(&stdout(&out)).unwrap();
@@ -855,7 +860,7 @@ fn list_json_has_the_documented_shape() {
     );
     assert!(doc["pluginInstall"]["path"].as_str().unwrap().len() > 1);
     let skills = doc["skills"].as_array().unwrap();
-    let graph = skills.iter().find(|s| s["name"] == "dale-graph").unwrap();
-    assert_eq!(graph["source"], serde_json::json!("plugin"));
-    assert_eq!(graph["updateAvailable"], serde_json::json!(true));
+    let index = skills.iter().find(|s| s["name"] == "dale-index").unwrap();
+    assert_eq!(index["source"], serde_json::json!("plugin"));
+    assert_eq!(index["updateAvailable"], serde_json::json!(true));
 }

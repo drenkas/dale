@@ -12,22 +12,11 @@ pub const GROUPS: &[(&str, &[&str])] = &[
             "dale-brainstorm",
             "dale-lenses",
             "dale-index",
-            "dale-graph",
             "dale-proof",
             "dale-visualize",
         ],
     ),
-    (
-        "Loop",
-        &[
-            "dale-loop",
-            "dale-loop-project",
-            "dale-loop-pr",
-            "dale-loop-repo",
-            "dale-loop-watch",
-            "dale-loop-goal",
-        ],
-    ),
+    ("Loop", &["dale-loop-pr", "dale-loop-watch"]),
     ("Max", &["dale-max"]),
 ];
 
@@ -213,9 +202,9 @@ mod tests {
             description: String::new(),
             files: Vec::new(),
         };
-        let mut skills = vec![mk("dale-max"), mk("dale-loop"), mk("dale-brainstorm")];
+        let mut skills = vec![mk("dale-max"), mk("dale-loop-pr"), mk("dale-brainstorm")];
         sort_skills(&mut skills);
         let names: Vec<_> = skills.iter().map(|s| s.name.as_str()).collect();
-        assert_eq!(names, vec!["dale-brainstorm", "dale-loop", "dale-max"]);
+        assert_eq!(names, vec!["dale-brainstorm", "dale-loop-pr", "dale-max"]);
     }
 }
