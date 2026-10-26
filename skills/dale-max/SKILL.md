@@ -22,8 +22,9 @@ material failure modes. Respect user-specified resource limits. Do not impose
 unlimited review or a fixed number of reviewers. Read
 [contracts.md](references/contracts.md) for worker and reviewer contracts.
 Read [model-routing.md](references/model-routing.md) when selecting routes.
-Keep established Terra/Sol routing; explicit user settings and the live dispatch
-schema take precedence.
+Keep established Terra/Sol routing; when the coordinator runs on Claude, use the
+Sonnet/Opus catalog instead. Explicit user settings and the live dispatch schema
+take precedence.
 
 ## Implement and review
 

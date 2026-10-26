@@ -135,6 +135,10 @@ Cross retains user-selected per-role routes and does not implicitly invoke Max:
 | Sol | `gpt-6.1-sol` | `high` for difficult synthesis; higher effort needs a concrete reason |
 | Coach | `gpt-6-luna` | `max` for evidence-backed retrospectives |
 
+When the Max coordinator runs on Claude, Max routes Terra to
+`claude-sonnet-5-5` and Sol to `claude-opus-5-5`, mapping `high` to `medium`
+and `max` to `high`; `high` is the Claude ceiling.
+
 Show a workload-specific routing reason before dispatch. Never inherit elevated
 Sol effort merely because the coordinator uses it. Explicit separate-task mode
 retains stable dispatch identities, exact returned IDs, and fail-closed handling

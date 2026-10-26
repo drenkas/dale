@@ -28,6 +28,24 @@ Automatic Terra routes use only `high` or `max`; explicit user settings take
 precedence. Use `high` for bounded work and `max` when deeper reasoning benefits
 the result.
 
+## Claude catalog
+
+When the coordinator runs on Claude, use this catalog instead of the GPT
+catalog above. Every rule below applies with Terra read as Sonnet and Sol read
+as Opus.
+
+| Route | Model ID | Replaces | Normal thinking |
+|---|---|---|---|
+| Sonnet standard | `claude-sonnet-5-5` | Terra standard | `medium` |
+| Sonnet deep | `claude-sonnet-5-5` | Terra deep | `medium` or `high` |
+| Opus | `claude-opus-5-5` | Sol | `medium` or `high` |
+
+Map effort as GPT `high` to Claude `medium` and GPT `max` to Claude `high`.
+Automatic Claude routes use only `medium` or `high`; `high` is the ceiling,
+including where the GPT rules allow Sol `xhigh` or `ultra`. Explicit user
+settings still take precedence. Never mix catalogs automatically: a Claude
+coordinator does not route to Terra or Sol unless the user asks.
+
 ## Selection
 
 1. Obey explicit user-approved model and effort first, including a supported
