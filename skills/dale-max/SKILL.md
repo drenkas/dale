@@ -1,14 +1,19 @@
 ---
 name: dale-max
-description: Run consequential work through implementation, independent review, evidence-based acceptance, and focused revision. Use only for explicit $dale-max or a direct request to run Dale Max.
+description: Orchestrate consequential work through bounded subagents, independent review, evidence-based acceptance, and focused revision. Use only for explicit $dale-max or a direct request to run Dale Max.
 ---
 
 # Dale Max
 
-Use a high-assurance review loop for explicitly requested consequential work.
-The calling agent owns the plan, integration, and final gate. Use subagents for
-independent implementation or review; separate Codex tasks are optional only
-when the user explicitly requests them.
+For explicitly requested consequential work, the calling agent is the
+orchestrator and planner: own decomposition, dependencies, integration, and the
+final gate. Proactively delegate substantial research, design, implementation,
+and verification to bounded subagents when useful, using maximum useful
+available concurrency without filler or duplicated work.
+Keep tiny corrections and orchestration work local; do not make substantive
+implementation the coordinator's default. If delegation is unavailable, make
+useful progress locally and disclose the unavailable delegation gate. Separate
+Codex tasks are optional only when the user explicitly requests them.
 
 ## Establish the acceptance contract
 
@@ -17,16 +22,17 @@ material failure modes. Respect user-specified resource limits. Do not impose
 unlimited review or a fixed number of reviewers. Read
 [contracts.md](references/contracts.md) for worker and reviewer contracts.
 Read [model-routing.md](references/model-routing.md) when selecting routes.
-Keep established Luna/Sol routing; explicit user settings and the live dispatch
+Keep established Terra/Sol routing; explicit user settings and the live dispatch
 schema take precedence.
 
 ## Implement and review
 
-The coordinator may implement directly or assign a bounded worker with exclusive
-write scope. Use live collaboration tools and capacity. Allow one mutating
-writer per shared checkout, including the coordinator and disjoint-file workers;
-read-only work may run in parallel. Workers do not spawn more agents or separate
-tasks. Preserve unrelated changes. Reuse the implementer for focused revisions.
+Assign substantive implementation to a bounded worker with exclusive write
+scope. Use live collaboration tools and maximum useful available capacity. Allow
+one mutating writer per shared checkout, including the coordinator and
+disjoint-file workers; read-only work may run in parallel. Workers do not spawn
+more agents or separate tasks. Preserve unrelated changes. Reuse the implementer
+for focused revisions. Follow explicit user limits and never expand scope.
 
 Run a fresh independent reviewer against the original requirement, raw artifact,
 and evidence, without the implementer's intended verdict. Delegate distinct

@@ -12,6 +12,7 @@ pub const GROUPS: &[(&str, &[&str])] = &[
             "dale-brainstorm",
             "dale-lenses",
             "dale-index",
+            "dale-cross",
             "dale-proof",
             "dale-visualize",
         ],

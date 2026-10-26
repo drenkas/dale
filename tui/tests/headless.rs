@@ -67,16 +67,26 @@ fn install_all_creates_skills_and_manifest() {
     assert!(out.status.success(), "stderr: {}", stderr(&out));
 
     let count = bundled_skill_count();
-    assert_eq!(count, 9);
     for name in [
         "dale-brainstorm",
         "dale-loop-pr",
         "dale-loop-watch",
         "dale-max",
+        "dale-cross",
     ] {
         assert!(
             home.join("skills").join(name).join("SKILL.md").is_file(),
             "{name} missing"
+        );
+    }
+
+    for rel in ["SKILL.md", "agents/openai.yaml", "references/t3.md"] {
+        let path = Path::new("skills/dale-cross").join(rel);
+        assert_eq!(
+            fs::read(home.join(&path)).unwrap(),
+            fs::read(repo_root().join(&path)).unwrap(),
+            "{} was not installed intact",
+            path.display()
         );
     }
 

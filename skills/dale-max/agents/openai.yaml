@@ -1,6 +1,6 @@
 interface:
   display_name: "Dale Max"
-  short_description: "Deliver with independent verification"
-  default_prompt: "Use $dale-max to complete this task with independent subagent review, direct evidence, and focused revisions."
+  short_description: "Orchestrate work with independent verification"
+  default_prompt: "Use $dale-max as orchestrator and planner: delegate substantial work to bounded subagents, integrate their results, and complete independent review and evidence-based acceptance."
 policy:
   allow_implicit_invocation: false

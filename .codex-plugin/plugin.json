@@ -10,7 +10,7 @@
   "interface": {
     "displayName": "Dale",
     "shortDescription": "Think, delegate, verify, and resume.",
-    "longDescription": "Dale scales from direct work to coordinated subagents with explicit ownership and evidence. Separate user-owned tasks are optional on request. Task-matched Luna and Sol routing is preserved; explicit user settings take priority. Includes brainstorming, coaching, indexing, reasoning lenses, review loops, monitoring, technical proof, and standalone visualization.",
+    "longDescription": "Dale scales from direct work to coordinated subagents with explicit ownership and evidence. Separate user-owned tasks are optional on request. Task-matched Luna and Sol routing is preserved; Cross asks for user-selected Claude, GPT, and Gemini models per role through T3 Code. Includes brainstorming, coaching, indexing, reasoning lenses, review loops, monitoring, technical proof, and standalone visualization.",
     "developerName": "Dale",
     "category": "Productivity",
     "capabilities": [
@@ -25,6 +25,7 @@
       "Monitor this PR with Dale Loop PR.",
       "Watch this source for meaningful changes with Dale Loop Watch.",
       "Run this consequential task through Dale Max.",
+      "Choose a model for each needed role and coordinate this task with Dale Cross.",
       "Verify this technical claim with Dale Proof.",
       "Turn this material into a standalone HTML visualization."
     ],

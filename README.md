@@ -30,18 +30,21 @@ fork payload through `--update-url`; keep one canonical installed copy.
 
 Dale uses the calling agent and subagents by default. Delegate when a work unit
 can progress independently and saves time or supplies meaningful independent
-evidence. Small or tightly coupled work stays local. The coordinator works on a
-complementary part, integrates accepted artifacts, and verifies the final target.
+evidence. Small or tightly coupled work usually stays local. Explicit `$dale-max`
+and `$dale-cross` runs make the coordinator the planner and orchestrator: for
+substantial work, delegate useful independent work, integrate accepted artifacts,
+and verify the final target. The coordinator keeps orchestration and tiny
+corrections local.
 
 | Need | Execution |
 |---|---|
-| Small or sequential work | Calling agent |
-| Independent implementation or evidence | Bounded subagents |
+| Small or sequential work outside Max/Cross | Calling agent |
+| Substantial work in Max/Cross; independent implementation or evidence elsewhere | Bounded subagents |
 | Explicitly requested separate task, fork, or durable handoff | Codex task tools |
 | Requested future observation or continuation | Product automation with durable state |
 
-This fork retains task-matched Luna/Sol routing for Brainstorm evidence, Index,
-and Max, and Luna Max for Coach.
+This fork retains task-matched Luna/Sol routing for Brainstorm evidence and
+Index, Terra/Sol routing for Max, and Luna Max for Coach.
 Explicit user settings take priority; the live dispatch schema determines
 supported models, efforts, and context modes. Other direct work and loop
 workers inherit their settings unless an explicit route is requested.
@@ -61,6 +64,7 @@ one delegation level by default and checks the integrated result.
 | `$dale-lenses` | Reframe a bounded hard question through a useful falsifiable model |
 | `$dale-index` | Create or incrementally refresh six repository knowledge primitives |
 | `$dale-max` | Complete consequential work with independent review and evidence-based acceptance |
+| `$dale-cross` | Choose models per needed role and coordinate Claude, GPT, and Gemini subagents |
 | `$dale-proof` | Verify a technical claim within an explicit evidence boundary |
 | `$dale-visualize` | Create a self-contained HTML explanation or interactive artifact |
 | `$dale-loop-pr` | Monitor or repair a PR within the requested scope |
@@ -69,6 +73,14 @@ one delegation level by default and checks the integrated result.
 Select a skill in Codex or name it in your request. Coach and Max remain
 explicit-invocation workflows. Each skill is independently installable; local
 references belong to that skill and do not require another Dale skill.
+
+Cross discovers executable models from T3 Code's live composer catalog,
+proposes only the roles the task needs, and asks you to choose a model for each
+before dispatch. Current-generation choices follow the available catalog rather
+than a fixed model list. Your choices override automatic Dale routes for that
+task; unavailable selections require a new choice. It can run alone or supply
+the routes for an explicitly requested Max workflow. Cross-provider execution
+requires T3 child-task support; native subagents alone do not establish it.
 
 ## Repository knowledge
 
@@ -89,10 +101,11 @@ mandatory worker count or saved-project requirement.
 
 ## Evidence and lifecycle
 
-Max retains independent review as an acceptance gate. Its worker may be the
-calling agent or a scoped subagent; additional reviewers need a concrete
-uncovered risk. If independence is unavailable, useful work can continue but
-the Max gate cannot be reported as passed. Review and testing stop when the
+Max retains independent review as an acceptance gate. The coordinator plans,
+integrates, and verifies; bounded subagents handle substantial implementation.
+Additional reviewers need a concrete uncovered risk. If independence is
+unavailable, useful work can continue but the Max gate cannot be reported as
+passed. Review and testing stop when the
 required evidence is sufficient; changed artifacts invalidate affected evidence.
 
 Proof distinguishes declared, implemented, tested, and observed behavior. A
@@ -110,12 +123,15 @@ external messages.
 
 Adapted from upstream commit
 [`8c7068d`](https://github.com/lubluniky/dale/commit/8c7068d11c18e60e57e5c8a1b76524a9bf0d8c0d).
-The fork keeps its established routes:
+The fork keeps its established routes. Explicit user settings take priority;
+Cross retains user-selected per-role routes and does not implicitly invoke Max:
 
 | Route | Model ID | Reasoning |
 |---|---|---|
 | Luna standard | `gpt-6-luna` | `high` for bounded discovery and narrow checks |
 | Luna deep | `gpt-6-luna` | `high` or `max` for coupled work and normal proof |
+| Max standard | `gpt-6.1-terra` | `high` for bounded work and narrow checks |
+| Max deep | `gpt-6.1-terra` | `high` or `max` for implementation and normal proof |
 | Sol | `gpt-6.1-sol` | `high` for difficult synthesis; higher effort needs a concrete reason |
 | Coach | `gpt-6-luna` | `max` for evidence-backed retrospectives |
 
