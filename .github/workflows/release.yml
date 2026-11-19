@@ -27,10 +27,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - runner: macos-14
+          - runner: macos-latest
             slug: macos-arm64
             target: aarch64-apple-darwin
-          - runner: macos-14
+          - runner: macos-latest
             slug: macos-x64
             target: x86_64-apple-darwin
           - runner: ubuntu-22.04
