@@ -1,4 +1,4 @@
 interface:
   display_name: "Dale Cross"
-  short_description: "Orchestrate work with user-selected models"
-  default_prompt: "Use $dale-cross as orchestrator and planner: plan the work, ask me to choose a model for each needed role, then delegate, integrate, and verify the result."
+  short_description: "Orchestrate work with your team's models"
+  default_prompt: "Use $dale-cross as orchestrator and planner: plan the work, take each role's model from my saved team and ask me about any role it leaves open, then delegate, integrate, and verify the result."

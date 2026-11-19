@@ -14,13 +14,13 @@ use crate::frontmatter;
 use crate::payload::{self, Payload, SkillPayload};
 
 pub const DEFAULT_UPDATE_URL: &str =
-    "https://codeload.github.com/lubluniky/dale/tar.gz/refs/heads/main";
+    "https://codeload.github.com/drenkas/dale/tar.gz/refs/heads/main";
 
 /// GitHub "latest release" URL used by the best-effort self-version check.
-pub const RELEASES_LATEST_URL: &str = "https://github.com/lubluniky/dale/releases/latest";
+pub const RELEASES_LATEST_URL: &str = "https://github.com/drenkas/dale/releases/latest";
 
 /// One-liner the user reruns to get a newer dale binary.
-pub const INSTALL_ONE_LINER: &str = "curl -fsSL https://borkiss.net/dale-install.sh | sh";
+pub const INSTALL_ONE_LINER: &str = "curl -fsSL https://renkas.pp.ua/dale-install.sh | sh";
 
 /// Best-effort self-version check: the version of the newest published dale
 /// release, when it is strictly newer than this build. Any network or parse

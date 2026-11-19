@@ -19,7 +19,7 @@ jobs:
           gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 || \
             gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" \
               --title "Dale $GITHUB_REF_NAME" \
-              --notes "Install: \`curl -fsSL https://borkiss.net/dale-install.sh | sh\`"
+              --notes "Install: \`curl -fsSL https://renkas.pp.ua/dale-install.sh | sh\`"
 
   build:
     needs: create-release

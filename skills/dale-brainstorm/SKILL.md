@@ -39,16 +39,6 @@ inspect accessible evidence directly and state any remaining limit.
 Do not create agents to simulate opinions, taste, or disagreement. Bring findings
 back as evidence, separating what they resolved, contradicted, and left unknown.
 
-Create a separate Codex chat only when the user explicitly requests that chat.
-Resolve the exact saved project for repository work and prefer its local
-environment. Keep the evidence chat read-only, user-owned, and scoped to one
-deliverable with no further delegation. Persist its real `threadId`, `hostId`,
-status, and wait cursor; use known IDs directly. `list_threads` cannot prove
-absence or gate a known ID. Never use a `clientThreadId` as a real task ID or
-recreate an ambiguously created chat. Follow the live tool's created-thread
-directive with `threadId` for ready creation or `clientThreadId` only for
-explicitly reported queued setup; never label a queued ID as real.
-
 ## Converge
 
 When asked to converge, return the leading direction, fit to the user's

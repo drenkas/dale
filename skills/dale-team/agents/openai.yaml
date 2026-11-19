@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dale Team"
+  short_description: "Save which model runs each role"
+  default_prompt: "Use $dale-team to show my saved team and help me choose a model for each role."

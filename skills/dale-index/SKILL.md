@@ -8,8 +8,7 @@ description: Build or refresh six evidence-backed project primitives. Use for re
 Build a compact source of truth from the repository as it exists now. Work
 directly for a small repository or narrow refresh; use read-only subagents for
 independent evidence boundaries when that saves time or improves coverage.
-The calling task is the sole integrator and document writer. No saved Codex
-project or separate chat is needed for direct work or subagents.
+The calling task is the sole integrator and document writer.
 
 ## Produce the primitive set
 
@@ -82,27 +81,6 @@ verification is unavailable, finish supported documentation and disclose the
 missing independence; do not invent a verifier or block accessible indexing
 merely because task tools are absent.
 
-## Separate chats, only when requested
-
-Create discovery chats only when the user explicitly requests separate chats.
-Call `list_projects`, resolve the exact saved project, and use its `local`
-environment unless the user explicitly requests a worktree; resolve an ambiguous
-project before creation. Keep every
-chat read-only, user-owned, and forbidden from further delegation. Do not archive
-it unless asked.
-
-Before dispatch, record title, exact `projectId`, host, role, route, reason, and
-`dispatching` status. Persist real returned `threadId`, `hostId`, status, and wait
-cursor in the manifest and continuation summaries. Use known IDs directly for
-read/send/wait; `list_threads` cannot gate a known ID or prove absence. Validate
-user-supplied IDs with `read_thread`. Never use a `clientThreadId` as a real task
-ID or recreate an ambiguously created chat.
-
-Collect explicitly requested chats with one bounded `wait_threads` call, reusing
-`afterCursor`. A progress timeout is normal. Read a chat only when compact
-output lacks material evidence; send a precise contract correction when needed.
-Keep route changes for subsequent turns; never claim to alter a running turn.
-
 ## Integrate only survivors
 
 The calling task writes all six primitives. Preserve hand-written content unless
@@ -132,10 +110,7 @@ command only when cheapest for verifying a material claim.
 
 State which primitives were created or refreshed, which claims remain unknown,
 what the verifier rejected, and the exact checks run. Record revision and
-coverage so the next refresh can be scoped. Follow the live tool's
-`::created-thread` directive with `threadId` for ready creation or `clientThreadId`
-only for explicitly reported queued setup. Never label a queued ID as real or
-emit a directive for an ambiguous result.
+coverage so the next refresh can be scoped.
 
 ## Cancellation and changed scope
 

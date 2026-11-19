@@ -7,14 +7,13 @@ an explicit user model or effort supported by the live schema takes priority.
 Inspect the live `spawn_agent` schema before delegation. Use `model` and
 `reasoning_effort` for an explicit override, with `fork_turns: "none"` and a
 self-contained evidence prompt. Do not inherit the coordinator's route by
-accident. Use `create_thread` with `model` and `thinking` only when the user
-explicitly requests a separate chat; inspect that tool's schema independently.
+accident.
 
 | Route | Model ID | Evidence-task use | Normal thinking range |
 |---|---|---|---|
 | Luna standard | `gpt-6-luna` | Bounded lookup, repository sweep, extraction, or narrow measurement | `high` |
 | Luna deep | `gpt-6-luna` | Coupled investigation, technical comparison, or evidence that needs substantial interpretation | `high` or `max` |
-| Sol | `gpt-6.1-sol` | Rare, consequential ambiguity where deep cross-domain reasoning can materially change the evidence conclusion | `high` |
+| Sol | `gpt-6.2-sol` | Rare, consequential ambiguity where deep cross-domain reasoning can materially change the evidence conclusion | `high` |
 
 Dale's default Luna routes use only `high` or `max`. Validate every model/effort
 combination against the live schema. If a requested route is unavailable, report

@@ -9,7 +9,7 @@ terminal).
 ## Install
 
 ```sh
-curl -fsSL https://borkiss.net/dale-install.sh | sh
+curl -fsSL https://renkas.pp.ua/dale-install.sh | sh
 ```
 
 From source:

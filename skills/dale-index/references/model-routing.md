@@ -9,15 +9,13 @@ takes priority.
 Immediately before delegation, inspect the live `spawn_agent` schema. Use
 `model` and `reasoning_effort` for an explicit override, with `fork_turns: "none"`
 and a self-contained role prompt. Do not inherit the coordinator's route by
-accident. For separate chats explicitly requested by the user, inspect
-`create_thread` independently and use its `model` and `thinking` fields; the
-destination host validates the final combination.
+accident.
 
 | Route | Model ID | Indexing use | Normal thinking range |
 |---|---|---|---|
 | Luna standard | `gpt-6-luna` | Bounded repository discovery, inventory, extraction, and narrow evidence checks | `high` |
 | Luna deep | `gpt-6-luna` | Broad or coupled repository analysis, contradiction resolution, and ordinary adversarial verification | `high` or `max` |
-| Sol | `gpt-6.1-sol` | Genuinely difficult cross-layer synthesis or high-stakes verification where stronger reasoning can change the result | `high` |
+| Sol | `gpt-6.2-sol` | Genuinely difficult cross-layer synthesis or high-stakes verification where stronger reasoning can change the result | `high` |
 
 Dale's default Luna routes use only `high` or `max`. Validate every model/effort
 combination against the live schema. If a requested route is unavailable, report

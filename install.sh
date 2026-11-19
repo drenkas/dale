@@ -1,7 +1,7 @@
 #!/bin/sh
-# Dale installer — https://github.com/lubluniky/dale
+# Dale installer — https://github.com/drenkas/dale
 #
-#   curl -fsSL https://borkiss.net/dale-install.sh | sh
+#   curl -fsSL https://renkas.pp.ua/dale-install.sh | sh
 #
 # Downloads the latest `dale` release binary for this platform and installs it
 # into a directory on PATH (override with DALE_INSTALL_DIR). Then run `dale`
@@ -9,7 +9,7 @@
 
 set -eu
 
-REPO="lubluniky/dale"
+REPO="drenkas/dale"
 GREEN="$(printf '\033[38;2;81;200;120m')"
 BOLD="$(printf '\033[1m')"
 DIM="$(printf '\033[2m')"

@@ -10,10 +10,10 @@ findings, scope, and mergeability. Record artifact identity and current blockers
 
 Use a read-only subagent for independent review when it adds meaningful coverage;
 inherit model settings and supply the requirement, diff, and evidence. Do not
-prime its verdict or allow further delegation. The coordinator or one scoped
-worker repairs valid findings and PR-caused failures. Create separate Codex
-tasks only when explicitly requested. Run one mutating worker per shared
-checkout, including disjoint files; read-only review may run concurrently.
+prime its verdict or allow further delegation. The coordinator or scoped
+workers repair valid findings and PR-caused failures. Workers sharing the
+checkout hold exclusive write scopes and leave commits and other Git state to
+the coordinator; read-only review may run concurrently.
 
 Preserve unrelated changes. Commit and push only within the user's publication
 authority; do not treat a monitoring-only request as permission to repair.
@@ -28,13 +28,6 @@ failure; report concrete blockers without treating silence as approval.
 Use an automation for requested later checks. Persist head, findings, actions,
 and terminal condition; re-observe on wake and stay quiet while unchanged.
 Do not assume workers remain alive between wakeups.
-
-For explicitly requested separate tasks, use the saved project's local checkout
-unless the user requested a worktree. Retain the stable work identity and
-dispatch state before creation; persist exact returned thread/host/project IDs,
-status, and wait cursors immediately. Use known IDs directly; listings cannot
-prove absence. A `clientThreadId` or ambiguous creation remains uncertain:
-never pass it as `threadId` or recreate the work. Preserve this registry on resume.
 
 ## Cancellation and changed scope
 

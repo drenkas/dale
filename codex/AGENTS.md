@@ -30,9 +30,9 @@ For UI work, follow existing primitives and visual language. Use semantic compon
 
 ## Skills and delegation
 
-Use skills that materially fit the requested work. Suggest a Dale workflow only when its additional scope would help; do not turn every task into a skill recommendation. A suggestion does not authorize invocation or additional work. Preserve explicit-only invocation policies, including Dale Max.
+Use skills that materially fit the requested work. Suggest a Dale workflow only when its additional scope would help; do not turn every task into a skill recommendation. A suggestion does not authorize additional work.
 
-Delegate only when an independent subtask benefits from it. Keep routine work local; choose discovery, planning, diagnosis, implementation, or review roles as needed instead of following a fixed agent sequence. Give each delegate a bounded outcome and ownership. Avoid concurrent writes to the same files or shared Git state.
+Size a task before delegating. Do small work yourself; ask before splitting a medium task or one of unclear size, unless the user already said; split a clearly large one. A request for subagents, or for a Dale orchestration skill, settles the question. Choose discovery, planning, diagnosis, implementation, or review roles as needed instead of following a fixed agent sequence. Give each delegate a bounded outcome and ownership, and say in its brief whether it may delegate further. Avoid concurrent writes to the same files or shared Git state.
 
 Use independent review for consequential changes when it adds confidence. Review the complete change, address material findings, and recheck affected evidence after fixes. A second quality gate is useful only when it resolves a distinct remaining risk.
 

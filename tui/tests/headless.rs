@@ -73,6 +73,7 @@ fn install_all_creates_skills_and_manifest() {
         "dale-loop-watch",
         "dale-max",
         "dale-cross",
+        "dale-team",
     ] {
         assert!(
             home.join("skills").join(name).join("SKILL.md").is_file(),
@@ -80,7 +81,12 @@ fn install_all_creates_skills_and_manifest() {
         );
     }
 
-    for rel in ["SKILL.md", "agents/openai.yaml", "references/t3.md"] {
+    for rel in [
+        "SKILL.md",
+        "agents/openai.yaml",
+        "references/transport.md",
+        "references/team.md",
+    ] {
         let path = Path::new("skills/dale-cross").join(rel);
         assert_eq!(
             fs::read(home.join(&path)).unwrap(),
@@ -100,6 +106,30 @@ fn install_all_creates_skills_and_manifest() {
     assert!(!home.join("AGENTS.md").exists());
     // No backups on a fresh install.
     assert!(backup_dirs(home).is_empty());
+}
+
+/// Skills install independently, so shared references are copied into each
+/// skill that needs them. The copies must not drift apart.
+#[test]
+fn shared_references_are_identical_across_skills() {
+    let skills = repo_root().join("skills");
+    for (rel, owners) in [
+        (
+            "references/team.md",
+            &["dale-team", "dale-max", "dale-cross"][..],
+        ),
+        ("references/transport.md", &["dale-max", "dale-cross"][..]),
+    ] {
+        let first = fs::read(skills.join(owners[0]).join(rel)).unwrap();
+        for owner in &owners[1..] {
+            assert_eq!(
+                fs::read(skills.join(owner).join(rel)).unwrap(),
+                first,
+                "{owner}/{rel} differs from {}/{rel}",
+                owners[0]
+            );
+        }
+    }
 }
 
 #[test]
