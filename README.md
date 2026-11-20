@@ -123,40 +123,45 @@ require another Dale skill.
 
 ### 🧠 Think and explore
 
-| Skill | What it does |
-|---|---|
-| [`dale-brainstorm`](skills/dale-brainstorm/SKILL.md) | Explore ideas and tradeoffs in conversation. Converge or implement only when asked. |
-| [`dale-lenses`](skills/dale-lenses/SKILL.md) | Reframe a bounded hard question with one falsifiable lens: causal, systems, temporal, conservation, invert, constraint, contradiction, or decide. |
+<table>
+<tr><th width="220" align="left">Skill</th><th width="780" align="left">What it does</th></tr>
+<tr><td><a href="skills/dale-brainstorm/SKILL.md"><code>dale-brainstorm</code></a></td><td>Explore ideas and tradeoffs in conversation. Converge or implement only when asked.</td></tr>
+<tr><td><a href="skills/dale-lenses/SKILL.md"><code>dale-lenses</code></a></td><td>Reframe a bounded hard question with one falsifiable lens: causal, systems, temporal, conservation, invert, constraint, contradiction, or decide.</td></tr>
+</table>
 
 ### 🗺️ Know your project and your workflow
 
-| Skill | What it does |
-|---|---|
-| [`dale-index`](skills/dale-index/SKILL.md) | Create or incrementally refresh six repository knowledge primitives. |
-| [`dale-coach`](skills/dale-coach/SKILL.md) | Read your recent agent history and suggest evidence-backed workflow improvements. |
-| [`dale-trace`](skills/dale-trace/SKILL.md) | Draw one chat's agent tree with models, roles, time, tokens, and an API-price estimate. |
+<table>
+<tr><th width="220" align="left">Skill</th><th width="780" align="left">What it does</th></tr>
+<tr><td><a href="skills/dale-index/SKILL.md"><code>dale-index</code></a></td><td>Create or incrementally refresh six repository knowledge primitives.</td></tr>
+<tr><td><a href="skills/dale-coach/SKILL.md"><code>dale-coach</code></a></td><td>Read your recent agent history and suggest evidence-backed workflow improvements.</td></tr>
+<tr><td><a href="skills/dale-trace/SKILL.md"><code>dale-trace</code></a></td><td>Draw one chat's agent tree with models, roles, time, tokens, and an API-price estimate.</td></tr>
+</table>
 
 ### 🤝 Orchestrate
 
-| Skill | What it does |
-|---|---|
-| [`dale-max`](skills/dale-max/SKILL.md) | Complete consequential work through bounded subagents, independent review, and evidence-based acceptance. |
-| [`dale-cross`](skills/dale-cross/SKILL.md) | Coordinate Claude, GPT, and Gemini subagents through T3 Code, with the team's model for each role. |
-| [`dale-team`](skills/dale-team/SKILL.md) | Show, create, or change the saved team: which model runs each role. |
+<table>
+<tr><th width="220" align="left">Skill</th><th width="780" align="left">What it does</th></tr>
+<tr><td><a href="skills/dale-max/SKILL.md"><code>dale-max</code></a></td><td>Complete consequential work through bounded subagents, independent review, and evidence-based acceptance.</td></tr>
+<tr><td><a href="skills/dale-cross/SKILL.md"><code>dale-cross</code></a></td><td>Coordinate Claude, GPT, and Gemini subagents through T3 Code, with the team's model for each role.</td></tr>
+<tr><td><a href="skills/dale-team/SKILL.md"><code>dale-team</code></a></td><td>Show, create, or change the saved team: which model runs each role.</td></tr>
+</table>
 
 ### ✅ Verify and present
 
-| Skill | What it does |
-|---|---|
-| [`dale-proof`](skills/dale-proof/SKILL.md) | Verify a technical claim against direct, fresh evidence within an explicit boundary. |
-| [`dale-visualize`](skills/dale-visualize/SKILL.md) | Create a self-contained HTML explanation or interactive artifact when layout or interaction clarifies more than prose. |
+<table>
+<tr><th width="220" align="left">Skill</th><th width="780" align="left">What it does</th></tr>
+<tr><td><a href="skills/dale-proof/SKILL.md"><code>dale-proof</code></a></td><td>Verify a technical claim against direct, fresh evidence within an explicit boundary.</td></tr>
+<tr><td><a href="skills/dale-visualize/SKILL.md"><code>dale-visualize</code></a></td><td>Create a self-contained HTML explanation or interactive artifact when layout or interaction clarifies more than prose.</td></tr>
+</table>
 
 ### 🔁 Monitor and resume
 
-| Skill | What it does |
-|---|---|
-| [`dale-loop-pr`](skills/dale-loop-pr/SKILL.md) | Monitor or repair one existing pull request within the requested scope. |
-| [`dale-loop-watch`](skills/dale-loop-watch/SKILL.md) | Notify or act when a source changes in a way you defined. |
+<table>
+<tr><th width="220" align="left">Skill</th><th width="780" align="left">What it does</th></tr>
+<tr><td><a href="skills/dale-loop-pr/SKILL.md"><code>dale-loop-pr</code></a></td><td>Monitor or repair one existing pull request within the requested scope.</td></tr>
+<tr><td><a href="skills/dale-loop-watch/SKILL.md"><code>dale-loop-watch</code></a></td><td>Notify or act when a source changes in a way you defined.</td></tr>
+</table>
 
 <details>
 <summary><b>Three of them at a glance</b></summary>
