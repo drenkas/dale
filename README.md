@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/dale-logo.png" alt="Dale: a gentleman in a top hat and a green waistcoat" width="220">
+<img src="assets/dale-banner.png" alt="Dale: agent orchestration for Codex, Claude Code, and T3 Code" width="100%">
 
 # Dale
 
