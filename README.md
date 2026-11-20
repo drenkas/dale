@@ -21,7 +21,7 @@ hand independent work to bounded subagents, and check the result against evidenc
 
 <br>
 
-Dale is eleven skills that scale from a direct answer to a coordinated team of subagents.
+Dale is twelve skills that scale from a direct answer to a coordinated team of subagents.
 Small work stays with the agent you are talking to. Substantial work is split into units with
 explicit ownership, and nothing is called done without evidence.
 
@@ -134,6 +134,7 @@ require another Dale skill.
 |---|---|
 | [`dale-index`](skills/dale-index/SKILL.md) | Create or incrementally refresh six repository knowledge primitives. |
 | [`dale-coach`](skills/dale-coach/SKILL.md) | Read your recent agent history and suggest evidence-backed workflow improvements. |
+| [`dale-trace`](skills/dale-trace/SKILL.md) | Draw one chat's agent tree with models, roles, time, tokens, and an API-price estimate. |
 
 ### 🤝 Orchestrate
 
@@ -381,6 +382,7 @@ where a live tool description differs, the live schema wins.
 | Separate checkout | Run conflicting writers in sequence when the tool offers none | `isolation: "worktree"`, branched from the default branch; name the base commit in the brief | `isolation: "worktree"`, from the parent's local commit |
 | Waiting and limits | Respect the cap on open subagent threads | A background subagent notifies the parent | `mode: "async"`; completion wakes the parent |
 | Coach reads | Codex task history | Session files under `~/.claude/projects/` | T3 Code threads |
+| Trace reads | Codex state database and rollouts | Session and subagent transcripts | T3 Code state database, plus Claude transcripts for Claude's native subagents and workflow agents |
 | Cross-provider work | No | No | **Yes** |
 
 In every harness, a child that may delegate must be told so in its brief. Claude, GPT, and Gemini in
@@ -472,6 +474,43 @@ work. It reads the history of the harness it runs in, always as conversation wit
 Details: [history-sources.md](skills/dale-coach/references/history-sources.md). Coach never messages
 a source task, changes its state, or edits your prompts, `AGENTS.md`, or settings unless you
 separately ask.
+
+## Trace a chat
+
+`dale-trace` draws one chat and the agents it created as a single self-contained HTML page: a
+graph of who called whom and in what order, a detailed tree, and totals. Each agent shows its
+model, role, active time, tokens, and the API-price equivalent of those tokens.
+
+```text
+$dale-trace  Show this chat's agent graph with time, tokens, and API-price cost.
+```
+
+<p align="center">
+  <img src="assets/dale-trace-graph.png" alt="Dale Trace graph: the chat on top, eight numbered launch steps below it, two of them with two agents in parallel, each agent colored by its role" width="560">
+</p>
+
+How to read the graph:
+
+- **Order**: the chat is the bar on top. Each row below it is one launch step, numbered `#1`,
+  `#2`, and so on by start time. Agents that ran at the same time share a step and sit side by
+  side, marked `∥`.
+- **Nesting**: an agent's own subagents sit to its right, joined by a two-way arrow for the call
+  and its result.
+- **Color is the role**, the same in every chat: chat white, architect violet, planner blue,
+  researcher cyan, implementer orange, reviewer pink, QA or tester yellow, workflow grey. Similar
+  names map to one color (builder and coder are implementers, judge and auditor are reviewers).
+  Any other role takes a spare color.
+- **Line style**: a solid line is a delegated agent; a dashed one is a native subagent, agent
+  tool, or workflow.
+
+- **Sources**: T3 Code's state database, Claude Code's session and subagent transcripts, and
+  Codex's state database and rollouts. All are opened read-only; prompts, results, and file paths
+  are never exported. Details: [trace-sources.md](skills/dale-trace/references/trace-sources.md).
+- **Price**: taken from T3 Code's rates file, or from `--prices FILE`. Without either, costs read
+  `unknown` unless you ask for `--fetch-prices`. The figure is an estimate of list price, not your
+  bill, and a figure marked "≥" is a lower bound.
+- **Output**: `~/.agents/dale/traces/` by default, so your repositories stay clean. Python 3.9 or
+  newer is required; unknown values stay `unknown` and are never shown as zero.
 
 ## Evidence and lifecycle
 

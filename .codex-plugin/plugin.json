@@ -1,7 +1,7 @@
 {
   "name": "dale",
   "version": "0.6.0+codex.20261119",
-  "description": "Focused brainstorming, evidence-backed repository knowledge, adaptive subagent work, independent verification, resumable workflows, and HTML visualization for Codex.",
+  "description": "Focused brainstorming, evidence-backed repository knowledge, adaptive subagent work, independent verification, resumable workflows, chat tracing, and HTML visualization for Codex.",
   "license": "MPL-2.0",
   "author": {
     "name": "Dale"
@@ -10,7 +10,7 @@
   "interface": {
     "displayName": "Dale",
     "shortDescription": "Think, delegate, verify, and resume.",
-    "longDescription": "Dale scales from direct work to coordinated subagents with explicit ownership and evidence. Task-matched Luna and Sol routing is preserved; Max and Cross run each role on the model from your saved team, and Cross reaches Claude, GPT, and Gemini models through T3 Code. Includes brainstorming, coaching, indexing, reasoning lenses, review loops, monitoring, technical proof, and standalone visualization.",
+    "longDescription": "Dale scales from direct work to coordinated subagents with explicit ownership and evidence. Task-matched Luna and Sol routing is preserved; Max and Cross run each role on the model from your saved team, and Cross reaches Claude, GPT, and Gemini models through T3 Code. Includes brainstorming, coaching, chat tracing, indexing, reasoning lenses, review loops, monitoring, technical proof, and standalone visualization.",
     "developerName": "Dale",
     "category": "Productivity",
     "capabilities": [
@@ -20,6 +20,7 @@
     "defaultPrompt": [
       "Brainstorm this idea with me one-on-one.",
       "Review how I use Codex across my recent tasks with Dale Coach.",
+      "Show this chat's agent graph with time, tokens, and API-price cost with Dale Trace.",
       "Apply the strongest Dale reasoning lens to this difficult problem.",
       "Index this repository with Dale.",
       "Monitor this PR with Dale Loop PR.",

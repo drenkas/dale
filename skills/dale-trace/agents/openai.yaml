@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dale Trace"
+  short_description: "Agent tree with time, tokens, API-price cost"
+  default_prompt: "Use $dale-trace to draw this chat's agent tree with models, roles, time, tokens, and an API-price estimate."
