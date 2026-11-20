@@ -9,7 +9,7 @@
 Agent skills for Codex, Claude Code, and T3 Code: explore a direction, map a repository,
 hand independent work to bounded subagents, and check the result against evidence.
 
-<img src="https://img.shields.io/badge/version-0.6.0-51C878?style=flat-square" alt="version 0.6.0">
+<img src="https://img.shields.io/badge/version-0.7.0-51C878?style=flat-square" alt="version 0.7.0">
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-MPL--2.0-blue?style=flat-square" alt="license MPL-2.0"></a>
 <img src="https://img.shields.io/badge/works%20with-Codex-24292f?style=flat-square" alt="works with Codex">
 <img src="https://img.shields.io/badge/works%20with-Claude%20Code-24292f?style=flat-square" alt="works with Claude Code">
